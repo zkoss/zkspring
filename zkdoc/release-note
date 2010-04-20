@@ -1,0 +1,63 @@
+zkspring 3.0RC
+* Features:
+  2942726 ZK support Spring Security 3.0
+  2984307 ZK Spring integration support Spring core 3.0.2 release
+  2984309 Split zkspring.jar in to two binaries
+* Bugs:
+  2984311 <form-login /> login.zul displayed in login popup
+  2984312 Runtime exception thrown instead of access denied page
+  2984313 login popup not closed
+  2984317 form-login login-page should override zk popup login page
+* Upgrade Notes:
+  zkspring.jar of 1.2.0 is now split into two separate jar file. zkspring-core.jar for Spring core and zkspring-security.jar for Spring Security.
+  zkspring-security.jar depends on zkspring-core.jar. This also means corresponding .xsd files containing namespace definitions are also split.Please take a look at our online documentation for specific details.
+  Due to changes in Spring Security 3.0.2 release Zk Spring Security defined custom filters now needs to be configured in Spring Security configuration file. Please take a look at our online documentation for specific details(http://docs.zkoss.org/wiki/Spring).
+  Since it is upgraded to Spring 3.0 version it can only be used with Java 1.5 and higher version.
+  Spring Webflow 2.0.3 and above is not compatible with Spring 3.0 yet hence ZK Spring Webflow support is not included in this 3.0RC release. For ZK Spring Webflow needs continue using ZK Spring 1.2.0 and earlier releases.
+      
+zkspring 1.2.0
+* Features:
+  2464162 Support auto-binding of Spring bean as controller of ZK view
+  2444958 Support inject of ZK component into Spring Bean
+  2464156 Support ZK implicit object as Spring beans
+  2444955 Support 'execution' scope.
+  2444952 Support 'page' scope
+  2444951 Support 'desktop' scope
+  2464151 Support 'application' scope.
+  2464150 Support 'idspace' scope.
+  2464207 Support simple form of ZK component Spring bean definition
+  2464220 Support Java annotation based configuration
+  
+* Bugs:
+  2781558 SpringAnnotations - @EventHandler dosn't honor @Scope("idspace")
+  2764814 ZK-Spring Annotations - Controller bound to old Instance...
+  2876912 ZK Spring IdSpaceScope is not working with ZK5
+  2885793 <?import?> in page cause NPE
+  
+------
+zkspring 1.1.0
+* Features:
+  Support Spring Web Flow
+  (Spring Security) Support idenpendent <form-login> for Ajaxified popup login window
+  (Spring Security) Support "forceHttps" for Ajaxified popup login window 
+  (Spring Security) Support OpenID for Ajaxified popup login window 
+  
+* Bugs:
+  (Spring Security) http -> https cause session invalidate issue
+  Invalid zkspring.xsd 
+
+------
+zkspring 1.0.0
+* Features:
+  Support simple namespace configuration
+  Support secure ZK event processing
+  Support Ajaxified access denied error window
+  Support Ajaxified popup login window
+  
+* Bugs:
+
+* Upgrade Notes:
+  + Since we provide a specific ZK Spring Integration package, 
+  the classes in package org.zkoss.zkplus.spring.* (zkplus.jar) 
+  is deprecated. We have repackage those classes to org.zkoss.spring.* 
+  (zkspring.jar).

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+Purpose:
+	Defines methods and actions for ZK Spring Security
+Description:
+	
+Histroy:
+	Thu Sep 17 14:40:25     2009, Created by henrichen
+
+Copyright (C) 2009 Potix Corporation. All Rights Reserved.
+-->
+
+<taglib>
+	<uri>http://www.zkoss.org/zkspring/security</uri>
+	<description>
+	Methods and actions for ZK Spring Security
+	</description>
+
+	<!--           -->
+	<!-- Functions -->
+	<!--           -->
+	<function>
+		<name>isAccessible</name>
+		<function-class>org.zkoss.spring.security.SecurityUtil</function-class>
+		<function-signature>
+	boolean isAccessible(java.lang.String hasPermission, java.lang.Object domainObject);
+		</function-signature>
+		<description>
+	Return true if the current Authentication has one of the specified 
+	permissions to the presented domain object instance.
+		</description>
+	</function>
+
+	<function>
+		<name>isNoneGranted</name>
+		<function-class>org.zkoss.spring.security.SecurityUtil</function-class>
+		<function-signature>
+	boolean isNoneGranted(java.lang.String authorities) {
+		</function-signature>
+		<description>
+	Return true if the authenticated principal is granted authorities 
+	of NONE the specified roles.
+		</description>
+	</function>
+
+	<function>
+		<name>isAllGranted</name>
+		<function-class>org.zkoss.spring.security.SecurityUtil</function-class>
+		<function-signature>
+	boolean isAllGranted(java.lang.String authorities) {
+		</function-signature>
+		<description>
+	Return true if the authenticated principal is granted authorities 
+	of ALL the specified roles.
+		</description>
+	</function>
+
+	<function>
+		<name>isAnyGranted</name>
+		<function-class>org.zkoss.spring.security.SecurityUtil</function-class>
+		<function-signature>
+	boolean isAnyGranted(java.lang.String authorities) {
+		</function-signature>
+		<description>
+	Return true if the authenticated principal is granted authorities 
+	of ANY the specified roles.
+		</description>
+	</function>
+
+	<function>
+		<name>getAuthentication</name>
+		<function-class>org.zkoss.spring.security.SecurityUtil</function-class>
+		<function-signature>
+	java.lang.Object getAuthentication(java.lang.String property) {
+		</function-signature>
+		<description>
+	Return the evaluated result of the current Authentication object per the
+	given property.
+		</description>
+	</function>
+</taglib>

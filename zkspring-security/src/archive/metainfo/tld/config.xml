@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config.xml
+	Purpose:
+		
+	Description:
+		
+	History:
+		Thu Sep 17 14:38:25     2009, Created by henrichen
+
+Copyright (C) 2009 Potix Corporation. All Rights Reserved.
+-->
+
+<config>
+	<version>
+		<version-class>org.zkoss.spring.security.Version</version-class>
+		<version-uid>3.0RC</version-uid>
+	</version>
+	<taglib>
+		<taglib-uri>http://www.zkoss.org/zkspring/security</taglib-uri>
+		<taglib-location>/web/WEB-INF/tld/zkspring/security.tld</taglib-location>
+	</taglib>
+</config>
