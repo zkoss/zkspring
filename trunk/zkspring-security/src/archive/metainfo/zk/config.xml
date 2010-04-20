@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config.xml
+	Purpose:
+		Configuration of ZK Plugins
+	Description:
+		
+	History:
+		Fri Jan 16 15:16:39     2009, Created by henrichen
+
+Copyright (C) 2009 Potix Corporation. All Rights Reserved.
+-->
+
+<config>
+	<config-name>zkspring-security</config-name><!-- used to resolve dependency -->
+	<depends>zul</depends>
+
+	<version>
+		<version-class>org.zkoss.spring.security.Version</version-class>
+		<version-uid>3.0RC</version-uid>
+	</version>
+
+	<listener>
+		<listener-class>org.zkoss.spring.init.SecurityWebAppInit</listener-class>
+	</listener>
+</config>
