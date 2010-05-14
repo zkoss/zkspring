@@ -71,8 +71,7 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 					//when reuse, prepare an empty page definition
 					return PageDefinitions.getPageDefinitionDirectly(ri.getWebApp(), ri.getLocator(), "<zk></zk>", "zul");
 				} else {
-					applyZkSpringDelegatingVariableResolver(pd);
-					applyZkSpringBeanBindingComposer(pd);
+					//do nothing
 				}
 			}
 		}
@@ -87,8 +86,8 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 		PageDefinition pd = super.getPageDefinitionDirectly(ri, content, extension);
 		//bug 2684322: Nullpoint when accese to a nonexist page
 		if (pd != null) {
-			applyZkSpringDelegatingVariableResolver(pd);
-			applyZkSpringBeanBindingComposer(pd);
+//			applyZkSpringDelegatingVariableResolver(pd);
+//			applyZkSpringBeanBindingComposer(pd);
 		}
 		return pd;
 	}
@@ -101,8 +100,8 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 		PageDefinition pd = super.getPageDefinitionDirectly(ri, content, extension);
 		//bug 2684322: Nullpoint when accese to a nonexist page
 		if (pd != null) {
-			applyZkSpringDelegatingVariableResolver(pd);
-			applyZkSpringBeanBindingComposer(pd);
+//			applyZkSpringDelegatingVariableResolver(pd);
+//			applyZkSpringBeanBindingComposer(pd);
 		}
 		return pd;
 	}
@@ -115,8 +114,8 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 		PageDefinition pd = super.getPageDefinitionDirectly(ri, reader, extension);
 		//bug 2684322: Nullpoint when accese to a nonexist page
 		if (pd != null) {
-			applyZkSpringDelegatingVariableResolver(pd);
-			applyZkSpringBeanBindingComposer(pd);
+//			applyZkSpringDelegatingVariableResolver(pd);
+//			applyZkSpringBeanBindingComposer(pd);
 		}
 		return pd;
 	}
@@ -161,7 +160,7 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 
 	//@since 1.2
 	private void applyZkSpringDelegatingVariableResolver(PageDefinition pd) {
-		final VariableResolverInfo varResolverInfo = new VariableResolverInfo(org.zkoss.spring.DelegatingVariableResolver.class); 
+		final VariableResolverInfo varResolverInfo = new VariableResolverInfo(org.zkoss.spring.DelegatingVariableResolver.class);
 		pd.addVariableResolverInfo(varResolverInfo);
 	}
 
