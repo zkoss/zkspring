@@ -51,6 +51,11 @@ public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 			conf.addListener(ZkEventProcessListener.class);
 		}
 		
-		Library.setProperty("org.zkoss.spring.SecurityVariableResolver", "org.zkoss.spring.security.AbstractSecurityVariableResolver");
+		String value = conf.getPreference("org.zkoss.spring.VariableResolver", null);
+		if(value == null) { 
+			conf.setPreference("org.zkoss.spring.VariableResolver", "org.zkoss.spring.security.DelegatingVariableResolver");
+		} else {
+			conf.setPreference("org.zkoss.spring.VariableResolver", value + ",org.zkoss.spring.security.DelegatingVariableResolver");
+		}
 	}
 }

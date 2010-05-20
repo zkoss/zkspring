@@ -19,6 +19,7 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 
 package org.zkoss.spring.init;
 
+import org.zkoss.lang.Library;
 import org.zkoss.spring.bean.ZkSpringUiFactory;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.sys.WebAppCtrl;
@@ -33,7 +34,12 @@ import org.zkoss.zk.ui.util.Configuration;
 public class WebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 	public void init(WebApp wapp) throws Exception {
 		final Configuration conf = wapp.getConfiguration();
-		
+		String value = conf.getPreference("org.zkoss.spring.VariableResolver", null);
+		if(value == null) { 
+			conf.setPreference("org.zkoss.spring.VariableResolver", "org.zkoss.spring.DelegatingVariableResolver");
+		} else {
+			conf.setPreference("org.zkoss.spring.VariableResolver", value + ",org.zkoss.spring.DelegatingVariableResolver");
+		}
 		//If user does not give UiFactoryClass in zk.xml
 		if (conf.getUiFactoryClass() == null) { 
 			//<disable-event-thread/>
