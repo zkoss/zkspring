@@ -6,10 +6,10 @@
 	Description:
 		
 	History:
-		Thu Jun  1 13:53:53     2006, Created by henrichen
+		Thu Jun  1 13:53:53     2006, Created by ashish
 }}IS_NOTE
 
-Copyright (C) 2006 Potix Corporation. All Rights Reserved.
+Copyright (C) 2010 Potix Corporation. All Rights Reserved.
 
 {{IS_RIGHT
 }}IS_RIGHT
@@ -33,12 +33,11 @@ import org.zkoss.zk.ui.Components;
  * <p>Usage:<br>
  * <code>&lt;?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?&gt;</code>
  *
- * @author henrichen
- * @since 1.0
+ * @author ashish
+ * @since 3.0RC
  */
 public class DelegatingVariableResolver implements VariableResolver {
 	protected ApplicationContext _ctx;
-	protected SecurityVariableResolver _secResolver;
 	
 	/**
 	 * Get the spring application context.
@@ -60,22 +59,6 @@ public class DelegatingVariableResolver implements VariableResolver {
 			return getApplicationContext();
 		}
 		
-		if ("authentication".equals(name)) {
-			if(_secResolver == null) {
-				final String cls = Library.getProperty("org.zkoss.spring.SecurityVariableResolver");
-				if (cls != null && cls.length() > 0) {
-					try {
-						_secResolver = (SecurityVariableResolver)Classes.newInstanceByThread(cls);
-					} catch (Throwable ex) {
-						return null;
-					}
-				} else {
-					return null;
-				}
-			}
-			return _secResolver.getAuthentication();
-		}
-		
 		//might recursive ZK implicit object here, always return null
 		if (Components.isImplicit(name)
 			//#bug 2681819: normal page throws exception after installed zkspring
@@ -85,9 +68,26 @@ public class DelegatingVariableResolver implements VariableResolver {
 		}
 		
 		try {
-			return getApplicationContext().getBean(name);
+			if (getApplicationContext().containsBean(name)) {
+				return getApplicationContext().getBean(name);
+			}
 		} catch (NoSuchBeanDefinitionException ex) {
-			return null;
+			// ignore
 		}
+		return null;
+	}
+	
+	public int hashCode() {
+		return getClass().hashCode();
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
 	}
 }
