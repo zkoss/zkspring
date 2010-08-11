@@ -83,7 +83,7 @@ public class ZkConfigDefinitionParser implements BeanDefinitionParser {
         final BeanDefinitionBuilder xbuilder = 
         	BeanDefinitionBuilder.rootBeanDefinition(CustomEditorConfigurer.class);
         final Map editors = new HashMap();
-        editors.put("org.zkoss.spring.bean.TypePropertyEditor", TypePropertyEditor.class);
+        editors.put("org.zkoss.spring.bean.TypePropertyEditor", "org.zkoss.spring.bean.TypePropertyEditor");
         xbuilder.addPropertyValue("customEditors", editors);
         reg.registerBeanDefinition(ZkBeanIds.ZK_TYPE_PROPERTY_EDITOR, xbuilder.getBeanDefinition());
 
