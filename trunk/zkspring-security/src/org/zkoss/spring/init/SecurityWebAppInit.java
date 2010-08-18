@@ -32,12 +32,14 @@ import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.util.Configuration;
 
 /**
- * Adds ZK Spring Security listeners. 
+ * Adds ZK Spring Security listeners and register security related variable resolver. 
  * @author henrichen
  * @see metainfo/zk/config.xml
- * @since 1.2.0
+ * @since 3.0
  */
 public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
+	private static String RESOLVER_CLASS = org.zkoss.spring.DelegatingVariableResolver.RESOLVER_CLASS;
+	private static String SECURITY_RESOLVER = "org.zkoss.spring.init.SecurityVariableResolver";
 	public void init(WebApp wapp) throws Exception {
 		final Configuration conf = wapp.getConfiguration();
 		
@@ -51,11 +53,11 @@ public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 			conf.addListener(ZkEventProcessListener.class);
 		}
 		
-		String value = conf.getPreference("org.zkoss.spring.VariableResolver", null);
-		if(value == null) { 
-			conf.setPreference("org.zkoss.spring.VariableResolver", "org.zkoss.spring.security.DelegatingVariableResolver");
+		String classes = Library.getProperty(RESOLVER_CLASS);
+		if (classes == null) {
+			Library.setProperty(RESOLVER_CLASS, SECURITY_RESOLVER);
 		} else {
-			conf.setPreference("org.zkoss.spring.VariableResolver", value + ",org.zkoss.spring.security.DelegatingVariableResolver");
+			Library.setProperty(RESOLVER_CLASS, classes + ","+ SECURITY_RESOLVER);
 		}
 	}
 }

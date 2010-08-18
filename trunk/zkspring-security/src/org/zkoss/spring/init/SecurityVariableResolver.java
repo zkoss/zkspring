@@ -1,4 +1,4 @@
-/* DelegatingVariableResolver.java
+/* SecurityVariableResolver.java
 
 {{IS_NOTE
 	Purpose:
@@ -14,8 +14,9 @@ Copyright (C) 2010 Potix Corporation. All Rights Reserved.
 {{IS_RIGHT
 }}IS_RIGHT
 */
-package org.zkoss.spring.security;
+package org.zkoss.spring.init;
 
+import org.zkoss.spring.security.SecurityUtil;
 import org.zkoss.xel.VariableResolver;
 
 /**
@@ -30,7 +31,7 @@ import org.zkoss.xel.VariableResolver;
  * @author ashish
  * @since 3.0RC
  */
-public class DelegatingVariableResolver implements VariableResolver {
+public class SecurityVariableResolver implements VariableResolver {
 	
 	
 	/**

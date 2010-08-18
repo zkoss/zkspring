@@ -21,6 +21,6 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 	</version>
 
 	<listener>
-		<listener-class>org.zkoss.spring.init.WebAppInit</listener-class>
+		<listener-class>org.zkoss.spring.init.CoreWebAppInit</listener-class>
 	</listener>
 </config>

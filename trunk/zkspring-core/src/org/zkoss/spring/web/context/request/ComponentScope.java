@@ -86,9 +86,7 @@ public class ComponentScope implements Scope {
 		}
 		throw new IllegalStateException("Unable to remove component scope bean: "+name+". Do you access it in ZK event listener?");
 	}
-
-
-	@Override
+	
 	public Object resolveContextualObject(String key) {
 		// TODO Auto-generated method stub
 		return null;

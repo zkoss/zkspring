@@ -16,78 +16,81 @@ Copyright (C) 2010 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.spring;
 
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ApplicationContext;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.zkoss.lang.Classes;
 import org.zkoss.lang.Library;
+import org.zkoss.lang.Objects;
 import org.zkoss.xel.VariableResolver;
-import org.zkoss.zk.ui.Components;
 
 /**
- * DelegatingVariableResolver, a spring bean variable resolver.
- *
- * <p>It defines a variable called <code>springContext</code> to represent
- * the instance of <code>org.springframework.context.ApplicationContext</code>.
- * It also looks variables for beans defined in <code>springContext</code>.
- *
- * <p>Usage:<br>
+ * <p>
+ * DelegatingVariableResolver for resolving Spring beans,
+ * Spring Security variables and Spring Webflow variables.
+ * </p>
+ * <p>
+ * It delegates variable resolving to ZK Spring core, ZK Spring Security
+ * and ZK Spring FlowResolver if they are on application classpath.
+ * <p>
+ * Usage:<br>
  * <code>&lt;?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?&gt;</code>
+ * 
+ * <p>Developers can specify a list of class names separated with comma in
+ * a library property called <code>org.zkoss.spring.VariableResolver.class</code>,
+ * such they are used as the default variable resolvers.
  *
- * @author ashish
- * @since 3.0RC
+ * @author henrichen
+ * @since 3.0
  */
-public class DelegatingVariableResolver implements VariableResolver {
-	protected ApplicationContext _ctx;
-	
+public class DelegatingVariableResolver extends org.zkoss.zkplus.spring.DelegatingVariableResolver {
+	public static String RESOLVER_CLASS = "org.zkoss.spring.VariableResolver.class";
 	/**
-	 * Get the spring application context.
+	 * Holds list of variable resolvers for Spring core (3.0 and later),
+	 * Spring security(3.0 and later)
 	 */
-	protected ApplicationContext getApplicationContext() {
-		if (_ctx != null)
-			return _ctx;
-			
-		_ctx = SpringUtil.getApplicationContext();
-		return _ctx;
-	}
-	
-	/**
-	 * Get the spring bean by the specified name.
-	 */		
-	public Object resolveVariable(String name) {
-	
-		if ("springContext".equals(name)) {
-			return getApplicationContext();
-		}
+	protected List _variableResolvers = new ArrayList();
+
+	public DelegatingVariableResolver() {
+		final String classes = Library.getProperty(RESOLVER_CLASS);
 		
-		//might recursive ZK implicit object here, always return null
-		if (Components.isImplicit(name)
-			//#bug 2681819: normal page throws exception after installed zkspring
-			//work around for 3.6.0 and before
-		|| "event".equals(name)) { 
-			return null;
-		}
-		
-		try {
-			if (getApplicationContext().containsBean(name)) {
-				return getApplicationContext().getBean(name);
+		String[] vrClss = classes.split(",");
+		for (int i = 0; i < vrClss.length; i++) {
+			try {
+				Object o = Classes.newInstanceByThread(vrClss[i]);
+				if(!_variableResolvers.contains(o)) {
+					_variableResolvers.add(o);
+				}
+			} catch (Exception e) {
+				// do nothing
 			}
-		} catch (NoSuchBeanDefinitionException ex) {
-			// ignore
 		}
-		return null;
 	}
-	
+
+	/**
+	 * Resolves variable name by name. It can resolve a spring bean, spring
+	 * security authentication and spring web flow variables depending upon ZK
+	 * Spring libraries in the classpath
+	 */
+	public Object resolveVariable(String name) {
+		Object o = null;
+		for (final Iterator it = _variableResolvers.iterator(); it.hasNext();) {
+			VariableResolver resolver = (VariableResolver) it.next();
+			o = resolver.resolveVariable(name);
+			if (o != null) {
+				return o;
+			}
+		}
+		return o;
+	}
+
 	public int hashCode() {
-		return getClass().hashCode();
+		return Objects.hashCode(_variableResolvers);
 	}
 
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
+		return this == obj || (obj instanceof DelegatingVariableResolver
+				&& Objects.equals(_variableResolvers, ((DelegatingVariableResolver) obj)._variableResolvers));
 	}
 }

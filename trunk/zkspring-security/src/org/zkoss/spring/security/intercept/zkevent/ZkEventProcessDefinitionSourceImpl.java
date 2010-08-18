@@ -227,7 +227,6 @@ public class ZkEventProcessDefinitionSourceImpl implements ZkEventProcessDefinit
 		return Event.class.isAssignableFrom(clazz);
 	}
 
-	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		// TODO Auto-generated method stub
 		return null;
