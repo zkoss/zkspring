@@ -12,15 +12,12 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 -->
 
 <config>
-	<config-name>zkspring</config-name><!-- used to resolve dependency -->
+	<config-name>zkspring-webflow</config-name><!-- used to resolve dependency -->
 	<depends>zul</depends>
 
 	<version>
-		<version-class>org.zkoss.spring.Version</version-class>
+		<version-class>org.zkoss.spring.webflow.Version</version-class>
 		<version-uid>3.0</version-uid>
 	</version>
 
-	<listener>
-		<listener-class>org.zkoss.spring.init.CoreWebAppInit</listener-class>
-	</listener>
 </config>

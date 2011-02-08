@@ -135,12 +135,12 @@ public class ZkComponentFactoryBean implements FactoryBean, InitializingBean, Be
 					if (path == null) {
 						//sometimes, Spring can instantiate partially, the bean name might be null
 						if (getBeanName() != null) { 
-							return self.getVariable(getBeanName(), false);
+							return self.getAttribute(getBeanName(), false);
 						}
 					} else 	if (path.startsWith(".")) { //relative path
 						return Path.getComponent(self.getSpaceOwner(), path);
 					} else {
-						return self.getVariable(path, false);
+						return self.getAttribute(path, false);
 					}
 				} else { //handling event
 					final Namespace ns = Namespaces.getCurrent(page);
