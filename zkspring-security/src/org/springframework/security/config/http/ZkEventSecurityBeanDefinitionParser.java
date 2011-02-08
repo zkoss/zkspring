@@ -28,7 +28,6 @@ import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
@@ -168,31 +167,33 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 	private RootBeanDefinition getStandardFilter(ParserContext pc,
 			String filterClassName) {
 		RootBeanDefinition filterChainProxy = (RootBeanDefinition) pc.getRegistry().getBeanDefinition(BeanIds.FILTER_CHAIN_PROXY);
-        PropertyValue v = filterChainProxy.getPropertyValues().getPropertyValue("filterChainMap");
+		PropertyValue v = filterChainProxy.getPropertyValues().getPropertyValue("filterChainMap");
         RootBeanDefinition standardFilter = null;
         if (v != null) {
         	ManagedMap m = (ManagedMap) v.getValue();
         	Set k = m.keySet();
         	for (Iterator iterator = k.iterator(); iterator.hasNext();) {
-				RootBeanDefinition rbd = (RootBeanDefinition) iterator.next();
-				ManagedList ml = (ManagedList) m.get(rbd);
-				for (Iterator iterator2 = ml.iterator(); iterator2.hasNext();) {
-					Object object = iterator2.next();
-					if (object instanceof RootBeanDefinition) {
-						RootBeanDefinition bean = (RootBeanDefinition)object;
-						String beanClassName = bean.getBeanClassName();
-						if(beanClassName.equals(filterClassName)) {
-							standardFilter = bean;
-							break;
-						}
-					} else if (object instanceof RuntimeBeanReference) {
-						String beanRefBeanName = ((RuntimeBeanReference)object).getBeanName();
-						if (beanRefBeanName.indexOf(filterClassName) != -1) {
-							standardFilter = (RootBeanDefinition) pc.getRegistry().getBeanDefinition(beanRefBeanName);
-							break;
+        		Object o = m.get(iterator.next());
+        		if(o instanceof List) {
+					List ml = (List) o;
+					for (Iterator iterator2 = ml.iterator(); iterator2.hasNext();) {
+						Object object = iterator2.next();
+						if (object instanceof RootBeanDefinition) {
+							RootBeanDefinition bean = (RootBeanDefinition)object;
+							String beanClassName = bean.getBeanClassName();
+							if(beanClassName.equals(filterClassName)) {
+								standardFilter = bean;
+								break;
+							}
+						} else if (object instanceof RuntimeBeanReference) {
+							String beanRefBeanName = ((RuntimeBeanReference)object).getBeanName();
+							if (beanRefBeanName.indexOf(filterClassName) != -1) {
+								standardFilter = (RootBeanDefinition) pc.getRegistry().getBeanDefinition(beanRefBeanName);
+								break;
+							}
 						}
 					}
-				}
+        		}
 			}
         }
 		return standardFilter;
