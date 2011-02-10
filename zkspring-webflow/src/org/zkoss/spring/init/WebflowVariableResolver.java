@@ -1,4 +1,4 @@
-/* FlowVariableResolver.java
+/* WebflowVariableResolver.java
 
 {{IS_NOTE
 	Purpose:
@@ -17,7 +17,7 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 }}IS_RIGHT
 */
 
-package org.zkoss.spring.webflow.config;
+package org.zkoss.spring.init;
 
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.execution.RequestContext;
@@ -35,7 +35,7 @@ import org.zkoss.zk.ui.Executions;
  * @author henrichen
  * @since 1.1
  */
-public class FlowVariableResolver implements VariableResolver {
+public class WebflowVariableResolver implements VariableResolver {
 	private static final String IN_GETTING_FLOW_CTX = "zkoss.spring.webflow.IN_GETTING_FLOW_CTX";
 
 	//Resolve web flow relative variables
@@ -115,6 +115,19 @@ public class FlowVariableResolver implements VariableResolver {
 			}
 		}
 		return null;
+	}
+	public int hashCode() {
+		return getClass().hashCode();
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
 	}
 
 }
