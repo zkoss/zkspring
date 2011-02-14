@@ -47,6 +47,7 @@ import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.metainfo.Annotation;
 import org.zkoss.zk.ui.sys.ComponentCtrl;
+import org.zkoss.zk.ui.util.Composition;
 import org.zkoss.zkplus.databind.AnnotateDataBinder;
 import org.zkoss.zul.Window;
 

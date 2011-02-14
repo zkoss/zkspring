@@ -27,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.zkoss.spring.bean.ZkSpringUiFactory;
 import org.zkoss.spring.impl.ZKProxy;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -98,10 +99,11 @@ public class LoginTemplateComposer extends GenericForwardComposer {
 				SecurityContextHolder.getContext().getAuthentication();
 		ZKProxy.getProxy().setAttribute(execution, ZkAuthenticationEntryPoint.AUTH, auth);
 		final Collection roots = page.getRoots();
+	
 		for (final Iterator it = roots.iterator(); it.hasNext();) {
 			final Component root = (Component) it.next();
 			if (root != spaceOwner) {
-				Events.postEvent(new Event("onLoginOK", root, auth));
+				Events.postEvent("onLoginOk", root, auth);
 			}
 		}
 	}

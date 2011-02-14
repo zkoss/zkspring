@@ -41,6 +41,10 @@ public class WebflowVariableResolver implements VariableResolver {
 	//Resolve web flow relative variables
 	public Object resolveVariable(String name) throws XelException {
 		final Execution exec = Executions.getCurrent();
+		if ("currentUser".equals(name) && exec != null) { 
+			return Executions.getCurrent().getUserPrincipal();
+		}
+		
 		RequestContext flowctx = (RequestContext) exec.getAttribute(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME);  
 		if (flowctx == null) {
 			final Component target = (Component) ZkFlowContextManager.getSelf(exec);
