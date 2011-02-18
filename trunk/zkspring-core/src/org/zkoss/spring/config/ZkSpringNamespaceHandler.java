@@ -19,6 +19,7 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 package org.zkoss.spring.config;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+import org.zkoss.spring.context.annotation.ZkComponentScanBeanDefinitionParser;
 
 /**
  * Registers the bean definition parsers for the ZK + Spring namespace.
@@ -36,5 +37,8 @@ public class ZkSpringNamespaceHandler extends NamespaceHandlerSupport {
 		registerBeanDefinitionParser("ui-lookup-all", new ZkComponentFactoryBeansDefinitionParser());
 		//<zk-config/>
 		registerBeanDefinitionParser("zk-config", new ZkConfigDefinitionParser());
+		// Following feature is commented as we introduce GenericSpringComposer as an equivalent feature
+		//<component-scan />
+//		registerBeanDefinitionParser("component-scan", new ZkComponentScanBeanDefinitionParser());
 	}
 }
