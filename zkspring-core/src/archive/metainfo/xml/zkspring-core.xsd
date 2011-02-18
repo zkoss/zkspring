@@ -14,6 +14,64 @@
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+    	<xs:element name="component-scan">
+		<xs:annotation>
+		   <xs:documentation>	
+		Scans the classpath for annotated components that will be auto-registered as 
+		Spring beans. By default, the Spring-provided @Component, @Repository, 
+		@Service, and @Controller stereotypes will be detected.
+	
+		Note: This tag implies the effects of the 'annotation-config' tag, activating @Required,
+		@Autowired, @PostConstruct, @PreDestroy, @Resource, @PersistenceContext and @PersistenceUnit
+		annotations in the component classes, which is usually desired for autodetected components
+		(without external configuration). Turn off the 'annotation-config' attribute to deactivate
+		this default behavior, for example in order to use custom BeanPostProcessor definitions
+		for handling those annotations.
+	
+		Note: You may use placeholders in package paths, but only resolved against system
+		properties (analogous to resource paths). A component scan results in new bean definition
+		being registered; Spring's PropertyPlaceholderConfigurer will apply to those bean
+		definitions just like to regular bean definitions, but it won't apply to the component
+		scan settings themselves.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="include-filter" type="filterType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="exclude-filter" type="filterType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="base-package" type="xs:string" use="required"/>
+			<xs:attribute name="resource-pattern" type="xs:string"/>
+			<xs:attribute name="use-default-filters" type="xs:boolean" default="true"/>
+			<xs:attribute name="annotation-config" type="xs:boolean" default="true"/>
+			<xs:attribute name="name-generator" type="xs:string"/>
+			<xs:attribute name="scope-resolver" type="xs:string"/>
+			<xs:attribute name="scoped-proxy">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="no"/>
+						<xs:enumeration value="interfaces"/>
+						<xs:enumeration value="targetClass"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="filterType">
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="annotation"/>
+					<xs:enumeration value="assignable"/>
+					<xs:enumeration value="aspectj"/>
+					<xs:enumeration value="regex"/>
+					<xs:enumeration value="custom"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="expression" type="xs:string" use="required"/>
+	</xs:complexType>
 	
 	<xs:element name="ui-lookup">
 		<xs:annotation>
