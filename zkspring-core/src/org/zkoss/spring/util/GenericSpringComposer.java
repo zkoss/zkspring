@@ -170,8 +170,8 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 		Event evtOrig = org.zkoss.zk.ui.event.Events.getRealOrigin((ForwardEvent) event); 
 		List<String> methodNames = eventsMap.get(event.getName());
 		for(String methodName : methodNames) {
-			Method md = Classes.getAnyMethod(this.getClass(), methodName, null);
-			md.invoke(this, null);
+			Method md = Classes.getAnyMethod(this.getClass(), methodName, new Class[] {Event.class});
+			md.invoke(this, event);
 		}
 	}
 	/**

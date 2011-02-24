@@ -14,7 +14,7 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 <config>
 	<version>
 		<version-class>org.zkoss.spring.security.Version</version-class>
-		<version-uid>3.0</version-uid>
+		<version-uid>3.0RC</version-uid>
 	</version>
 	<taglib>
 		<taglib-uri>http://www.zkoss.org/zkspring/security</taglib-uri>

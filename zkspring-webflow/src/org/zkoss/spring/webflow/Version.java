@@ -24,5 +24,5 @@ package org.zkoss.spring.webflow;
 public class Version {
 	/** Returns the version UID.
 	 */
-	public static final String UID = "3.0";
+	public static final String UID = "3.0RC";
 }

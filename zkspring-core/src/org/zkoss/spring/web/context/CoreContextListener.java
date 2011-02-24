@@ -168,6 +168,7 @@ public class CoreContextListener implements ServletContextListener {
 		enumValue.setType("org.springframework.context.annotation.ScopedProxyMode");
 		enumValue.setValue("TARGET_CLASS");
 		scopeAnnotation.addMemberValue("proxyMode", enumValue);
+		scopeAnnotation.addMemberValue("value", new StringMemberValue("desktop", cp));
 		attr1.addAnnotation(beanAnnotation);
 		attr1.addAnnotation(lazyAnnotation);
 		attr1.addAnnotation(scopeAnnotation);
@@ -220,7 +221,6 @@ public class CoreContextListener implements ServletContextListener {
                 }
             }
         }
-
         return urls;
     }
 
