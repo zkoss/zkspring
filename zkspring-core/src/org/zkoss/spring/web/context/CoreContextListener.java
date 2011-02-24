@@ -73,7 +73,6 @@ public class CoreContextListener implements ServletContextListener {
 		// TODO Auto-generated method stub
 		try {
 			String webInf = sce.getServletContext().getRealPath("/WEB-INF/classes");
-			System.out.println(webInf);
 	
 			ClassPool cp = ClassPool.getDefault();
 			cp.insertClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
@@ -99,7 +98,7 @@ public class CoreContextListener implements ServletContextListener {
 				CtClass cls = cp.get(mField.getType().getName());
 				String pckgName = cls.getPackageName();
 				if (Component.class.isAssignableFrom(mField.getType()) || !pckgName.endsWith("zul.api")) {
-					System.out.println("Adding @Bean method for " + mField.getName() + " of type:" + mField.getType().getName());
+//					System.out.println("Adding @Bean method for " + mField.getName() + " of type:" + mField.getType().getName());
 					// add a unique method name with @Bean("componentid")
 					methodCounter = addBeanMethod(mainClass, mField, methodCounter);
 				} 
