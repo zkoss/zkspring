@@ -17,7 +17,7 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 
 	<version>
 		<version-class>org.zkoss.spring.webflow.Version</version-class>
-		<version-uid>3.0</version-uid>
+		<version-uid>3.0RC</version-uid>
 	</version>
 	<listener>
 		<listener-class>org.zkoss.spring.init.WebflowWebAppInit</listener-class>
