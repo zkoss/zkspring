@@ -53,6 +53,10 @@ elif [ "$pkgnm"  = "spring-security" ] ; then
 	prjnm=zkspring-security
 	demoprjnm=zkspring-security-demo
 	releasenote=release-note
+elif [ "$pkgnm"  = "spring-webflow" ] ; then
+	prjnm=zkspring-webflow
+	demoprjnm=zkspring-webflow-demo
+	releasenote=release-note
 else
 	if [ "$pkgnm" != "" ] ; then
 		echo "Unknown package: $pkgnm"
