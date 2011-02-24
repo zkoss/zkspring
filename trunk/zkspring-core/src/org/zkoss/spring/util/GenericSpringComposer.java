@@ -41,7 +41,6 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("super.doAfterCompose()");
 		try {
 			ZkSpringIntegrationContext.setContextComponent(comp);
 			// to trigger zk component injection
