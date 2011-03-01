@@ -27,7 +27,7 @@ import org.zkoss.zk.ui.util.ComposerExt;
 
 /**
  * <p>An abstract composer that you can extend and write intuitive 
- * @EventHandler("myComponent.onXXX") event handler methods and 
+ * {@link org.zkoss.spring.context.annotation.EventHandler @EventHandler}("myComponent.onXXX") event handler methods and 
  * auto-wired components in a ZK ZUML page. This class will add 
  * forward condition to myComponent and forward source onXXX event 
  * received by teh source myComponent to the target component method 
@@ -44,14 +44,14 @@ import org.zkoss.zk.ui.util.ComposerExt;
  * 
  * <pre><code>
  * GreetingCtrl.java
- * @org.springframework.stereotype.Component("greetingCtrl")
- * @Scope("desktop")
+ * {@link org.springframework.stereotype.Component @org.springframework.stereotype.Component} ("greetingCtrl")
+ * {@link org.springframework.context.annotation.Scope @Scope} ("desktop")
  * public class GreetingCtrl extends GenericSpringComposer {
  *
- * 		@Autowired private Textbox name;
- * 		@Autowired private Button greetBtn;
+ * 		{@link org.springframework.beans.factory.annotation.Autowired @Autowired} private Textbox name;
+ * 		{@link org.springframework.beans.factory.annotation.Autowired @Autowired} private Button greetBtn;
  *	
- *  	@EventHandler("greetBtn.onClick")
+ *  	{@link org.zkoss.spring.context.annotation.EventHandler @EventHandler}("greetBtn.onClick")
  * 		public void showGreeting(Event evt) throws WrongValueException, InterruptedException {
  * 			Messagebox.show("Hello " + name.getValue() + "!");
  * 		}
@@ -59,11 +59,11 @@ import org.zkoss.zk.ui.util.ComposerExt;
  * 
  * test.zul
  * 
- * &lt;?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
- * &lt;window id="myWin" apply="${greetingCtrl}">
- *		&lt;textbox id="name" />
- *		&lt;button id="greetBtn" label="Greet!" />
- * &lt;/window>
+ * &lt;?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?&gt;
+ * &lt;window id="myWin" apply="${greetingCtrl}"&gt;
+ *		&lt;textbox id="name" /&gt;
+ *		&lt;button id="greetBtn" label="Greet!" /&gt;
+ * &lt;/window&gt;
  *
  * </code></pre> 
  * 
