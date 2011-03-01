@@ -26,17 +26,61 @@ import org.zkoss.zk.ui.util.Composer;
 import org.zkoss.zk.ui.util.ComposerExt;
 
 /**
- * @author ashish
+ * <p>An abstract composer that you can extend and write intuitive 
+ * @EventHandler("myComponent.onXXX") event handler methods and 
+ * auto-wired components in a ZK ZUML page. This class will add 
+ * forward condition to myComponent and forward source onXXX event 
+ * received by teh source myComponent to the target component method 
+ * annotated with (@link EventHandler) annotation. </p>
+ * 
+ * <p>Notice that since this composer kept references to the components, single
+ * instance object cannot be shared by multiple components.</p>
+ * 
+ * <p> The following is an example. The onClick event received by Button will be 
+ * forwarded to target Window myWin and the Textbox component with id name and 
+ * Button component with id greetBtn are injected into name and greetBtn fields 
+ * respectively (so you can use name and greetBtn variables directly in showGreeting 
+ * without problem)
+ * 
+ * <pre><code>
+ * GreetingCtrl.java
+ * @org.springframework.stereotype.Component("greetingCtrl")
+ * @Scope("desktop")
+ * public class GreetingCtrl extends GenericSpringComposer {
  *
+ * 		@Autowired private Textbox name;
+ * 		@Autowired private Button greetBtn;
+ *	
+ *  	@EventHandler("greetBtn.onClick")
+ * 		public void showGreeting(Event evt) throws WrongValueException, InterruptedException {
+ * 			Messagebox.show("Hello " + name.getValue() + "!");
+ * 		}
+ * }
+ * 
+ * test.zul
+ * 
+ * &lt;?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+ * &lt;window id="myWin" apply="${greetingCtrl}">
+ *		&lt;textbox id="name" />
+ *		&lt;button id="greetBtn" label="Greet!" />
+ * &lt;/window>
+ *
+ * </code></pre> 
+ * 
+ * @author ashish
+ * @since 3.0
+ * 
  */
 public class GenericSpringComposer implements Composer, ComposerExt, EventListener {
 
 	private static final Log log = Log.lookup(GenericSpringComposer.class);
+	
 	/** map of individual componet events and associated Events annotation values */
 	private Map<String,List<String>> eventsMap = null;
 
-	/* (non-Javadoc)
-	 * @see org.zkoss.zk.ui.util.Composer#doAfterCompose(org.zkoss.zk.ui.Component)
+	/**
+	 * Auto-wires ZK Components in controllers and registers event handlers for
+	 * 
 	 */
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
