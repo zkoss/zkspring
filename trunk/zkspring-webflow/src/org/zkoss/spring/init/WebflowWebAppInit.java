@@ -1,6 +1,21 @@
-/**
- * 
- */
+/* WebflowWebAppInit.java
+
+{{IS_NOTE
+	Purpose:
+		
+	Description:
+		
+	History:
+		Jan 16, 2011 2:57:10 PM, Created by ashish
+}}IS_NOTE
+
+Copyright (C) 2011 Potix Corporation. All Rights Reserved.
+
+{{IS_RIGHT
+	This program is distributed under GPL Version 2.0 in the hope that
+	it will be useful, but WITHOUT ANY WARRANTY.
+}}IS_RIGHT
+*/
 package org.zkoss.spring.init;
 
 import org.zkoss.lang.Library;
@@ -8,6 +23,7 @@ import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.util.Configuration;
 
 /**
+ * Rgisters WebflowVariableResolver with the DelegatingVariableResolver
  * @author ashish
  *
  */

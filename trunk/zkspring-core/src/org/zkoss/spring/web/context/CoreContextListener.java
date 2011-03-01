@@ -1,6 +1,22 @@
-/**
- * 
- */
+/* CoreContextListener.java
+
+{{IS_NOTE
+	Purpose:
+		
+	Description:
+		
+	History:
+		Feb 26, 2011 2:57:10 PM, Created by ashish
+}}IS_NOTE
+
+Copyright (C) 2009 Potix Corporation. All Rights Reserved.
+
+{{IS_RIGHT
+	This program is distributed under GPL Version 2.0 in the hope that
+	it will be useful, but WITHOUT ANY WARRANTY.
+}}IS_RIGHT
+*/
+
 package org.zkoss.spring.web.context;
 
 import java.io.File;
@@ -40,6 +56,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
+ * Pre-processes Spring beans for possible auto-wiring of ZK components.
  * @author ashish
  *
  */
@@ -97,7 +114,7 @@ public class CoreContextListener implements ServletContextListener {
 				Field mField = (Field) iterator2.next();
 				CtClass cls = cp.get(mField.getType().getName());
 				String pckgName = cls.getPackageName();
-				if (Component.class.isAssignableFrom(mField.getType()) || !pckgName.endsWith("zul.api")) {
+				if (Component.class.isAssignableFrom(mField.getType()) && !pckgName.endsWith("zul.api")) {
 //					System.out.println("Adding @Bean method for " + mField.getName() + " of type:" + mField.getType().getName());
 					// add a unique method name with @Bean("componentid")
 					methodCounter = addBeanMethod(mainClass, mField, methodCounter);
