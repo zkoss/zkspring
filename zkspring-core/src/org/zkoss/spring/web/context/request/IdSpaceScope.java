@@ -47,7 +47,10 @@ public class IdSpaceScope implements Scope {
 	public Object get(String name, ObjectFactory<?> objectFactory) {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			final Component self = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			Object o = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			Component self = null; 
+			if(o instanceof Component)
+				self = (Component) o;
 			final IdSpace idspace = 
 				self == null ?	null : self.getSpaceOwner();
 			Map idspaceScope = null;

@@ -1,4 +1,4 @@
-/* WebAppInit.java
+/* CoreWebAppInit.java
 
 {{IS_NOTE
 	Purpose:
