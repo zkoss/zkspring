@@ -29,7 +29,7 @@ import org.zkoss.xel.VariableResolver;
  * <code>&lt;?variable-resolver class="org.zkoss.spring.security.DelegatingVariableResolver"?&gt;</code>
  *
  * @author ashish
- * @since 3.0RC
+ * @since 3.0
  */
 public class SecurityVariableResolver implements VariableResolver {
 	

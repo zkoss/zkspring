@@ -28,5 +28,5 @@ package org.zkoss.spring.security;
 public class Version {
 	/** Returns the version UID.
 	 */
-	public static final String UID = "3.0RC";
+	public static final String UID = "3.0";
 }
