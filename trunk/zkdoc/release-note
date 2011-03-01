@@ -1,4 +1,22 @@
-------
+zkspring 3.0
+* Features:
+  11 Support Spring Webflow 2.2.1+
+  12 Support Auto-wiring of ZK components in Spring beans
+  
+* Bugs:
+  1 Performance degradation for zul files with use/apply composer that implements Composer
+  2 ZK 5.0.2 with Spring Webflow doesn't work
+  3 BeanCreationException when deploy
+  7 ZK Spring not work with org.springframework.webflow-2.0.8
+  10 error using zkspring-annot component-scan
+  
+  *Upgrade Notes:
+  + ZK Spring 3.0 now also supports Spring Webflow and it is separately bundled into zkspring-webflow.jar
+  + zkspring-webflow.jar depends on zkspring-core.jar
+  + ZK Spring Webflow namespace schema is bundled with zkspring-webflow.jar and its namespace uri 
+     and location is http://www.zkoss.org/2008/zkspring/webflow and 
+     http://www.zkoss.org/2008/zkspring/webflow/zkspring-webflow.xsd
+-------
 zkspring 3.0RC
 * Features:
   2942726 ZK support Spring Security 3.0
