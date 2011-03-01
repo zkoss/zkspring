@@ -104,9 +104,9 @@ else
 	exit 1
 fi
 
-rm -rf /tmp/zk
+#rm -rf /tmp/zk
 maindir="$(pwd)"
-
+echo $maindir
 echo "Release $binnm $srcnm"
 # $demonm"
 cd $maindir
@@ -148,6 +148,7 @@ mv -f $prjnm-sources.jar /tmp/zk/$binnm/dist/src
 
 #prepare javadoc
 cd $javadocdir
+echo $javadocdir
 cp -rp $prjnm/* /tmp/zk/$binnm/javadoc
 
 #Copy and pack demo
