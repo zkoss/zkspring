@@ -121,7 +121,7 @@ public class CoreContextListener implements ServletContextListener {
 				} 
 			}
 			mainClass.writeFile(webInf);
-			Class c = mainClass.toClass(Thread.currentThread().getContextClassLoader(),this.getClass().getProtectionDomain());
+			mainClass.toClass(Thread.currentThread().getContextClassLoader(),this.getClass().getProtectionDomain());
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -151,12 +151,13 @@ public class CoreContextListener implements ServletContextListener {
 //		sb.append("System.out.println(\"Generating:" + beanName + "\");");
 		sb.append("Component c = ZkSpringIntegrationContext.getContextComponent();");
 		sb.append("if(c == null) {");
-		sb.append("return new " + beanType + "();} else {");
+//		sb.append("return new " + beanType + "();} else {");
+		sb.append("return null;} else {");
 		sb.append("try {");		
 		
 		sb.append("f = (" + beanType + ")c.getFellow(\""
 				+ beanName + "\");");
-		sb.append("}catch(ComponentNotFoundException e) {e.printStackTrace(); throw new RuntimeException(e.getMessage());}}");
+		sb.append("}catch(ComponentNotFoundException e) {throw new RuntimeException(e.getMessage());}}");
 		
 		sb.append("return f;");
 		sb.append("}");
