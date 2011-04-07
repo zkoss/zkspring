@@ -8,8 +8,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.zkoss.lang.Classes;
 import org.zkoss.spring.SpringUtil;
@@ -20,7 +22,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.util.Composer;
 import org.zkoss.zk.ui.util.ComposerExt;
@@ -77,7 +78,22 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 	
 	/** map of individual componet events and associated Events annotation values */
 	private Map<String,List<String>> eventsMap = null;
+	private static Set _ignoreWires = new HashSet(5);
+	static {
+		final Class[] clses = new Class[] {
+			GenericSpringComposer.class,
+			Object.class
+		};
+		for (int j = 0; j < clses.length; ++j)
+			_ignoreWires.add(clses[j].getName());
+	}
 
+	private static boolean ignoreFromWire(Class cls) {
+		Package pkg;
+		return cls != null && (_ignoreWires.contains(cls.getName())
+		|| ((pkg = cls.getPackage()) != null && _ignoreWires.contains(pkg.getName())));
+	}
+	
 	/**
 	 * Auto-wires ZK Components in controllers and registers event handlers for
 	 * 
@@ -101,14 +117,19 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 	 */
 	private void accessFields() throws IllegalAccessException {
 		Class cls = this.getClass();
-		Field[] flds = cls.getDeclaredFields();
-		StringBuffer sb = new StringBuffer();
-		for (int j = 0; j < flds.length; ++j) {
-			Field f = flds[j];
-			f.setAccessible(true);
-			Object o = f.get(this);
-			sb.append(o == null ? "" : o.toString());
+		while (cls != null && !ignoreFromWire(cls)) {
+			Field[] flds = cls.getDeclaredFields();
+			for (int j = 0; j < flds.length; ++j) {
+				Field f = flds[j];
+				f.setAccessible(true);
+				Object o = f.get(this);
+				if (o != null)
+					o.toString();
+			}
+			cls = cls.getSuperclass();
 		}
+
+		Field[] flds = cls.getSuperclass().getDeclaredFields();
 	}
 
 	protected Object getController() {
@@ -163,21 +184,30 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 			String srccompid = annotationValueToken.substring(0, annotationValueToken.indexOf('.'));
 			String srcevt  = annotationValueToken.substring(annotationValueToken.indexOf('.') + 1, annotationValueToken.length());
 			String eventName = srcevt + "." + srccompid;
-			Object o = SpringUtil.getBean(srccompid);
-			if(o instanceof Component) {
-				Component c = (Component) o;
-				List<String> methodNames = eventsMap.get(eventName); 
-				if(methodNames == null) {
-					methodNames = new ArrayList<String>();
-					methodNames.add(mdname);
-					eventsMap.put(eventName, methodNames);
-				} else {
-					methodNames.add(mdname);
-					eventsMap.put(eventName, methodNames);
+			Object srcCompBean = SpringUtil.getBean(srccompid);
+			if(srcCompBean == null) {
+				srcCompBean  = comp.getAttributeOrFellow(srccompid, true);
+				if (srcCompBean == null) {
+					Page page = comp.getPage();
+					if (page != null)
+						srcCompBean = page.getXelVariable(null, null, srccompid, true);
 				}
-				comp.addEventListener(eventName, this);
-				((Component) o).addForward(srcevt, comp, eventName);
 			}
+			if(srcCompBean == null || !(srcCompBean instanceof Component))
+				continue;
+			
+			Component c = (Component) srcCompBean;
+			List<String> methodNames = eventsMap.get(eventName);
+			if (methodNames == null) {
+				methodNames = new ArrayList<String>();
+				methodNames.add(mdname);
+				eventsMap.put(eventName, methodNames);
+			} else {
+				methodNames.add(mdname);
+				eventsMap.put(eventName, methodNames);
+			}
+			comp.addEventListener(eventName, this);
+			((Component) srcCompBean).addForward(srcevt, comp, eventName);
 		}
 	}
 
@@ -208,67 +238,11 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 
 	@Override
 	public void onEvent(Event event) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println(event.getName());
-		Event evtOrig = org.zkoss.zk.ui.event.Events.getRealOrigin((ForwardEvent) event); 
+//		Event evtOrig = org.zkoss.zk.ui.event.Events.getRealOrigin((ForwardEvent) event); 
 		List<String> methodNames = eventsMap.get(event.getName());
 		for(String methodName : methodNames) {
 			Method md = Classes.getAnyMethod(this.getClass(), methodName, new Class[] {Event.class});
 			md.invoke(this, event);
 		}
 	}
-	/**
-	 * forwards component events to controller methods annotated with Events qualifier
-	 * @param comp
-	 * @param controller
-	 */
-	@SuppressWarnings("unchecked")
-	public void addForwards(Component comp, Object controller) {
-		// TODO Auto-generated method stub
-		final Class cls = controller.getClass();
-		final Method[] mtds = cls.getMethods();
-		for (int j = 0; j < mtds.length; ++j) {
-			final Method md = mtds[j];
-			Annotation[] annotations = md.getAnnotations();
-			for (int k = 0; k < annotations.length; k++) {
-					Annotation a = annotations[k];
-					if (a instanceof EventHandler) {
-						addForward(md, a, comp);
-					}
-			}
-		}
-	}
-	/**
-	 * method to add forward event from child component to parent or composer component
-	 * @param md method annotated with EventHandler annotation
-	 * @param a EventHandler Annotation on md method
-	 * @param comp
-	 */
-	
-	@SuppressWarnings("unchecked")
-	public void addForward(Method md, Annotation a, Component comp) {
-		String mdname = md.getName();
-		Component xcomp = comp;
-		String annotationValue = ((EventHandler) a).value();
-		List<String> annotationValueTokens = (List<String>) CollectionsX.parse(
-				new ArrayList<String>(), annotationValue, ',');
-		for (String annotationValueToken : annotationValueTokens) {
-			String srccompid = annotationValueToken.substring(0,
-					annotationValueToken.indexOf('.'));
-			String srcevt = annotationValueToken.substring(annotationValueToken
-					.indexOf('.') + 1, annotationValueToken.length());
-
-			// TODO: get component instance from bean manager
-			// try EL resolver or check any api/spi interface
-			Object srccomp = SpringUtil.getBean(srccompid);
-			if (srccomp == null || !(srccomp instanceof Component)) {
-				log.debug("Cannot find the associated component to forward event: "
-								+ mdname);
-			} else {
-				((Component) srccomp).addForward(srcevt, xcomp, srcevt + "."
-						+ srccompid);
-			}
-		}
-	}
-
 }
