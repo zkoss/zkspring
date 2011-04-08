@@ -127,11 +127,14 @@ public class ZKProxy {
 				final Page page = exec.getCurrentPage();
 				final Scope scope = Scopes.getCurrent(page);
 				if (scope != null) {
-					Component self = (Component) scope.getAttribute("self", true);
-					if (self == null) {
-						self = (Component) Scopes.getImplicit("self", null);
+					Object o = scope.getAttribute("self", true);
+					if(o instanceof Component) {
+						Component self = (Component) o;
+						if (self == null) {
+							self = (Component) Scopes.getImplicit("self", null);
+						}
+						return self;
 					}
-					return self;
 				}
 				return null;
 			}

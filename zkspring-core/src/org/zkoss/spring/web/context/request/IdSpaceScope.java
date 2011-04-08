@@ -52,7 +52,7 @@ public class IdSpaceScope implements Scope {
 			if(o instanceof Component)
 				self = (Component) o;
 			final IdSpace idspace = 
-				self == null ?	null : self.getSpaceOwner();
+				self == null ?	((ExecutionCtrl)exec).getCurrentPage() : self.getSpaceOwner();
 			Map idspaceScope = null;
 			if (idspace instanceof Component) {
 				idspaceScope = (Map) ((Component)idspace).getAttribute(IDSPACE_SCOPE);
