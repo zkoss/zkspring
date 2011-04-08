@@ -177,15 +177,11 @@ public class CoreContextListener implements ServletContextListener {
 		lazyAnnotation.addMemberValue("value", new BooleanMemberValue(true, cp));
 		javassist.bytecode.annotation.Annotation scopeAnnotation = new javassist.bytecode.annotation.Annotation(
 				"org.springframework.context.annotation.Scope", cp);
-//		scopeAnnotation.addMemberValue("value", new StringMemberValue("prototype", cp));
-//		int type = cp.addUtf8Info(org.springframework.context.annotation.ScopedProxyMode.class.getCanonicalName());
-//		int value = cp.addUtf8Info(org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS.toString());
-//		EnumMemberValue enumValue = new EnumMemberValue(type, value, cp);
 		EnumMemberValue enumValue = new EnumMemberValue(cp);
 		enumValue.setType("org.springframework.context.annotation.ScopedProxyMode");
 		enumValue.setValue("TARGET_CLASS");
 		scopeAnnotation.addMemberValue("proxyMode", enumValue);
-		scopeAnnotation.addMemberValue("value", new StringMemberValue("desktop", cp));
+		scopeAnnotation.addMemberValue("value", new StringMemberValue("idspace", cp));
 		attr1.addAnnotation(beanAnnotation);
 		attr1.addAnnotation(lazyAnnotation);
 		attr1.addAnnotation(scopeAnnotation);
