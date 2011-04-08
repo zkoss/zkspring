@@ -1,49 +1,98 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.zkoss.zk</groupId>
+	<artifactId>zkspring-webflow</artifactId>
+	<version>3.0</version>
+	<name>ZK Spring Webflow</name>
+	<description>ZK Spring Integration Library WeBflow Library</description>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>http://code.google.com/p/zkspring/source/browse/</url>
+	</scm>
 
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.zkoss.zkoss</groupId>
-  <artifactId>zkspring-core</artifactId>
-  <version>{version}</version>
-  <packaging>jar</packaging>
-  <name>ZK Spring Integration</name>
-  <url>http://www.zkoss.org</url>
-  <description>ZK Spring Integration for ZK 5.0.1 or later</description>
-  <licenses>
-    <license>
-      <name>GNU General Public License, Version 2.0</name>
-      <url>http://www.gnu.org/licenses/gpl.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <url>http://svn.sourceforge.net/viewvc/zk1/addon/releases/zkspring/{version}/zkspring</url>
-  </scm>
-  <dependencies>
-    <dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zcommon</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zweb</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zul</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zkplus</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-  </dependencies>
-</project> 
+	<properties>
+		<zk.version>5.0.6</zk.version>
+		<springwebflow.version>2.2.1.RELEASE</springwebflow.version>
+		<spring.version>3.0.4.RELEASE</spring.version>
+		<zkspringcore.version>3.0</zkspringcore.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>ZK Maven</id>
+			<url>http://mavensync.zkoss.org/maven2</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.release</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - External Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>org.springframework.binding</artifactId>
+			<version>${springwebflow.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>org.springframework.js</artifactId>
+			<version>${springwebflow.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>org.springframework.webflow</artifactId>
+			<version>${springwebflow.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zk</artifactId>
+			<version>${zk.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zul</artifactId>
+			<version>${zk.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkplus</artifactId>
+			<version>${zk.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkspring-core</artifactId>
+			<version>${zkspringcore.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+</project>
