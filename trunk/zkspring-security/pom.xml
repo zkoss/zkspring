@@ -1,49 +1,98 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.zkoss.zk</groupId>
+	<artifactId>zkspring-security</artifactId>
+	<version>3.0</version>
+	<name>ZK Spring Security</name>
+	<description>ZK Spring Integration Security Library</description>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>http://code.google.com/p/zkspring/source/browse/</url>
+	</scm>
+	<properties>
+		<zk.version>5.0.6</zk.version>
+		<zkel.version>1.0.2</zkel.version>
+		<springsecurity.version>3.0.5.RELEASE</springsecurity.version>
+		<servlet-api.version>2.4</servlet-api.version>
+	</properties>
+	<repositories>
+		<repository>
+			<id>ZK Maven</id>
+			<url>http://mavensync.zkoss.org/maven2</url>
+		</repository>
+	</repositories>
 
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.zkoss.zkoss</groupId>
-  <artifactId>zkspring-security</artifactId>
-  <version>{version}</version>
-  <packaging>jar</packaging>
-  <name>ZK Spring Integration</name>
-  <url>http://www.zkoss.org</url>
-  <description>ZK Spring Integration for ZK 5.0.1 or later</description>
-  <licenses>
-    <license>
-      <name>GNU General Public License, Version 2.0</name>
-      <url>http://www.gnu.org/licenses/gpl.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <url>http://svn.sourceforge.net/viewvc/zk1/addon/releases/zkspring/{version}/zkspring</url>
-  </scm>
-  <dependencies>
-    <dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zcommon</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zweb</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zul</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zkplus</artifactId>
-      <version>5.0.1</version>
-    </dependency>
-  </dependencies>
-</project> 
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-acl</artifactId>
+			<version>${springsecurity.version}</version>
+			<type>pom</type>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${springsecurity.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${springsecurity.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${springsecurity.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${springsecurity.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zk</artifactId>
+			<version>${zk.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zul</artifactId>
+			<version>${zk.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkspring-core</artifactId>
+			<version>3.0</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>

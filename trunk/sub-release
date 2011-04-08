@@ -21,31 +21,7 @@
 pkgnm=$1
 target=$2
 
-if [ "$pkgnm"  = "JspTags" ] ; then
-	prjnm=zuljsp
-	demoprjnm=zkjsp-demo
-	releasenote=zkjsp-release-note
-elif [ "$pkgnm"  = "Seam" ] ; then
-	prjnm=zkseam
-	demoprjnm=zkseam-demo
-	releasenote=zkseam-release-note
-elif [ "$pkgnm"  = "JSFComps" ] ; then
-	prjnm=zuljsf
-	demoprjnm=zkjsf-demo
-	releasenote=zkjsf-release-note
-elif [ "$pkgnm"  = "Yui-Ext" ] ; then
-	prjnm=yuiextz
-	demoprjnm=yuiextz-demo
-	releasenote=yuiextz-release-note
-elif [ "$pkgnm"  = "Gmaps" ] ; then
-	prjnm=gmapsz
-	demoprjnm=gmapsz-demo
-	releasenote=gmapsz-release-note
-elif [ "$pkgnm"  = "Spring" ] ; then
-	prjnm=zkspring
-	demoprjnm=zkspring-demo
-	releasenote=zkspring-release-note
-elif [ "$pkgnm"  = "spring-core" ] ; then
+if [ "$pkgnm"  = "spring-core" ] ; then
 	prjnm=zkspring-core
 	demoprjnm=zkspring-core-demo
 	releasenote=release-note
@@ -65,7 +41,7 @@ else
 	echo "Usage:"
 	echo "  ./sub-release pkgnm [official | daily]"
 	echo
-	echo "pkgnm the package name. It is one of JspTags, JSFComps, Seam, Yui-Ext, Gmaps, Spring."
+	echo "pkgnm the package name. It should be one of the following; spring-core, spring-security or spring-webflow."
 	exit 1
 fi
 
@@ -104,9 +80,8 @@ else
 	exit 1
 fi
 
-#rm -rf /tmp/zk
+rm -rf /tmp/zk
 maindir="$(pwd)"
-echo $maindir
 echo "Release $binnm $srcnm"
 # $demonm"
 cd $maindir
@@ -148,7 +123,6 @@ mv -f $prjnm-sources.jar /tmp/zk/$binnm/dist/src
 
 #prepare javadoc
 cd $javadocdir
-echo $javadocdir
 cp -rp $prjnm/* /tmp/zk/$binnm/javadoc
 
 #Copy and pack demo
@@ -175,12 +149,13 @@ zip -qr9 ${binnm}.zip $binnm
 if [ "$target" == "official" ] ; then
 	#Prepare maven repository
 	function mvnrepo {
-		echo "Create $1-$ver-bundle.jar"
+		echo "Creating maven bundle $1-$ver-bundle.jar"
 		mkdir -p $1
 		mv /tmp/zk/$binnm/dist/src/$1-sources.jar $1/$1-$ver-sources.jar
 		sed -e "s/{version}/$ver/" $maindir/$1/pom.xml > $1/pom.xml
-		cp $maindir/dist/lib/$1.jar $1/$1-$ver.jar
+		cp -p $maindir/dist/lib/$1.jar $1/$1-$ver.jar
 		jar cfM $1-$ver-bundle.jar -C $1 .
+		echo "Created maven bundle $1-$ver-bundle.jar successfully"
 	}
 	mkdir -p maven
 	mkdir -p /tmp/maven
