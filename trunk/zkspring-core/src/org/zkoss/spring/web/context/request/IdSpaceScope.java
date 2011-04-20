@@ -73,6 +73,7 @@ public class IdSpaceScope implements Scope {
 				scopedObject = objectFactory.getObject();
 				idspaceScope.put(name, scopedObject);
 			}
+//			System.out.println("scopedObject=" + scopedObject + ", hash=" + System.identityHashCode(scopedObject));
 			return scopedObject;
 		}
 		throw new IllegalStateException("Unable to get idspace scope bean: "+name+". Do you access it in ZK event listener?");

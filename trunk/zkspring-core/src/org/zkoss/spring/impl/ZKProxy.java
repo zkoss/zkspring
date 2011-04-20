@@ -30,7 +30,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.ext.Scope;
 import org.zkoss.zk.ui.ext.Scopes;
@@ -124,19 +123,43 @@ public class ZKProxy {
 			}
 
 			public Component getSelf(ExecutionCtrl exec) {
-				final Page page = exec.getCurrentPage();
-				final Scope scope = Scopes.getCurrent(page);
-				if (scope != null) {
-					Object o = scope.getAttribute("self", true);
-					if(o instanceof Component) {
-						Component self = (Component) o;
-						if (self == null) {
-							self = (Component) Scopes.getImplicit("self", null);
-						}
-						return self;
-					}
-				}
-				return null;
+                final Page page = exec.getCurrentPage();
+                final Scope scope = Scopes.getCurrent(page);
+                if (scope != null) {
+                        Object o = scope.getAttribute("self", false);
+                        if(o instanceof Component) {
+                                Component self = (Component) o;
+                                if (self == null) {
+                                        self = (Component) Scopes.getImplicit("self", null);
+                                }
+                                return self;
+                        }
+                }
+                return null;
+
+//				final Page page = exec.getCurrentPage();
+//				Scope scope= ZkSpringIntegrationContext.getContextComponent();
+//				if(scope == null) {
+//					scope = Scopes.getCurrent(page);
+//					if (scope != null)  {
+//						Object o = null;
+//						if(scope instanceof IdSpace) {
+//							o = scope.getAttribute("self", false);
+//						} else {
+//							if(scope instanceof Component) {
+//								o = scope.getAttribute("self", false);
+//								Component self = (Component) o;
+//								if (self == null) {
+//									self = (Component) Scopes.getImplicit("self", null);
+//								}
+//								return self;
+//							} 
+//						}
+//					}
+//				} else {
+//					return (Component) scope;
+//				}
+//				return null;
 			}
 		};
 	}
