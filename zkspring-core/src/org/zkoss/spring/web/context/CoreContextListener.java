@@ -157,6 +157,7 @@ public class CoreContextListener implements ServletContextListener {
 		
 		sb.append("f = (" + beanType + ")c.getFellow(\""
 				+ beanName + "\");");
+		sb.append("System.out.println(\"Got fellow:" + beanName + "\");");
 		sb.append("}catch(ComponentNotFoundException e) {throw new RuntimeException(e.getMessage());}}");
 		
 		sb.append("return f;");

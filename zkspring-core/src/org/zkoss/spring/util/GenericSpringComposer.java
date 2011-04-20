@@ -22,6 +22,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.util.Composer;
 import org.zkoss.zk.ui.util.ComposerExt;
@@ -237,12 +238,33 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 	}
 
 	@Override
-	public void onEvent(Event event) throws Exception {
+	public void onEvent(Event evt) throws Exception {
 //		Event evtOrig = org.zkoss.zk.ui.event.Events.getRealOrigin((ForwardEvent) event); 
-		List<String> methodNames = eventsMap.get(event.getName());
-		for(String methodName : methodNames) {
-			Method md = Classes.getAnyMethod(this.getClass(), methodName, new Class[] {Event.class});
-			md.invoke(this, event);
+		List<String> methodNames = eventsMap.get(evt.getName());
+		if (methodNames != null) {
+			for (String methodName : methodNames) {
+				Method mtd = Classes.getAnyMethod(this.getClass(), methodName,
+						new Class[] { Event.class });
+				if (mtd != null) {
+					if (mtd.getParameterTypes().length == 0)
+						mtd.invoke(this, null);
+					else if (evt instanceof ForwardEvent) { //ForwardEvent
+						final Class paramcls = (Class) mtd.getParameterTypes()[0];
+						//paramcls is ForwardEvent || Event
+						if (ForwardEvent.class.isAssignableFrom(paramcls)
+						|| Event.class.equals(paramcls)) { 
+							mtd.invoke(this, new Object[] {evt});
+						} else {
+							do {
+								evt = ((ForwardEvent)evt).getOrigin();
+							} while(evt instanceof ForwardEvent);
+							mtd.invoke(this, new Object[] {evt});
+						}
+					} else
+						mtd.invoke(this, new Object[] {evt});
+				}
+//				md.invoke(this, event);
+			}
 		}
 	}
 }
