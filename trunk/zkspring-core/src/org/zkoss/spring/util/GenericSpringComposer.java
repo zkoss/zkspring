@@ -239,7 +239,6 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 
 	@Override
 	public void onEvent(Event evt) throws Exception {
-//		Event evtOrig = org.zkoss.zk.ui.event.Events.getRealOrigin((ForwardEvent) event); 
 		List<String> methodNames = eventsMap.get(evt.getName());
 		if (methodNames != null) {
 			for (String methodName : methodNames) {
@@ -263,7 +262,6 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 					} else
 						mtd.invoke(this, new Object[] {evt});
 				}
-//				md.invoke(this, event);
 			}
 		}
 	}
