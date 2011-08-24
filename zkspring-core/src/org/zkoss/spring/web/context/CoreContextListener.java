@@ -20,12 +20,17 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 package org.zkoss.spring.web.context;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
@@ -48,6 +53,7 @@ import javax.servlet.ServletContextListener;
 import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
 import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
@@ -56,18 +62,20 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
- * Pre-processes Spring beans for possible auto-wiring of ZK components.
+ * Pre-processes Spring beans for possible auto-wiring of ZK components.<br/>
+ * If initial parameter 'use-urlclassloader' is true, it uses {@link java.net.URLClassLoader} to find classpath.
+ * Otherwise, it searches them by resource containing MANIFEST.MF.
  * @author ashish
  *
  */
 public class CoreContextListener implements ServletContextListener {
 
+	private static Logger logger = Logger.getLogger(CoreContextListener.class.getName());
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		// TODO Auto-generated method stub
 		preprocessSpringBeansForZKComponentinjection(sce);
 
 	}
@@ -77,7 +85,6 @@ public class CoreContextListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		// TODO Auto-generated method stub
 
 	}
 	/**
@@ -87,7 +94,6 @@ public class CoreContextListener implements ServletContextListener {
 	 * @param sce 
 	 */
 	private void preprocessSpringBeansForZKComponentinjection(ServletContextEvent sce) {
-		// TODO Auto-generated method stub
 		try {
 			String webInf = sce.getServletContext().getRealPath("/WEB-INF/classes");
 	
@@ -98,14 +104,18 @@ public class CoreContextListener implements ServletContextListener {
 			cp.importPackage("org.zkoss.zk.ui");
 			cp.importPackage("org.zkoss.spring.util");
 			cp.importPackage("org.springframework.context.annotation");
-			
-			
-			
 			CtClass mainClass = getZKComponentBeanMethodsClass(cp);
 			
-			final List<URL> l = getUrlsForCurrentClasspath();
+			final Set<URL> urlSet = new HashSet<URL>();
+			if ("true".equalsIgnoreCase(sce.getServletContext().getInitParameter("use-urlclassloader"))){
+				urlSet.addAll(getUrlsForCurrentClasspath());
+			}else{
+				urlSet.addAll(getClasspathUrlsByManifest());
+				//above procedure doesn't ensure to obtain 'WEB-INF/classes'
+				urlSet.add(ClasspathHelper.getUrlForServletContextClasses(sce.getServletContext()));
+			}
 			Reflections reflections = new Reflections(
-					new ConfigurationBuilder().setUrls(l)
+					new ConfigurationBuilder().setUrls(urlSet)
 					.setScanners(new FieldAnnotationsScanner()));
 			
 			Set<Field> fields = reflections.getFieldsAnnotatedWith(Autowired.class);
@@ -211,6 +221,8 @@ public class CoreContextListener implements ServletContextListener {
 
 	/**
 	 * returns list of URL paths to application jar files in WEB-INF/lib and WEB-INF/classes
+	 * @deprecated the class loader provided by the container might not be an instance of URLClassLoader. 
+	 * In that case, we can't obtains those URLs as expected.
 	 * @return List
 	 */
     private List<URL> getUrlsForCurrentClasspath() {
@@ -238,4 +250,46 @@ public class CoreContextListener implements ServletContextListener {
         return urls;
     }
 
+    /**
+	 * returns set of URL paths of all classpath, also considering EAR case.
+	 * @return Set
+	 */ 
+    private Set<URL> getClasspathUrlsByManifest(){
+    	ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    	Set<URL> urls = new HashSet<URL>(); 
+    	try {
+			Enumeration<URL> r = loader.getResources("META-INF/MANIFEST.MF");
+			while(r.hasMoreElements()){
+				URL u = r.nextElement();
+				String urlStr = u.toString();
+				if("file".equalsIgnoreCase(u.getProtocol())){
+					urlStr = urlStr.substring(0,urlStr.length()-20);
+				}else if("jar".equalsIgnoreCase(u.getProtocol())){
+					urlStr = urlStr.substring(4,urlStr.lastIndexOf("!"));//trim jar: and!
+				}else if("zip".equalsIgnoreCase(u.getProtocol())){
+					urlStr = urlStr.substring(4,urlStr.lastIndexOf("!"));//trim zip: and!
+				}else{
+					//ignore
+					continue;
+				}
+				
+				u = null;
+				try{
+					u = new URL(urlStr);
+				}catch(MalformedURLException x){
+					try{
+						u = new URL("file:/"+urlStr);
+					}catch(MalformedURLException ex){
+						logger.info("Malformed: file:/"+urlStr);
+					}
+				}
+				if(u != null){
+					urls.add(u);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return urls;
+    }
 }
