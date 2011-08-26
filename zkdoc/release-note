@@ -1,3 +1,7 @@
+zkspring 3.1
+* Fixed Bugs:
+  ZKSPRING-3 Deploy Zk Spring example war (zkspringessentials.war) on Oracle Weblogic Server 10gR3 with error
+
 zkspring 3.0
 * Features:
   11 Support Spring Webflow 2.2.1+
