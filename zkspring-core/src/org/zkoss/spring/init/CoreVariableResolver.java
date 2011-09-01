@@ -12,6 +12,8 @@ Copyright (C) 2010 Potix Corporation. All Rights Reserved.
 
 package org.zkoss.spring.init;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.zkoss.spring.SpringUtil;
@@ -23,8 +25,8 @@ import org.zkoss.zk.ui.Components;
  * @author henrichen
  * @since 3.0
  */
-public class CoreVariableResolver implements VariableResolver {
-	protected ApplicationContext _ctx;
+public class CoreVariableResolver implements VariableResolver, Serializable {
+	transient protected ApplicationContext _ctx;
 	
 	/**
 	 * Get the spring application context.
