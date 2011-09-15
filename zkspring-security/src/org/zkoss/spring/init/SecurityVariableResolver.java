@@ -16,6 +16,8 @@ Copyright (C) 2010 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.spring.init;
 
+import java.io.Serializable;
+
 import org.zkoss.spring.security.SecurityUtil;
 import org.zkoss.xel.VariableResolver;
 
@@ -31,7 +33,7 @@ import org.zkoss.xel.VariableResolver;
  * @author ashish
  * @since 3.0
  */
-public class SecurityVariableResolver implements VariableResolver {
+public class SecurityVariableResolver implements VariableResolver, Serializable {
 	
 	
 	/**
