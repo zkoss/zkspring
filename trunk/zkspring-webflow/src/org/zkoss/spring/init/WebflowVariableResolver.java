@@ -19,6 +19,8 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 
 package org.zkoss.spring.init;
 
+import java.io.Serializable;
+
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.execution.RequestContext;
 import org.springframework.webflow.expression.el.RequestContextELResolver;
@@ -35,8 +37,8 @@ import org.zkoss.zk.ui.Executions;
  * @author henrichen
  * @since 1.1
  */
-public class WebflowVariableResolver implements VariableResolver {
-	private static final String IN_GETTING_FLOW_CTX = "zkoss.spring.webflow.IN_GETTING_FLOW_CTX";
+public class WebflowVariableResolver implements VariableResolver, Serializable {
+	transient private static final String IN_GETTING_FLOW_CTX = "zkoss.spring.webflow.IN_GETTING_FLOW_CTX";
 
 	//Resolve web flow relative variables
 	public Object resolveVariable(String name) throws XelException {
