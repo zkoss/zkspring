@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zk</groupId>
 	<artifactId>zkspring-security</artifactId>
-	<version>3.0</version>
+	<version>3.1-SNAPSHOT</version>
 	<name>ZK Spring Security</name>
 	<description>ZK Spring Integration Security Library</description>
 	<licenses>
