@@ -1,6 +1,9 @@
 zkspring 3.1
 * Fixed Bugs:
-  ZKSPRING-3 Deploy Zk Spring example war (zkspringessentials.war) on Oracle Weblogic Server 10gR3 with error
+  ZKSPRING-4	zkspringessential.war cause a Reflections error on Weblogic 10gR3
+  ZKSPRING-5	CoreVariableResolver cannot be serialized
+  ZKSPRING-14	org.zkoss.spring.init.SecurityVariableResolver - Should implement Serializable
+  ZKSPRING-16	zk-spring-security config.xml file contains the wrong version-uid value for the 3.1 version
 
 zkspring 3.0
 * Features:
