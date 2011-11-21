@@ -24,8 +24,6 @@ import java.lang.reflect.Method;
 import javax.servlet.ServletRequest;
 
 import org.zkoss.lang.Classes;
-import org.zkoss.zk.scripting.Namespace;
-import org.zkoss.zk.scripting.Namespaces;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Page;
@@ -191,12 +189,12 @@ public class ZKProxy {
 
 			public Component getSelf(ExecutionCtrl exec) {
 				final Page page = exec.getCurrentPage();
-				final Namespace ns = Namespaces.getCurrent(page);
-				if (ns != null) {
-					Component self = (Component) ns.getVariable("self", false);
+				final Scope scope = Scopes.getCurrent(page);
+				if (scope != null) {
+					Component self = (Component) scope.getAttribute("self", true);
 					//since ZK 3.6.1, event handling, use getImplicit()
 					if (self == null) {
-						self = (Component) Namespaces.getImplicit("self", null);
+						self = (Component) Scopes.getImplicit("self", null);
 					}
 					return self;
 				}

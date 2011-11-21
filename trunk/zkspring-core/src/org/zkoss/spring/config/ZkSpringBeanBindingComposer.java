@@ -19,42 +19,24 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 
 package org.zkoss.spring.config;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Stack;
 
-import javax.annotation.Resource;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.config.ConstructorArgumentValues.ValueHolder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.ReflectionUtils;
-import org.zkoss.spring.DelegatingVariableResolver;
 import org.zkoss.spring.SpringUtil;
-import org.zkoss.spring.bean.ZkComponentFactoryBean;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Components;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
-import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 import org.zkoss.zk.ui.util.Composer;
-import org.zkoss.zk.ui.util.ComposerExt;
 
 /**
  * Composer to bind ZK bean as Spring bean. 
@@ -77,10 +59,10 @@ public class ZkSpringBeanBindingComposer implements Composer {
 				final String fid = "&"+comp.getId();
 				if (factory.containsBean(fid)) {
 					final Page page = ((ExecutionCtrl)exec).getCurrentPage();
-					final Object self = page.getNamespace().getVariableNames().contains("self") ? 
-							page.getNamespace().getVariable("self", true) : null; 
+					final Object self = page.hasAttribute("self") ? 
+							page.getAttribute("self", false) : null; 
 					try {
-						page.setVariable("self", comp);
+						page.setAttribute("self", comp);
 						//trigger component binding
 						final Object proxy = SpringUtil.getBean(comp.getId(), Component.class);
 						if (proxy != null) {
@@ -94,9 +76,9 @@ public class ZkSpringBeanBindingComposer implements Composer {
 						}
 					} finally {
 						if (self == null) {
-							page.unsetVariable("self");
+							page.removeAttribute("self");
 						} else {
-							page.setVariable("self", self);
+							page.setAttribute("self", self);
 						}
 					}
 				}

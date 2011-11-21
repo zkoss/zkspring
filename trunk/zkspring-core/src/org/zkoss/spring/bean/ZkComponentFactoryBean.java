@@ -19,19 +19,16 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 
 package org.zkoss.spring.bean;
 
-import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.naming.NamingException;
 
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.zkoss.zk.scripting.Namespace;
-import org.zkoss.zk.scripting.Namespaces;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Components;
 import org.zkoss.zk.ui.Execution;
@@ -39,6 +36,8 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.ext.Scope;
+import org.zkoss.zk.ui.ext.Scopes;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 import org.zkoss.zkplus.spring.SpringUtil;
 
@@ -127,7 +126,7 @@ public class ZkComponentFactoryBean implements FactoryBean, InitializingBean, Be
 				return Path.getComponent(path);
 			} else {
 				final Page page = ((ExecutionCtrl)exec).getCurrentPage();
-				final Component self = (Component) page.getVariable("self");
+				final Component self = (Component) page.getAttribute("self");
 				if (self != null) { //loading page
 					if (Components.isImplicit(getBeanName())) {
 						return Components.getImplicit(self, getBeanName());
@@ -143,21 +142,21 @@ public class ZkComponentFactoryBean implements FactoryBean, InitializingBean, Be
 						return self.getAttribute(path, false);
 					}
 				} else { //handling event
-					final Namespace ns = Namespaces.getCurrent(page);
-					if (ns != null) {
-						final Component xself = (Component) ns.getVariable("self", false);
+					final Scope scope = Scopes.getCurrent(page);
+					if (scope != null) {
+						final Component xself = (Component) scope.getAttribute("self", true);
 						if (Components.isImplicit(getBeanName())) {
 							return Components.getImplicit(xself, getBeanName());
 						}
 						if (path == null) {
 							//sometimes, Spring can instantiate partially, the bean name might be null
 							if (getBeanName() != null) { 
-								return ns.getVariable(getBeanName(), false);
+								return scope.getAttribute(getBeanName(), true);
 							}
 						} else if (path.startsWith(".")) { //relative path
 							return Path.getComponent(xself.getSpaceOwner(), path);
 						} else {
-							return ns.getVariable(path, false);
+							return scope.getAttribute(path, true);
 						}
 					}
 				}

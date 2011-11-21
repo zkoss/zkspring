@@ -74,7 +74,6 @@ public class CoreContextListener implements ServletContextListener {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
-	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		preprocessSpringBeansForZKComponentinjection(sce);
 
@@ -83,7 +82,6 @@ public class CoreContextListener implements ServletContextListener {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
 	 */
-	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 
 	}

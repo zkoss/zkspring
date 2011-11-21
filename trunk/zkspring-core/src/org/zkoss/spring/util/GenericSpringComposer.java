@@ -99,7 +99,6 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 	 * Auto-wires ZK Components in controllers and registers event handlers for
 	 * 
 	 */
-	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		// TODO Auto-generated method stub
 		try {
@@ -212,32 +211,27 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 		}
 	}
 
-	@Override
 	public ComponentInfo doBeforeCompose(Page page, Component parent,
 			ComponentInfo compInfo) throws Exception {
 		// TODO Auto-generated method stub
 		return compInfo;
 	}
 
-	@Override
 	public void doBeforeComposeChildren(Component comp) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public boolean doCatch(Throwable ex) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public void doFinally() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void onEvent(Event evt) throws Exception {
 		List<String> methodNames = eventsMap.get(evt.getName());
 		if (methodNames != null) {
