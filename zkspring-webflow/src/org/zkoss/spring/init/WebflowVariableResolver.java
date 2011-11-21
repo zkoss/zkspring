@@ -56,7 +56,7 @@ public class WebflowVariableResolver implements VariableResolver, Serializable {
 				}
 				ZKProxy.getProxy().setAttribute(exec, IN_GETTING_FLOW_CTX, Boolean.TRUE);
 				try {
-					flowctx = (RequestContext) target.getVariable(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, false); //recursive
+					flowctx = (RequestContext) target.getAttributeOrFellow(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, true); //recursive
 				} finally {
 					ZKProxy.getProxy().removeAttribute(exec, IN_GETTING_FLOW_CTX);
 				}

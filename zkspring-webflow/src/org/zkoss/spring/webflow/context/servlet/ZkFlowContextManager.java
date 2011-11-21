@@ -63,27 +63,27 @@ public class ZkFlowContextManager {
 	
 	public static String getFlowId(Execution exec) {
 		final Component self  = getSelf(exec);
-		return self != null ? (String) self.getVariable(FLOW_ID, false) : null;
+		return self != null ? (String) self.getAttributeOrFellow(FLOW_ID, true) : null;
 	}
 	
 	public static String getFlowExecutionKey(Execution exec) {
 		final Component self = getSelf(exec);
-		return self != null ? (String) self.getVariable(FLOW_EXECUTION_KEY, false) : null;
+		return self != null ? (String) self.getAttributeOrFellow(FLOW_EXECUTION_KEY, true) : null;
 	}
 	
 	public static String getFlowRequestURI(Execution exec) {
 		final Component self = getSelf(exec);
-		return self != null ? (String) self.getVariable(FLOW_REQUEST_URI, false) : null;
+		return self != null ? (String) self.getAttributeOrFellow(FLOW_REQUEST_URI, true) : null;
 	}
 	
 	public static RequestContext getFlowRequestContext(Execution exec) {
 		final Component self = getSelf(exec);
-		return self != null ? (RequestContext) self.getVariable(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, false) : null;
+		return self != null ? (RequestContext) self.getAttributeOrFellow(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, true) : null;
 	}
 
 	public static Window getPopupWindow(Execution exec) {
 		final Component self = getSelf(exec);
-		return self != null ? (Window) self.getVariable(FLOW_POPUP_WINDOW, false) : null;
+		return self != null ? (Window) self.getAttributeOrFellow(FLOW_POPUP_WINDOW, true) : null;
 	}
 	
 	public static void storeFlowContext(Execution exec) {
@@ -102,12 +102,12 @@ public class ZkFlowContextManager {
 	}
 	
 	private static void storeFlowContextInPopupWin(Window win, Execution exec) {
-		win.setVariable(FLOW_POPUP_WINDOW, win, true);
-		win.setVariable(FLOW_ID, exec.getAttribute(FLOW_ID), true);
-		win.setVariable(FLOW_EXECUTION_KEY, exec.getAttribute(FLOW_EXECUTION_KEY), true);
-		win.setVariable(FLOW_REQUEST_URI, exec.getAttribute(FLOW_REQUEST_URI), true);
-		win.setVariable(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, 
-				exec.getAttributes().get(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME), true);
+		win.setAttribute(FLOW_POPUP_WINDOW, win, false);
+		win.setAttribute(FLOW_ID, exec.getAttribute(FLOW_ID), false);
+		win.setAttribute(FLOW_EXECUTION_KEY, exec.getAttribute(FLOW_EXECUTION_KEY), false);
+		win.setAttribute(FLOW_REQUEST_URI, exec.getAttribute(FLOW_REQUEST_URI), false);
+		win.setAttribute(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, 
+				exec.getAttributes().get(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME), false);
 	}
 	
 	private static void storeFlowContextInPages(Execution exec) {
@@ -115,10 +115,10 @@ public class ZkFlowContextManager {
 		final Collection pages= desktop.getPages();
 		for (final Iterator it = pages.iterator(); it.hasNext();) {
 			final Page page = (Page) it.next();
-			page.setVariable(FLOW_ID, exec.getAttribute(FLOW_ID));
-			page.setVariable(FLOW_EXECUTION_KEY, exec.getAttribute(FLOW_EXECUTION_KEY));
-			page.setVariable(FLOW_REQUEST_URI, exec.getAttribute(FLOW_REQUEST_URI));
-			page.setVariable(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, 
+			page.setAttribute(FLOW_ID, exec.getAttribute(FLOW_ID));
+			page.setAttribute(FLOW_EXECUTION_KEY, exec.getAttribute(FLOW_EXECUTION_KEY));
+			page.setAttribute(FLOW_REQUEST_URI, exec.getAttribute(FLOW_REQUEST_URI));
+			page.setAttribute(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME, 
 					exec.getAttributes().get(RequestContextELResolver.REQUEST_CONTEXT_VARIABLE_NAME));
 		}
 	}

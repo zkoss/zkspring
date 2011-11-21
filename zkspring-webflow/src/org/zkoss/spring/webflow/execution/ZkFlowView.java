@@ -137,7 +137,7 @@ public class ZkFlowView extends ServletMvcView {
 		final Execution exec = Executions.getCurrent();
 		final Component self = ZkFlowContextManager.getSelf(exec);
 		if (self != null) {
-			final DataBinder binder = (DataBinder) self.getVariable("binder", false);
+			final DataBinder binder = (DataBinder) self.getAttributeOrFellow("binder", true);
 			if (binder != null) {
 				final Collection bindings = binder.getAllBindings();
 				if (!bindings.isEmpty()) {
