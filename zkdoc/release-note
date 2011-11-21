@@ -4,6 +4,8 @@ zkspring 3.1
   ZKSPRING-5	CoreVariableResolver cannot be serialized
   ZKSPRING-14	org.zkoss.spring.init.SecurityVariableResolver - Should implement Serializable
   ZKSPRING-16	zk-spring-security config.xml file contains the wrong version-uid value for the 3.1 version
+  ZKSPRING-17	Use ZK Spring web flow with ZK6 RC will not find the setVariable method in Page
+  ZKSPRING-18	Use ZK Spring web flow with ZK6 RC will not find the setVariable method in Component
 
 zkspring 3.0
 * Features:
