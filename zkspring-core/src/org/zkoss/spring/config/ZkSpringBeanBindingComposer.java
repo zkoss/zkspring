@@ -27,6 +27,7 @@ import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.zkoss.lang.Objects;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Components;
@@ -51,7 +52,7 @@ public class ZkSpringBeanBindingComposer implements Composer {
 	}
 	
 	private void bindComponent(Component comp) {
-		if (comp.getId() != comp.getUuid()) { //with user specified id
+		if (!Objects.equals(comp.getId(), comp.getUuid())) { //with user specified id
 			final Execution exec = Executions.getCurrent();
 			if (exec != null) {
 				final ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) SpringUtil.getApplicationContext();
