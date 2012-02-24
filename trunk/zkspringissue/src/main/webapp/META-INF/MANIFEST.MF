@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Specification-Title: issue
+Specification-Version: 0.0.1-SNAPSHOT
+Implementation-Title: zkspring.issue
+Implementation-Version: 0.0.1-SNAPSHOT
