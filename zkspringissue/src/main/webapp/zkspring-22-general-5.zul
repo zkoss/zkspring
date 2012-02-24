@@ -1,0 +1,12 @@
+
+<window id="window1" apply="zkspring.issue.DetachComponentComposer">
+<div id="div">
+<button id="button" label="Send event to a detached component"></button>
+</div>
+<window id="window2">
+	<window id="window3">
+	</window>
+</window>
+</window>
+
+
