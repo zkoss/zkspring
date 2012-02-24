@@ -142,22 +142,27 @@ public class ZkEventProcessDefinitionSourceImpl implements ZkEventProcessDefinit
 		if (comp instanceof Page) {
 			sb.append("//").append(((Page)comp).getId());
 		} else {
-			final Component xcomp = (Component) comp;
 			IdSpace spaceOwner = null;
-			if (xcomp instanceof IdSpace) {
-				final Component parent = xcomp.getParent();
-				spaceOwner = parent == null ? xcomp.getPage() : parent.getSpaceOwner();
-			} else if (xcomp != null){
-				spaceOwner = xcomp.getSpaceOwner();
+			if (comp instanceof IdSpace) {
+				final Component parent = ((Component)comp).getParent();
+				spaceOwner = parent == null ? ((Component)comp).getPage() : parent.getSpaceOwner();
+			} else if (comp instanceof Component){
+				spaceOwner = ((Component)comp).getSpaceOwner();
+				if (!(spaceOwner instanceof Component)){
+					//ZKSPRING-22 in zk6, space owner might be VirtualIdSpace
+					spaceOwner = ((Component)comp).getPage(); 
+				}
 			} else {
 				sb.append("null");
 				return sb;
 			}
 			toPath(spaceOwner, sb);
-			sb.append('/').append(xcomp.getId());
+			sb.append('/').append(((Component)comp).getId());			
+
 		}
 		return sb;
 	}
+
 	
     /**
      * Performs the actual lookup of the relevant <code>ConfigAttributeDefinition</code> for the specified
