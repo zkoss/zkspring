@@ -6,6 +6,8 @@ zkspring 3.1
   ZKSPRING-16	zk-spring-security config.xml file contains the wrong version-uid value for the 3.1 version
   ZKSPRING-17	Use ZK Spring web flow with ZK6 RC will not find the setVariable method in Page
   ZKSPRING-18	Use ZK Spring web flow with ZK6 RC will not find the setVariable method in Component
+  ZKSPRING-19	Discouraged usage of "==" and "!=" operators for String comparison
+  ZKSPRING-22	VirtualIdSpace cannot be cast Component issue with ZK Bind
 
 zkspring 3.0
 * Features:
