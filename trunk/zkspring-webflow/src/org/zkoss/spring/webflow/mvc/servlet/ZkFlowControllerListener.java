@@ -96,7 +96,8 @@ public class ZkFlowControllerListener implements EventInterceptor {
 				}
 			} else {
 				final Component comp = event.getTarget();
-				final Annotation annt = ((ComponentCtrl)comp).getAnnotation("action"); //@{action(search)}
+				//for bookmark event, target is null
+				final Annotation annt = comp == null?null:((ComponentCtrl)comp).getAnnotation("action"); //@{action(search)}
 				if (annt != null) {
 					String flowWhen = annt.getAttribute("when");
 					if (flowWhen == null) { //default to "onClick"
@@ -105,12 +106,12 @@ public class ZkFlowControllerListener implements EventInterceptor {
 					final String flowEvent = annt.getAttribute("value");
 					if (flowEvent != null && eventName.equals(flowWhen)) {
 						final Execution exec = Executions.getCurrent();
-						
+
 						//see ZkELResolver
 						//see ZkExpressionParser
 						ZKProxy.getProxy().setAttribute(exec, "action", flowEvent);
 						ZKProxy.getProxy().setAttribute(exec, "actionEvent", event);
-						
+
 						//Do the Flow state transition operation
 						final HttpServletRequest request = (HttpServletRequest) exec.getNativeRequest();
 						final HttpServletResponse response = (HttpServletResponse) exec.getNativeResponse();
