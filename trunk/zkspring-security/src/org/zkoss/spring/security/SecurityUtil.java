@@ -42,7 +42,6 @@ Partial Copyright 2004, 2005, 2006 Acegi Technology Pty Limited
 package org.zkoss.spring.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,6 +55,7 @@ import java.util.StringTokenizer;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.acls.domain.DefaultPermissionFactory;
 import org.springframework.security.acls.domain.ObjectIdentityRetrievalStrategyImpl;
 import org.springframework.security.acls.domain.PermissionFactory;
 import org.springframework.security.acls.domain.SidRetrievalStrategyImpl;
@@ -295,6 +295,17 @@ public class SecurityUtil {
             _objectIdentityRetrievalStrategy = (ObjectIdentityRetrievalStrategy) map.values().iterator().next();
         } else {
             throw new UiException("Found incorrect number of ObjectIdentityRetrievalStrategy instances in "
+                    + "application context - you must have only have one!");
+        }
+        
+        map = _applicationContext.getBeansOfType(PermissionFactory.class);
+
+        if (map.size() == 0) {
+            permissionFactory = new DefaultPermissionFactory();
+        } else if (map.size() == 1) {
+        	permissionFactory = (PermissionFactory) map.values().iterator().next();
+        } else {
+            throw new UiException("Found incorrect number of PermissionFactory instances in "
                     + "application context - you must have only have one!");
         }
     }
