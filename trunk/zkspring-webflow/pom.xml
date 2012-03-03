@@ -18,7 +18,7 @@
 	</scm>
 
 	<properties>
-		<zk.version>5.0.6</zk.version>
+		<zk.version>6.0.0</zk.version>
 		<springwebflow.version>2.2.1.RELEASE</springwebflow.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
 		<zkspringcore.version>3.0</zkspringcore.version>
