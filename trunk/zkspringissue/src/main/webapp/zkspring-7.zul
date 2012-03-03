@@ -1,0 +1,10 @@
+<zk>
+
+	<window id="window" title="teszt"
+		apply="zkspring7.WrongValueComposer">
+
+		<textbox id="username"></textbox>
+		<button id="button" label="login" />
+	</window>
+
+</zk>
