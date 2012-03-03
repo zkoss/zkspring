@@ -30,9 +30,6 @@ import javax.servlet.ServletResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
-import org.springframework.security.web.util.ThrowableAnalyzer;
-import org.springframework.security.web.util.ThrowableCauseExtractor;
-//import org.springframework.security.ui.ExceptionTranslationFilter;
 import org.zkoss.lang.Exceptions;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.spring.impl.ZKProxy;
@@ -41,6 +38,8 @@ import org.zkoss.spring.security.ui.webapp.ZkAuthenticationEntryPoint;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.WrongValuesException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventThreadCleanup;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
@@ -99,10 +98,14 @@ public class ZkExceptionTranslationListener implements EventThreadCleanup {
 				ex = Exceptions.findCause(ex, AuthenticationException.class);
 			} else if(ex instanceof AccessDeniedException) {
 				ex = Exceptions.findCause(ex, AccessDeniedException.class);
+			} else if (ex instanceof WrongValueException) {
+				//ZKSPRING-7 Bug in handling of WrongValueException
+				//should let zk handle wrong value exception
+				return;
+			} else if (ex instanceof WrongValuesException) {
+				return;
 			}
-			if (ex == null) {
-				
-			}
+
 			if (ex != null) {
 				errs.clear(); //to avoid ZK handle it
 				
