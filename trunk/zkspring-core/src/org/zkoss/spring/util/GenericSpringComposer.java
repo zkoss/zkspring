@@ -28,6 +28,7 @@ import org.zkoss.zk.ui.util.Composer;
 import org.zkoss.zk.ui.util.ComposerExt;
 
 /**
+ * @deprecated after release of zkspring 3.1, suggest to use GenericForwardComposer or SelectorComposer.
  * <p>An abstract composer that you can extend and write intuitive 
  * {@link org.zkoss.spring.context.annotation.EventHandler @EventHandler}("myComponent.onXXX") event handler methods and 
  * auto-wired components in a ZK ZUML page. This class will add 

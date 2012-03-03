@@ -30,7 +30,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
@@ -50,6 +49,8 @@ import javassist.bytecode.annotation.StringMemberValue;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
 import org.reflections.scanners.FieldAnnotationsScanner;
@@ -62,15 +63,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
+ * @deprecated
  * Pre-processes Spring beans for possible auto-wiring of ZK components.<br/>
  * If initial parameter 'use-urlclassloader' is true, it uses {@link java.net.URLClassLoader} to find classpath.
  * Otherwise, it searches them by resource containing MANIFEST.MF.
- * @author ashish
+ * @author ashish, Hawk
  *
  */
 public class CoreContextListener implements ServletContextListener {
 
-	private static Logger logger = Logger.getLogger(CoreContextListener.class.getName());
+	private final Log logger = LogFactory.getLog(getClass());
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
@@ -118,7 +120,7 @@ public class CoreContextListener implements ServletContextListener {
 			
 			Set<Field> fields = reflections.getFieldsAnnotatedWith(Autowired.class);
 			int methodCounter = 0;
-			for (Iterator iterator2 = fields.iterator(); iterator2.hasNext();) {
+			for (Iterator<Field> iterator2 = fields.iterator(); iterator2.hasNext();) {
 				Field mField = (Field) iterator2.next();
 				CtClass cls = cp.get(mField.getType().getName());
 				String pckgName = cls.getPackageName();
@@ -131,8 +133,8 @@ public class CoreContextListener implements ServletContextListener {
 			mainClass.writeFile(webInf);
 			mainClass.toClass(Thread.currentThread().getContextClassLoader(),this.getClass().getProtectionDomain());
 			
-		} catch(Exception e) {
-			e.printStackTrace();
+		} catch(Throwable e) {
+			logger.error(this.getClass().getName()+" is deprecated after zkspring 3.1, please do not use it.");
 		}
 	}
 	
