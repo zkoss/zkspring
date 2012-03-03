@@ -4,7 +4,12 @@
 		apply="zkspring7.WrongValueComposer">
 
 		<textbox id="username"></textbox>
-		<button id="button" label="login" />
+		<separator/>
+		<textbox id="password"></textbox>
+		<separator/>
+		<button id="wveButton" label="WrongValueException" />
+		<button id="wvseButton" label="WrongValuesException" />
+		<button id="myEx" label="My Exception" />
 	</window>
 
 </zk>
