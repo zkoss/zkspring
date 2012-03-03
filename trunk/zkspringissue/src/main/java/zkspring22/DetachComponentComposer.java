@@ -1,4 +1,4 @@
-package zkspring.issue;
+package zkspring22;
 
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
