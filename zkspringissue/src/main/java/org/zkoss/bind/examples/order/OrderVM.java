@@ -25,15 +25,15 @@ import org.zkoss.zul.ListModelList;
 public class OrderVM {
 
 	//the order list
-	ListModelList<Order> orders;
+	ListModelList orders;
 	
 	//the selected order
 	Order selected;
 
-	public ListModelList<Order> getOrders() {
+	public ListModelList getOrders() {
 		if (orders == null) {
 			//init the list
-			orders = new ListModelList<Order>(getService().list());
+			orders = new ListModelList(getService().list());
 		}
 		return orders;
 	}
