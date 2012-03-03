@@ -1,5 +1,5 @@
 <idspace>
-<window id="window1" apply="zkspring.issue.DetachComponentComposer">
+<window id="window1" apply="zkspring22.DetachComponentComposer">
 	<label multiline="true">
 		Requires ZK 6 because of using idspace
 	</label>
