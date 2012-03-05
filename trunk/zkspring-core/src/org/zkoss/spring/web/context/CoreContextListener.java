@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
@@ -49,8 +50,6 @@ import javassist.bytecode.annotation.StringMemberValue;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
 import org.reflections.scanners.FieldAnnotationsScanner;
@@ -72,7 +71,7 @@ import com.google.common.collect.Lists;
  */
 public class CoreContextListener implements ServletContextListener {
 
-	private final Log logger = LogFactory.getLog(getClass());
+	private static Logger logger = Logger.getLogger(CoreContextListener.class.getName());
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
@@ -134,7 +133,7 @@ public class CoreContextListener implements ServletContextListener {
 			mainClass.toClass(Thread.currentThread().getContextClassLoader(),this.getClass().getProtectionDomain());
 			
 		} catch(Throwable e) {
-			logger.error(this.getClass().getName()+" is deprecated after zkspring 3.1, please do not use it.");
+			logger.severe(this.getClass().getName()+" is deprecated after zkspring 3.1, please do not use it.");
 		}
 	}
 	
