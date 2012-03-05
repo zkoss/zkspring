@@ -5,7 +5,7 @@
 	<artifactId>zkspringissue</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<zk.version>6.0.0</zk.version>
+		<zk.version>5.0.6</zk.version>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-0.0.1-SNAPSHOT-FL-${maven.build.timestamp}</packname>
 		<spring.version>3.0.5.RELEASE</spring.version>
