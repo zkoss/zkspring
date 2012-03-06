@@ -62,7 +62,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
- * @deprecated
+ * @deprecated Please use GenericForwardComposer or SelectorComposer.
  * Pre-processes Spring beans for possible auto-wiring of ZK components.<br/>
  * If initial parameter 'use-urlclassloader' is true, it uses {@link java.net.URLClassLoader} to find classpath.
  * Otherwise, it searches them by resource containing MANIFEST.MF.
@@ -133,7 +133,8 @@ public class CoreContextListener implements ServletContextListener {
 			mainClass.toClass(Thread.currentThread().getContextClassLoader(),this.getClass().getProtectionDomain());
 			
 		} catch(Throwable e) {
-			logger.severe(this.getClass().getName()+" is deprecated after zkspring 3.1, please do not use it.");
+			logger.severe(this.getClass().getName()+" is deprecated after zkspring 3.1, please do not use it. "+
+					"Please use GenericForwardComposer or SelectorComposer.");
 		}
 	}
 	
