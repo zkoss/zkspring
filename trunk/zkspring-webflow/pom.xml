@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zk</groupId>
 	<artifactId>zkspring-webflow</artifactId>
-	<version>3.1-SNAPSHOT</version>
+	<version>3.1</version>
 	<name>ZK Spring Webflow</name>
 	<description>ZK Spring Integration Library WeBflow Library</description>
 	<licenses>
@@ -18,10 +18,10 @@
 	</scm>
 
 	<properties>
-		<zk.version>6.0.0</zk.version>
+		<zk.version>[5.0.1, ]</zk.version>
 		<springwebflow.version>2.2.1.RELEASE</springwebflow.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
-		<zkspringcore.version>3.0</zkspringcore.version>
+		<zkspringcore.version>[3.0, 3.1]</zkspringcore.version>
 	</properties>
 
 	<repositories>
