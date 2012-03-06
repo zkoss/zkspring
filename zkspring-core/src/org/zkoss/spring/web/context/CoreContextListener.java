@@ -133,7 +133,7 @@ public class CoreContextListener implements ServletContextListener {
 			mainClass.toClass(Thread.currentThread().getContextClassLoader(),this.getClass().getProtectionDomain());
 			
 		} catch(Throwable e) {
-			logger.severe(this.getClass().getName()+" is deprecated after zkspring 3.1, please do not use it. "+
+			logger.severe(this.getClass().getName()+" is deprecated after zkspring 3.1. "+
 					"Please use GenericForwardComposer or SelectorComposer.");
 		}
 	}
