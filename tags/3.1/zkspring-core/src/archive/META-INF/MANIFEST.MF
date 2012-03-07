@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: ZK Spring Core Integration
-Specification-Version: 3.0
-Specification-Vendor: Potix Corporation
-Implementation-Title: org.zkoss.spring
-Implementation-URL: http://www.zkoss.org/spring
-Implementation-Version: 3.0
-Implementation-Vendor: Potix Corporation
