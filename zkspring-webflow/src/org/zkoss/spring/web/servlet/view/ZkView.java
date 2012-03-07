@@ -253,6 +253,7 @@ public class ZkView extends InternalResourceView {
 		return fragmentMap;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static Map prepareFragmentMap(Map fragmentMap, Collection comps) {
 		for (final Iterator it = comps.iterator(); it.hasNext();) {
 			final ComponentCtrl comp = (ComponentCtrl) it.next();
