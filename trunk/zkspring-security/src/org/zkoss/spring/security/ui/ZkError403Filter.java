@@ -54,6 +54,7 @@ public class ZkError403Filter extends GenericFilterBean {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		final HttpSession sess = ((HttpServletRequest) request).getSession(false);

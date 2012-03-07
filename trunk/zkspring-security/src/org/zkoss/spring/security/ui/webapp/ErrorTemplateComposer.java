@@ -30,11 +30,13 @@ import org.zkoss.zk.ui.util.GenericForwardComposer;
  */
 public class ErrorTemplateComposer extends GenericForwardComposer {
 	//override
+	@SuppressWarnings("deprecation")
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
 		session.setAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY, 
 				arg.get(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY));
 	}
+	@SuppressWarnings("deprecation")
 	public void onClose() {
 		session.removeAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY);
 	}
