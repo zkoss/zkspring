@@ -97,6 +97,7 @@ public class ZkFlowControllerListener implements EventInterceptor {
 			} else {
 				final Component comp = event.getTarget();
 				//for bookmark event, target is null
+				@SuppressWarnings("deprecation")
 				final Annotation annt = comp == null?null:((ComponentCtrl)comp).getAnnotation("action"); //@{action(search)}
 				if (annt != null) {
 					String flowWhen = annt.getAttribute("when");
