@@ -1,0 +1,16 @@
+<?page id="loginOK" title="Login OK"?>
+<zk>
+<style>
+	body {height:90%}
+</style>
+<html height="100px">
+<attribute name="content">
+<p>&#160;</p>
+<div align="center">
+<h3>${execution.userPrincipal.name}</h3>
+<p></p>
+<h3>Login Successfully</h3>
+</div>
+</attribute>
+</html>
+</zk>
