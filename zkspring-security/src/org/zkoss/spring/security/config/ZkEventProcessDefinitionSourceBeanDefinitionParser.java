@@ -28,7 +28,6 @@ import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 //import org.springframework.security.ConfigAttributeEditor;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.ConfigAttributeEditor;
 import org.springframework.security.config.http.ZkEventSecurityBeanDefinitionParser;
 import org.springframework.security.web.util.UrlMatcher;
 //import org.springframework.security.util.UrlMatcher;
@@ -63,11 +62,11 @@ extends	AbstractSingleBeanDefinitionParser {
         builder.addConstructorArgValue(requestMap);
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "deprecation" })
 	public static LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>> parseInterceptEventsForZkEventProcessMap(List elms,  ParserContext parserContext) {
         LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>> eventProcessDefinitionMap = new LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>>();
         
-        ConfigAttributeEditor editor = new ConfigAttributeEditor();
+        org.springframework.security.access.ConfigAttributeEditor editor = new org.springframework.security.access.ConfigAttributeEditor();
         for (final Iterator it = elms.iterator(); it.hasNext();) {
             Element elm = (Element) it.next();
 

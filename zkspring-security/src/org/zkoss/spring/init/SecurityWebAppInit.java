@@ -40,6 +40,7 @@ import org.zkoss.zk.ui.util.Configuration;
 public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 	private static String RESOLVER_CLASS = org.zkoss.spring.DelegatingVariableResolver.RESOLVER_CLASS;
 	private static String SECURITY_RESOLVER = "org.zkoss.spring.init.SecurityVariableResolver";
+	@SuppressWarnings("deprecation")
 	public void init(WebApp wapp) throws Exception {
 		final Configuration conf = wapp.getConfiguration();
 		
