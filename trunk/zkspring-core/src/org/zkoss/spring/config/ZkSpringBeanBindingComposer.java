@@ -93,6 +93,7 @@ public class ZkSpringBeanBindingComposer implements Composer {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void bindController(Component target, String controllerId, String fid) {
 		if (controllerId != null && target.getAttribute(BIND_CONTROLLER+"_"+controllerId) == null) {
 			target.setAttribute(BIND_CONTROLLER+"_"+controllerId, Boolean.TRUE);
