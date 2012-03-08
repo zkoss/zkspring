@@ -19,7 +19,6 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 package org.zkoss.spring.config;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
-import org.zkoss.spring.context.annotation.ZkComponentScanBeanDefinitionParser;
 
 /**
  * Registers the bean definition parsers for the ZK + Spring with Annotation namespace.
@@ -29,9 +28,10 @@ import org.zkoss.spring.context.annotation.ZkComponentScanBeanDefinitionParser;
  */
 public class ZkSpringAnnotationNamespaceHandler extends NamespaceHandlerSupport {
 
+	@SuppressWarnings("deprecation")
 	public void init() {
 		//--Spring bean--//
 		//<component-scan />
-		registerBeanDefinitionParser("component-scan", new ZkComponentScanBeanDefinitionParser());
+		registerBeanDefinitionParser("component-scan", new org.zkoss.spring.context.annotation.ZkComponentScanBeanDefinitionParser());
 	}
 }
