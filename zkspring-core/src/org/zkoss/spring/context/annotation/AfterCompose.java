@@ -25,6 +25,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * @deprecated after release of zkspring 3.1, suggest to use SelectorComposer or GenericForwardComposer
+ * 
  * Used to specify a method that would be called after the associated ZK 
  * component is composed.
  * @author henrichen

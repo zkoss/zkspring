@@ -25,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @deprecated after release of zkspring 3.1, suggest to use GenericForwardComposer or SelectorComposer.
+ * @deprecated after release of zkspring 3.1, suggest to use SelectorComposer or GenericForwardComposer
  * Used to annotate method as an event listener of the specified target ZK 
  * component and event name in the form of "abc.onXyz". 
  * 
