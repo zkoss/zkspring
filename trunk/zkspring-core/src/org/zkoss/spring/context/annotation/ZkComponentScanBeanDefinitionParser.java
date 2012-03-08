@@ -29,8 +29,9 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ComponentScanBeanDefinitionParser;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
-
+//this class was disabled since revision 20 because of the GenericSpringComposer introduced.
 /**
+ * @deprecated after release of zkspring 3.1, suggest to use SelectorComposer or GenericForwardComposer
  * Enhanced version to handle annotation based ZK component Spring bean definition.
  * @author henrichen
  */

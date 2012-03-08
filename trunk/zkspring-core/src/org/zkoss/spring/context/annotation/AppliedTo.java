@@ -26,6 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * @deprecated after release of zkspring 3.1, suggest to use SelectorComposer or GenericForwardComposer
  * Used to specify the associated ZK component for the annotated controller class.
  * @author henrichen
  *

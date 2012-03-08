@@ -55,7 +55,11 @@ import org.zkoss.zk.ui.Components;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 
+//this class was disabled since revision 20 because of the GenericSpringComposer introduced.
+//since we have SelectorComposer and GenericForwardComposer, so we also deprecated AppliedTo
 /**
+ * @deprecated after release of zkspring 3.1, suggest to use SelectorComposer or GenericForwardComposer
+ * 
  * An enhanced {@link ClassPathBeanDefinitionScanner} which not only detects bean 
  * candidates on the classpath but also those ZK component fields (with 
  * {@link @Resource} annotation) defined in such candidate beans annotated as 
@@ -127,6 +131,7 @@ public class ZkClassPathBeanDefinitionScanner extends ClassPathBeanDefinitionSca
 			}
 		});
 		ReflectionUtils.doWithMethods(klass, new ReflectionUtils.MethodCallback() {
+			@SuppressWarnings("deprecation")
 			public void doWith(Method method) {
 				if (method.isAnnotationPresent(Resource.class) &&
 						method.equals(ClassUtils.getMostSpecificMethod(method, klass))) {
