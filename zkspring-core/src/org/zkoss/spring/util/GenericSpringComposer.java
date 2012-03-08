@@ -15,7 +15,6 @@ import java.util.Set;
 
 import org.zkoss.lang.Classes;
 import org.zkoss.spring.SpringUtil;
-import org.zkoss.spring.context.annotation.EventHandler;
 import org.zkoss.util.CollectionsX;
 import org.zkoss.util.logging.Log;
 import org.zkoss.zk.ui.Component;
@@ -163,8 +162,8 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 		Annotation[] annotations = md.getAnnotations();
 		for (int j = 0; j < annotations.length; j++) {
 			Annotation a = annotations[j];
-			if (a instanceof EventHandler) {
-				return ((EventHandler) a).value();
+			if (a instanceof org.zkoss.spring.context.annotation.EventHandler) {
+				return ((org.zkoss.spring.context.annotation.EventHandler) a).value();
 			}
 		}
 		return null;
@@ -241,7 +240,7 @@ public class GenericSpringComposer implements Composer, ComposerExt, EventListen
 						new Class[] { Event.class });
 				if (mtd != null) {
 					if (mtd.getParameterTypes().length == 0)
-						mtd.invoke(this, null);
+						mtd.invoke(this, (Object[])null); //this line won't be execute because above line get a method with Event parameter
 					else if (evt instanceof ForwardEvent) { //ForwardEvent
 						final Class paramcls = (Class) mtd.getParameterTypes()[0];
 						//paramcls is ForwardEvent || Event
