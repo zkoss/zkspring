@@ -36,6 +36,7 @@ public class SpringUtil {
 	/**
 	 * Get the spring application context.
 	 */
+	@SuppressWarnings("deprecation")
 	public static ApplicationContext getApplicationContext() {
 		Execution exec = Executions.getCurrent();
 		if (exec == null) {
