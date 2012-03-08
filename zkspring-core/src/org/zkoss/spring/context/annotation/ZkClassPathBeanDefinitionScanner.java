@@ -48,7 +48,6 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.zkoss.spring.bean.ZkComponentFactoryBean;
-import org.zkoss.spring.bean.ZkMethodEventListener;
 import org.zkoss.util.CollectionsX;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Components;
@@ -211,7 +210,7 @@ public class ZkClassPathBeanDefinitionScanner extends ClassPathBeanDefinitionSca
 	//handle registration of @EventHandler("abc.onXyz") ZkMethodEventListener
 	private void registerZkEventListener(String beanid, String controllername, String methodname, String scope) {
         final BeanDefinitionBuilder builder = 
-        	BeanDefinitionBuilder.rootBeanDefinition(ZkMethodEventListener.class);
+        	BeanDefinitionBuilder.rootBeanDefinition(org.zkoss.spring.bean.ZkMethodEventListener.class);
         builder.setScope(scope);
        	builder.addConstructorArgValue(controllername);
        	builder.addConstructorArgValue(methodname);
