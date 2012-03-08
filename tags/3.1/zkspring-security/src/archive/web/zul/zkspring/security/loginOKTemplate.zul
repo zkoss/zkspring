@@ -1,0 +1,25 @@
+<window width="100%" height="100%" xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd"
+	apply="org.zkoss.spring.security.ui.webapp.LoginOKTemplateComposer">
+	<custom-attributes loginOKDelay="${param.loginOKDelay}"/> 
+	<borderlayout>
+	<center border="none">
+		<iframe id="loginOKfrm" width="100%" height="100%" src="${param.loginOKUrl}"/>
+	</center>
+	<south id="btnrgn" size="50px" border="none">
+		<div width="100%" align="center">
+			<separator spacing="10px"/>
+			<button id="closebtn" width="100px"/>
+		</div>
+	</south>
+	</borderlayout>
+	<timer id="closetm" repeats="true" delay="500" running="false" />
+	
+	<h:form id="closePopupForm" target="_parent" action="${param.savedUrl}" method="POST" visible="false" if="${!empty param.savedUrl}">
+		<h:input name="dt" value="${param.desktop}"/>
+		<h:input name="rm" value="${param.loginWin}" if="${!empty param.loginWin}"/>
+	</h:form>
+	<h:form id="closePopupForm" action="~./zul/zkspring/security/closePopup.zul" method="POST" visible="false" if="${empty param.savedUrl}"/>
+</window>

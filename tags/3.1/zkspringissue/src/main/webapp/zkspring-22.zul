@@ -1,0 +1,22 @@
+<zk >
+
+<window id="window" title="teszt" 
+	apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.zkoss.bind.examples.order.OrderVM')">
+
+<!--
+ -->
+		<listbox id="listbox" model="@load(vm.orders)" selectedItem="@bind(vm.selected)">
+			<listhead>
+				<listheader label="Id"/>
+				<listheader label="Quantity"/>
+			</listhead>
+			<template name="model" var="item">
+				<listitem >
+					<listcell label="@load(item.id)"/>				
+					<listcell label="@load(item.quantity)"/>
+				</listitem>
+			</template>
+		</listbox>
+ </window>
+
+</zk>
