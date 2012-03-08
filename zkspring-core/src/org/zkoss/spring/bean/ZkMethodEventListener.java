@@ -30,6 +30,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.ForwardEvent;
 
 /**
+ * @deprecated after release of zkspring 3.1, suggest to use SelectorComposer or GenericForwardComposer
+ * 
  * ZKMethodEventListener initialize as late as when first event handled. 
  * @author henrichen
  *
@@ -75,7 +77,7 @@ public class ZkMethodEventListener implements EventListener {
 	public void onEvent(Event evt) throws Exception {
 		init();
 		if (_mtd.getParameterTypes().length == 0) {
-			_mtd.invoke(_controller, null);
+			_mtd.invoke(_controller, (Object[])null);
 		} else if (evt instanceof ForwardEvent) { //ForwardEvent
 			final Class paramcls = (Class) _mtd.getParameterTypes()[0];
 			//paramcls is ForwardEvent || Event
