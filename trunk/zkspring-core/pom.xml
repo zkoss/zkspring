@@ -25,6 +25,7 @@
 		<servlet-api.version>2.4</servlet-api.version>
 		<javassist.version>3.14.0-GA</javassist.version>
 		<reflections.version>0.9.5-RC2</reflections.version>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<repositories>
 		<repository>
@@ -118,7 +119,6 @@
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>${reflections.version}</version>
-			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>javassist</groupId>
@@ -128,16 +128,13 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/archive</directory>
+			</resource>
+		</resources>	
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-				<source>1.6</source>
-				<target>1.6</target>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 </project>

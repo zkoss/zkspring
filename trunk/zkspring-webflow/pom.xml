@@ -20,10 +20,11 @@
 	</scm>
 
 	<properties>
-		<zk.version>[5.0.1, ]</zk.version>
+		<zk.version>[5.0.1, 6.0.0]</zk.version>
 		<springwebflow.version>2.2.1.RELEASE</springwebflow.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
 		<zkspringcore.version>[3.0, 3.1]</zkspringcore.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
@@ -85,14 +86,12 @@
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkplus</artifactId>
 			<version>${zk.version}</version>
-			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkspring-core</artifactId>
 			<version>[3.1,]</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.el</groupId>
@@ -102,5 +101,12 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
-
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/archive</directory>
+			</resource>
+		</resources>	
+	</build>
 </project>
