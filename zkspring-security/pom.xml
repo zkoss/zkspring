@@ -23,6 +23,7 @@
 		<zkel.version>1.0.2</zkel.version>
 		<springsecurity.version>3.0.5.RELEASE</springsecurity.version>
 		<servlet-api.version>2.4</servlet-api.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<repositories>
 		<repository>
@@ -96,4 +97,12 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/archive</directory>
+			</resource>
+		</resources>	
+	</build>	
 </project>
