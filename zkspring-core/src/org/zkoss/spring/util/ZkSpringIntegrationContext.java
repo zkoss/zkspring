@@ -24,7 +24,7 @@ import org.zkoss.zk.xel.impl.ExecutionResolver;
  * This class provides ThreadLocal storage of context components. Nomally it is
  * used to set context components prior to injecting child ZK compoents in
  * subclasses extending {@link GenericComposer}
- * </p
+ * </p>
  * <p>
  * This class also provides utility methods to set/get self component used while
  * publishing events using CDI event notification model
