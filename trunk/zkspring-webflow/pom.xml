@@ -5,7 +5,8 @@
 	<artifactId>zkspring-webflow</artifactId>
 	<version>3.1</version>
 	<name>ZK Spring Webflow</name>
-	<description>ZK Spring Integration Library WeBflow Library</description>
+	<description>ZK Spring Integration Library Webflow Library</description>
+	<url>http://www.zkoss.org/zkspring-webflow</url>
 	<licenses>
 		<license>
 			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
@@ -14,6 +15,7 @@
 		</license>
 	</licenses>
 	<scm>
+		<connection>scm:svn:http://code.google.com/p/zkspring/source/browse/</connection>
 		<url>http://code.google.com/p/zkspring/source/browse/</url>
 	</scm>
 
