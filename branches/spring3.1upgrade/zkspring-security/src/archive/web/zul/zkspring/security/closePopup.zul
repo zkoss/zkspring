@@ -1,0 +1,7 @@
+<?page title="Close Popup Window"?>
+<zk>
+<!-- 
+This is a marker page. 
+The Popup window will check if this page is in its iframe and close self.
+-->
+</zk>

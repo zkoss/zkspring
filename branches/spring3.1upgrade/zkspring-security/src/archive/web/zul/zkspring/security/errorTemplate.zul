@@ -1,0 +1,20 @@
+<?page id="errorFrame" title="${empty arg.title ? 'Error' : arg.title}"?>
+<window title="${empty arg.title ? 'Error' : arg.title}" 
+	width="${empty arg.width ? '500px' : arg.width}" 
+	height="${empty arg.height ? '320px' : arg.height}" 
+	border="normal" closable="true" sizable="true" mode="highlighted"
+	apply="org.zkoss.spring.security.ui.webapp.ErrorTemplateComposer">
+	<zscript>
+	<![CDATA[//@IMPORT
+	import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+	]]>
+	<![CDATA[
+		session.setAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY, 
+				arg.get(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY));
+	]]>
+	</zscript>
+	<attribute name="onClose">
+		session.removeAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY);
+	</attribute>
+	<iframe width="100%" height="100%"  src="${arg.errorUrl}"/>
+</window>

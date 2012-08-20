@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.zkoss.org/2008/zkspring/security" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://www.zkoss.org/2008/zkspring/security"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	
+	<xs:import namespace="http://www.springframework.org/schema/beans" />
+	<!-- ZK Spring Security -->
+	<xs:element name="zk-event-process-definition-source">
+        <xs:annotation>
+			<xs:documentation>Used to explicitly configure a 
+			ZkEventProcessDefinitionSource bean for use	with a ZkEventProcessInterceptor.
+			</xs:documentation>
+		</xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="intercept-event" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Spcifies the access attributes for a 
+						particular set of Components and events.Used to explicitly 
+						configure a ZkEventProcessDefinitionSource bean for use
+						with a ZkEventProcessInterceptor.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="intercept-event.attlist"/>
+					</xs:complexType>
+				</xs:element> 
+			</xs:sequence>
+			<xs:attributeGroup ref="fids.attlist"/>
+		</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="form-login">
+    	<xs:annotation>
+    		<xs:documentation>Specifies the attributes of the login template window</xs:documentation> 
+    	</xs:annotation>
+    	<xs:complexType>
+	    	<xs:attributeGroup ref="form-login.attlist" />
+    	</xs:complexType>
+    </xs:element>
+    
+	<xs:element name="intercept-event">
+    	<xs:annotation>
+    		<xs:documentation>Specifies which zk event to be secured</xs:documentation> 
+    	</xs:annotation>
+		<xs:complexType>
+			<xs:attributeGroup ref="intercept-event.attlist" />
+		</xs:complexType>
+	</xs:element>
+    
+    <xs:element name="zk-event">
+    	<xs:annotation>
+    		<xs:documentation>Container element for ZK event security configuration
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:complexType>
+    		<xs:choice minOccurs="0" maxOccurs="1">
+	    		<xs:sequence>
+	    			<xs:element ref="form-login" />
+	    			<xs:element ref="intercept-event" minOccurs="0" maxOccurs="unbounded"/>
+	    		</xs:sequence>
+	    		<xs:sequence>
+	    			<xs:element ref="intercept-event" minOccurs="1" maxOccurs="unbounded"/>
+	    			<xs:element ref="form-login" minOccurs="0" maxOccurs="1" />
+	    		</xs:sequence>
+	    	</xs:choice>
+	    	<xs:attributeGroup ref="zk-event.attlist" />
+    	</xs:complexType>
+    </xs:element>
+    
+    <xs:attributeGroup name="zk-event.attlist">
+    	<xs:attribute name="path-type">
+    		<xs:annotation>
+    			<xs:documentation>Specify which kind of string pattern to use
+    			for the 'path' attribute in the enclosed &lt;intercept-event> element.
+    			Default to 'ant'. 
+    			</xs:documentation>
+    		</xs:annotation>
+	    	<xs:simpleType>
+	    		<xs:restriction base="xs:token">
+	    			<xs:enumeration value="ant"/>
+	    			<xs:enumeration value="regex"/>
+	    		</xs:restriction>
+	    	</xs:simpleType>
+	    </xs:attribute>
+    	<xs:attribute name="login-template-close-delay" type="xs:integer">
+    		<xs:annotation>
+    			<xs:documentation>The delay time in second to close the login 
+    			window after successful authentication. 0 means close immediately. 
+    			Negative value means do not close automatically.
+    			</xs:documentation>
+    		</xs:annotation>
+    	</xs:attribute>
+<!-- 
+    	<xs:attribute name="login-template" type="xs:string">
+    		<xs:annotation>
+    			<xs:documentation>The URL for the login window template. It must
+    			be a zul file for Ajax login window "frame". Default to 
+    			"~./zul/zkspring/security/loginTemplate.zul"
+    			</xs:documentation>
+    		</xs:annotation>
+    	</xs:attribute>
+    	<xs:attribute name="error-template" type="xs:string">
+    		<xs:annotation>
+    			<xs:documentation>The URL for the error window template. It must
+    			be a zul file for Ajax error message window "frame". Default to
+    			"~./zul/zkspring/security/errorTemplate.zul"
+    			</xs:documentation>
+    		</xs:annotation>
+    	</xs:attribute>
+    	<xs:attribute name="entry-point-ref" type="xs:string">
+    		<xs:annotation>
+    			<xs:documentation>Allow a customized AuthenticationEntryPoint for ZK Event processing.
+    			</xs:documentation>
+    		</xs:annotation>
+    	</xs:attribute>
+-->
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="intercept-event.attlist">
+    	<xs:attribute name="path" use="required" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>Specify the path(in pattern) of the component that receives the secured ZK event.
+	    		</xs:documentation>
+	    	</xs:annotation>
+    	</xs:attribute>
+    	<xs:attribute name="access" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>Specify authorized comma delimited access roles to the specified ZK event.
+	    		</xs:documentation>
+	    	</xs:annotation>
+    	</xs:attribute>
+    	<xs:attribute name="event" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>Specify the ZK event name to be secured. If not specified, means All.
+	    		</xs:documentation>
+	    	</xs:annotation>
+    	</xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="form-login.attlist">
+    	<xs:attribute name="force-https" type="xs:boolean">
+    		<xs:annotation>
+	    		<xs:documentation>Whether force using HTTPS to do login. Default
+	    		to "false".
+	    		</xs:documentation>
+    		</xs:annotation>
+    	</xs:attribute>
+   		<xs:attribute name="login-ok-url" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>The URL that will be redirected to after successful
+	    		authentication. Default to "~./zul/loginOK.zul"
+	    		</xs:documentation>
+	    	</xs:annotation>
+	    </xs:attribute>
+	    <xs:attribute name="login-page" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>The URL of the login form page for
+	    		authentication. Default to login page defined in &lt;form-page login-page="...">.
+	    		</xs:documentation>
+	    	</xs:annotation>
+	    </xs:attribute>
+   		<xs:attribute name="title" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>The title of the login template window. Default to "login".
+	    		</xs:documentation>
+	    	</xs:annotation>
+	    </xs:attribute>
+   		<xs:attribute name="width" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>The width of the login template window. Default to "500px".
+	    		</xs:documentation>
+	    	</xs:annotation>
+	    </xs:attribute>
+   		<xs:attribute name="height" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>The height of the login template window. Default to "320px".
+	    		</xs:documentation>
+	    	</xs:annotation>
+	    </xs:attribute>
+	    <xs:attribute name="authentication-failure-url" type="xs:string">
+	    	<xs:annotation>
+	    		<xs:documentation>The url when authentication failed (e.g. wrong username and/or password). 
+	    		Default to original login url.
+	    		</xs:documentation>
+	    	</xs:annotation>
+	    </xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="fids.attlist">
+    	<xs:attribute name="id" type="xs:ID">
+    	</xs:attribute>
+    	<xs:attribute name="path-type">
+	    	<xs:simpleType>
+	    		<xs:restriction base="xs:token">
+	    			<xs:enumeration value="ant"/>
+	    			<xs:enumeration value="regex"/>
+	    		</xs:restriction>
+	    	</xs:simpleType>
+	    </xs:attribute>
+	</xs:attributeGroup>
+</xs:schema>	
+
