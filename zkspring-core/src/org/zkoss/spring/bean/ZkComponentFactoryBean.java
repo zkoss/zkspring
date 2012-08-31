@@ -118,6 +118,10 @@ public class ZkComponentFactoryBean implements FactoryBean, InitializingBean, Be
 		return _component;
 	}
 	
+	/**
+	 * retrieve a ZK component upon this bean's properties, path first, then beanName.
+	 * @return a ZK component
+	 */
 	private Object getObject0() {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
@@ -126,37 +130,39 @@ public class ZkComponentFactoryBean implements FactoryBean, InitializingBean, Be
 				return Path.getComponent(path);
 			} else {
 				final Page page = ((ExecutionCtrl)exec).getCurrentPage();
-				final Component self = (Component) page.getAttribute("self");
-				if (self != null) { //loading page
-					if (Components.isImplicit(getBeanName())) {
-						return Components.getImplicit(self, getBeanName());
-					}
-					if (path == null) {
-						//sometimes, Spring can instantiate partially, the bean name might be null
-						if (getBeanName() != null) { 
-							return self.getAttribute(getBeanName(), false);
-						}
-					} else 	if (path.startsWith(".")) { //relative path
-						return Path.getComponent(self.getSpaceOwner(), path);
-					} else {
-						return self.getAttribute(path, false);
-					}
-				} else { //handling event
-					final Scope scope = Scopes.getCurrent(page);
-					if (scope != null) {
-						final Component xself = (Component) scope.getAttribute("self", true);
+				if (page != null){
+					final Component self = (Component) page.getAttribute("self");
+					if (self != null) { //loading page
 						if (Components.isImplicit(getBeanName())) {
-							return Components.getImplicit(xself, getBeanName());
+							return Components.getImplicit(self, getBeanName());
 						}
 						if (path == null) {
 							//sometimes, Spring can instantiate partially, the bean name might be null
 							if (getBeanName() != null) { 
-								return scope.getAttribute(getBeanName(), true);
+								return self.getAttribute(getBeanName(), false);
 							}
-						} else if (path.startsWith(".")) { //relative path
-							return Path.getComponent(xself.getSpaceOwner(), path);
+						} else 	if (path.startsWith(".")) { //relative path
+							return Path.getComponent(self.getSpaceOwner(), path);
 						} else {
-							return scope.getAttribute(path, true);
+							return self.getAttribute(path, false);
+						}
+					} else { //handling event
+						final Scope scope = Scopes.getCurrent(page);
+						if (scope != null) {
+							final Component xself = (Component) scope.getAttribute("self", true);
+							if (Components.isImplicit(getBeanName())) {
+								return Components.getImplicit(xself, getBeanName());
+							}
+							if (path == null) {
+								//sometimes, Spring can instantiate partially, the bean name might be null
+								if (getBeanName() != null) { 
+									return scope.getAttribute(getBeanName(), true);
+								}
+							} else if (path.startsWith(".")) { //relative path
+								return Path.getComponent(xself.getSpaceOwner(), path);
+							} else {
+								return scope.getAttribute(path, true);
+							}
 						}
 					}
 				}
@@ -165,6 +171,10 @@ public class ZkComponentFactoryBean implements FactoryBean, InitializingBean, Be
 		return null;
 	}
 
+	/**
+	 * Return the object type this factory bean will create for Spring framework to match bean's property type when auto-wiring beans.
+	 * @see org.springframework.beans.factory.FactoryBean#getObjectType()
+	 */
 	public Class getObjectType() {
 		if (_component != null) {
 			return _component.getClass();
