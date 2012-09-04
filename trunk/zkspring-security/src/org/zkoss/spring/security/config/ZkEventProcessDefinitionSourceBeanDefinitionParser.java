@@ -26,17 +26,15 @@ import java.util.List;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-//import org.springframework.security.ConfigAttributeEditor;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.config.http.ZkEventSecurityBeanDefinitionParser;
-import org.springframework.security.web.util.UrlMatcher;
-//import org.springframework.security.util.UrlMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 import org.zkoss.spring.security.intercept.zkevent.EventProcessKey;
 import org.zkoss.spring.security.intercept.zkevent.ZkEventProcessDefinitionSource;
 import org.zkoss.spring.security.intercept.zkevent.ZkEventProcessDefinitionSourceImpl;
+import org.zkoss.spring.security.util.UrlMatcher;
 
 /**
  * Allows for convenient creation of a {@link ZkEventProcessDefinitionSource} 

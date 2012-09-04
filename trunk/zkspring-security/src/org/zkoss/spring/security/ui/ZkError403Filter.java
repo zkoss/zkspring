@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.web.filter.GenericFilterBean;
@@ -65,7 +66,7 @@ public class ZkError403Filter extends GenericFilterBean {
         
 		//process ZkAccessDeniedHandler iframe in errorTemplate
         final AccessDeniedException accessDeniedException = 
-        	(AccessDeniedException)	sess.getAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY);
+        	(AccessDeniedException)	sess.getAttribute(WebAttributes.ACCESS_DENIED_403);
         
         if (accessDeniedException != null) {
             //FireFox will fire iframe src request twice. 
@@ -73,7 +74,6 @@ public class ZkError403Filter extends GenericFilterBean {
             //therefore, we won't remove the attribute here, we remove it when the errorTemplate
             //is closed.
             
-           	//sess.removeAttribute(ZkAccessDeniedHandler.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY);
 
             final String uri = ((HttpServletRequest) request).getRequestURI();
         	final String ctxpath = ((HttpServletRequest) request).getContextPath();
@@ -82,7 +82,7 @@ public class ZkError403Filter extends GenericFilterBean {
         		_accessDeniedHandler.handle((HttpServletRequest)request, (HttpServletResponse) response, accessDeniedException);
         		return;
 	    	} else {
-	    		request.setAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY, accessDeniedException);
+	    		request.setAttribute(WebAttributes.ACCESS_DENIED_403, accessDeniedException);
 	    	}
         }
         chain.doFilter(request, response);

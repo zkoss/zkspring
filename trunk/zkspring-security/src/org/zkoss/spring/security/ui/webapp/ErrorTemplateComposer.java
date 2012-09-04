@@ -19,7 +19,7 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 package org.zkoss.spring.security.ui.webapp;
 
 //import org.springframework.security.ui.AccessDeniedHandlerImpl;
-import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.WebAttributes;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 
@@ -33,12 +33,12 @@ public class ErrorTemplateComposer extends GenericForwardComposer {
 	@SuppressWarnings("deprecation")
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-		session.setAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY, 
-				arg.get(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY));
+		session.setAttribute(WebAttributes.ACCESS_DENIED_403, 
+				arg.get(WebAttributes.ACCESS_DENIED_403));
 	}
 	@SuppressWarnings("deprecation")
 	public void onClose() {
-		session.removeAttribute(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY);
+		session.removeAttribute(WebAttributes.ACCESS_DENIED_403);
 	}
 }
 
