@@ -20,8 +20,6 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 package org.zkoss.spring.security.config;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
@@ -40,7 +38,6 @@ import org.zkoss.spring.bean.ZkSpringUiFactory;
 import org.zkoss.spring.impl.ZKProxy;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.http.WebManager;
 import org.zkoss.zk.ui.sys.DesktopCache;
@@ -73,7 +70,6 @@ public class ZkDesktopReuseFilter extends GenericFilterBean implements
 	
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
 		// If ever applied, go directly to next
         if(((HttpServletRequest) request).getSession(false) == null || request.getAttribute(FILTER_APPLIED) != null) {
             chain.doFilter(request, response);

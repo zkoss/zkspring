@@ -27,6 +27,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
@@ -90,6 +92,7 @@ import org.zkoss.zk.ui.sys.ExecutionCtrl;
 public class ZkExceptionTranslationListener implements EventThreadCleanup {
 	private static final String DEFAULT_EXCEPTION_TRANSLATION_FILTER_NAME = "zkExceptionTranslationFilter";
 	public static final String ZK_EXCEPTION_TRANSLATION = "zkspring.ZK_EXCEPTION_TRANSLATION";
+	private final Log logger = LogFactory.getLog(getClass());
 	
 	public void cleanup(Component comp, Event evt, List errs) throws Exception {
 		if (errs != null && !errs.isEmpty() && errs.size() == 1) {
@@ -143,6 +146,9 @@ public class ZkExceptionTranslationListener implements EventThreadCleanup {
 					ServletResponse arg1) throws IOException,
 					ServletException {
 					//throw exception to trigger login
+					if (logger.isDebugEnabled()) {
+						logger.debug("throw "+ex);
+					}
 					if (ex instanceof AuthenticationException) {
 						throw (AuthenticationException) ex;
 					} else if (ex instanceof AccessDeniedException) {

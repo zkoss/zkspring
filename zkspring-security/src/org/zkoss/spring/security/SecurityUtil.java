@@ -144,7 +144,7 @@ public class SecurityUtil {
 		if (null == authorities || "".equals(authorities)) {
 			return false;
 		}
-        final Collection<GrantedAuthority> granted = getPrincipalAuthorities();
+        final Collection<? extends GrantedAuthority> granted = getPrincipalAuthorities();
         final Set grantedCopy = retainAll(granted, parseAuthoritiesString(authorities));
         return grantedCopy.isEmpty();
 	}
@@ -162,7 +162,7 @@ public class SecurityUtil {
 		if (null == authorities || "".equals(authorities)) {
 			return false;
 		}
-        final Collection<GrantedAuthority> granted = getPrincipalAuthorities();
+        final Collection<? extends GrantedAuthority> granted = getPrincipalAuthorities();
         boolean isAllGranted = granted.containsAll(parseAuthoritiesString(authorities)); 
         return isAllGranted;
 	}
@@ -180,7 +180,7 @@ public class SecurityUtil {
 		if (null == authorities || "".equals(authorities)) {
 			return false;
 		}
-        final Collection<GrantedAuthority> granted = getPrincipalAuthorities();
+        final Collection<? extends GrantedAuthority> granted = getPrincipalAuthorities();
         final Set grantedCopy = retainAll(granted, parseAuthoritiesString(authorities));
         return !grantedCopy.isEmpty();
 	}
@@ -327,7 +327,7 @@ public class SecurityUtil {
         return target;
     }
 
-	private static Collection<GrantedAuthority> getPrincipalAuthorities() {
+	private static Collection<? extends GrantedAuthority> getPrincipalAuthorities() {
 	    Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 	
 	    if (null == currentUser) {
@@ -338,8 +338,9 @@ public class SecurityUtil {
 	        return Collections.emptyList();
 	    }
 	
-	    Collection<GrantedAuthority> granted = currentUser.getAuthorities();
+	    Collection<? extends GrantedAuthority> granted = currentUser.getAuthorities();
 	
+	    
 	    return granted;
 	}
 
@@ -376,7 +377,7 @@ public class SecurityUtil {
      *
      * @return A set containing only the common authorities between <var>granted</var> and <var>required</var>.
      */
-    private static Set retainAll(final Collection<GrantedAuthority> granted, final Collection<GrantedAuthority> required) {
+    private static Set retainAll(final Collection<? extends GrantedAuthority> granted, final Collection<GrantedAuthority> required) {
         Set grantedRoles = authoritiesToRoles(granted);
         Set requiredRoles = authoritiesToRoles(required);
         grantedRoles.retainAll(requiredRoles);

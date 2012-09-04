@@ -27,13 +27,18 @@ import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.zkoss.zk.ui.event.Event;
 
 /**
+ * <p>
  * Interceptor to secure event processing per the {@link org.zkoss.zk.ui.Component} 
  * path pattern and event name.
+ * Determine if the request relates to a secured or public invocation by looking up the secure object request against the SecurityMetadataSource.
+ * </p>
+ * About AbstractSecurityInterceptor's basic concept, refer to Spring Security Reference 3.0.7 "Secure Objects and the AbstractSecurityInterceptor".
  * @author henrichen
  * @since 1.0
  */
 public class ZkEventProcessInterceptor extends AbstractSecurityInterceptor {
 	private InterceptorStatusToken _token;
+	//{Event= {Component-Path = Role} } map, e.g. onClick={/mybtn_*=[ROLE_TELLER]}
     private SecurityMetadataSource _securityMetadataSource;
 	
 	public Class getSecureObjectClass() {
@@ -59,7 +64,6 @@ public class ZkEventProcessInterceptor extends AbstractSecurityInterceptor {
 
 	@Override
 	public SecurityMetadataSource obtainSecurityMetadataSource() {
-		// TODO Auto-generated method stub
 		return _securityMetadataSource;
 	}
 }

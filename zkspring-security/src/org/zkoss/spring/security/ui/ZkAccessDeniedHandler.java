@@ -23,14 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.zkoss.zk.ui.Executions;
 
 /**
@@ -57,7 +55,7 @@ public class ZkAccessDeniedHandler implements AccessDeniedHandler {
 		final Map args = new HashMap(getErrorTemplateArgs());
 		
 	    // Put exception into argument and session (perhaps of use to a view)
-	    args.put(AccessDeniedHandlerImpl.SPRING_SECURITY_ACCESS_DENIED_EXCEPTION_KEY, accessDeniedException);
+	    args.put(WebAttributes.ACCESS_DENIED_403, accessDeniedException);
 		args.put("errorUrl", ERROR_403_URL);
 		
 	    Executions.createComponents(

@@ -20,8 +20,6 @@ package org.zkoss.spring.security.config;
 
 import java.util.List;
 
-//import org.springframework.security.context.SecurityContext;
-//import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.zkoss.zk.ui.Component;
