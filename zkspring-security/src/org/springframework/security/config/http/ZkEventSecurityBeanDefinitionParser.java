@@ -37,6 +37,7 @@ import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.config.BeanIds;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
@@ -91,7 +92,10 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
     public static final String ATT_LOGIN_OK_URL = "login-ok-url";
     public static final String ATT_AUTHENTICATION_FAILURE_URL = "authentication-failure-url";
     public static final String ATT_FORCE_HTTPS = "force-https";
-    
+
+	//only Spring Security 3.1.x contains this bean
+	public static final String SPRING_SECURITY_31_FILTER_CHAIN = "org.springframework.security.filterChains";
+	
 	public BeanDefinition parse(Element element, ParserContext pc) {
         //Filter for ZK desktop reuse (used in http -> https)
         addHttpFilter(pc, ZkBeanIds.ZK_DESKTOP_REUSE_FILTER, ZkDesktopReuseFilter.class);
@@ -199,14 +203,11 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 	 * @param filterClassName full-qualified class name
 	 */
 	private RootBeanDefinition getStandardFilter(ParserContext pc,	String filterClassName) {
-		//only Spring Security 3.1.x contains this bean
-		final String SPRING_SECURITY_31_FILTER_CHAIN = "org.springframework.security.filterChains";
         
-		if (pc.getRegistry().containsBeanDefinition(SPRING_SECURITY_31_FILTER_CHAIN) == false){
-			//run with Spring Security 3.0.x
+		if (SpringSecurityCoreVersion.getVersion().indexOf("3.0")>-1){ //it runs with 3.0.x
 			return getStandardFilter30(pc, filterClassName);
 		}
-		
+
 		BeanDefinition filterChain = pc.getRegistry().getBeanDefinition(SPRING_SECURITY_31_FILTER_CHAIN);
 		List<BeanReference> filterChainsSourceList = (List<BeanReference>)filterChain.getPropertyValues().getPropertyValue("sourceList").getValue();
 	 
