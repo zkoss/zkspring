@@ -22,25 +22,26 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.BeanMetadataElement;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanReference;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.ManagedMap;
+import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.config.BeanIds;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.AntUrlPathMatcher;
-import org.springframework.security.web.util.RegexUrlPathMatcher;
-import org.springframework.security.web.util.UrlMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
@@ -58,9 +59,13 @@ import org.zkoss.spring.security.ui.ZkError403Filter;
 import org.zkoss.spring.security.ui.ZkExceptionTranslationFilter;
 import org.zkoss.spring.security.ui.ZkLoginOKFilter;
 import org.zkoss.spring.security.ui.webapp.ZkAuthenticationEntryPoint;
+import org.zkoss.spring.security.util.AntUrlPathMatcher;
+import org.zkoss.spring.security.util.RegexUrlPathMatcher;
+import org.zkoss.spring.security.util.UrlMatcher;
 
 /**
  * Sets up ZK Event security: filter stack and protected ZK Event in ZK event processing.
+ * Parser for <zk-event/> element.
  * @author henrichen
  * @since 1.0
  */
@@ -87,7 +92,10 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
     public static final String ATT_LOGIN_OK_URL = "login-ok-url";
     public static final String ATT_AUTHENTICATION_FAILURE_URL = "authentication-failure-url";
     public static final String ATT_FORCE_HTTPS = "force-https";
-    
+
+	//only Spring Security 3.1.x contains this bean
+	public static final String SPRING_SECURITY_31_FILTER_CHAIN = "org.springframework.security.filterChains";
+	
 	public BeanDefinition parse(Element element, ParserContext pc) {
         //Filter for ZK desktop reuse (used in http -> https)
         addHttpFilter(pc, ZkBeanIds.ZK_DESKTOP_REUSE_FILTER, ZkDesktopReuseFilter.class);
@@ -159,45 +167,88 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 	}
 
 	/**
-	 * Returns standard filter definition as created by main http bean definition parser
+	 * Returns standard filter bean definition created by HttpSecurityBeanDefinitionParser for Spring Security 3.0.x.
+	 * Implement it upon HttpSecurityBeanDefinitionParser.parse() under Spring Security 3.0.x.
 	 * @param pc
 	 * @param filterClassName
 	 * @return
 	 */
-	private RootBeanDefinition getStandardFilter(ParserContext pc,
-			String filterClassName) {
+	private RootBeanDefinition getStandardFilter30(ParserContext pc, String filterClassName) {
 		RootBeanDefinition filterChainProxy = (RootBeanDefinition) pc.getRegistry().getBeanDefinition(BeanIds.FILTER_CHAIN_PROXY);
-		PropertyValue v = filterChainProxy.getPropertyValues().getPropertyValue("filterChainMap");
-        RootBeanDefinition standardFilter = null;
-        if (v != null) {
-        	ManagedMap m = (ManagedMap) v.getValue();
-        	Set k = m.keySet();
-        	for (Iterator iterator = k.iterator(); iterator.hasNext();) {
-        		Object o = m.get(iterator.next());
-        		if(o instanceof List) {
-					List ml = (List) o;
-					for (Iterator iterator2 = ml.iterator(); iterator2.hasNext();) {
-						Object object = iterator2.next();
-						if (object instanceof RootBeanDefinition) {
-							RootBeanDefinition bean = (RootBeanDefinition)object;
-							String beanClassName = bean.getBeanClassName();
-							if(beanClassName.equals(filterClassName)) {
-								standardFilter = bean;
-								break;
-							}
-						} else if (object instanceof RuntimeBeanReference) {
-							String beanRefBeanName = ((RuntimeBeanReference)object).getBeanName();
-							if (beanRefBeanName.indexOf(filterClassName) != -1) {
-								standardFilter = (RootBeanDefinition) pc.getRegistry().getBeanDefinition(beanRefBeanName);
-								break;
-							}
-						}
+		PropertyValue filterChainMapProperty = filterChainProxy.getPropertyValues().getPropertyValue("filterChainMap");
+        if (filterChainMapProperty != null) {
+        	Map filterChainMap = (Map) filterChainMapProperty.getValue();
+        	Set pathSet = filterChainMap.keySet();
+        	for (Iterator iterator = pathSet.iterator(); iterator.hasNext();) {
+        		Object list = filterChainMap.get(iterator.next());
+        		if(list instanceof List) {
+        			List<BeanMetadataElement> filterList = (List<BeanMetadataElement>) list;
+					for (BeanMetadataElement filterBean :  filterList) {
+						BeanDefinition standardFilterBeanDefinition = resolveBeanReference(pc, filterBean);
+						if(standardFilterBeanDefinition != null && standardFilterBeanDefinition.getBeanClassName().equals(filterClassName)) {
+							return (RootBeanDefinition)standardFilterBeanDefinition;
+						}	
 					}
         		}
 			}
         }
-		return standardFilter;
+		return null;
 	}
+	
+	/**
+	 * Get Spring Security standard filters' BeanDefinition. Because ZK filter BeanDefinitions use the same PropertyValue.
+	 * We get them by iterating Spring Security FILTER_CHAIN_PROXY(3.0.x) or FILTER_CHAINS(3.1.x) bean's properties.
+	 * The filter bean definition in Spring Security 3.0.x and 3.1.x has different structure respectively.  
+	 * @param pc
+	 * @param filterClassName full-qualified class name
+	 */
+	private RootBeanDefinition getStandardFilter(ParserContext pc,	String filterClassName) {
+        
+		if (SpringSecurityCoreVersion.getVersion().indexOf("3.0")>-1){ //it runs with 3.0.x
+			return getStandardFilter30(pc, filterClassName);
+		}
+
+		BeanDefinition filterChain = pc.getRegistry().getBeanDefinition(SPRING_SECURITY_31_FILTER_CHAIN);
+		List<BeanReference> filterChainsSourceList = (List<BeanReference>)filterChain.getPropertyValues().getPropertyValue("sourceList").getValue();
+	 
+    	for (BeanReference filterChainBean : filterChainsSourceList) {
+    		BeanDefinition filterChainBeanDefinition = resolveBeanReference(pc, filterChainBean);
+    		if (filterChainBeanDefinition == null) {
+    			continue;
+    		}
+
+    		//implement upon HttpSecurityBeanDefinitionParser.createSecurityFilterChainBean()
+    		Object argumentValue = filterChainBeanDefinition.getConstructorArgumentValues().getArgumentValue(1, null).getValue(); 
+    		if (!(argumentValue instanceof ManagedList<?>)) {
+    		    continue;
+    		} 
+    		ManagedList<BeanMetadataElement> securityFilterList = (ManagedList<BeanMetadataElement>)argumentValue;
+			
+			for (BeanMetadataElement securityFilter : securityFilterList) {
+	    		BeanDefinition standardFilterBeanDefinition = resolveBeanReference(pc, securityFilter);
+	    		if(standardFilterBeanDefinition != null && standardFilterBeanDefinition.getBeanClassName().equals(filterClassName)) {
+	    			return (RootBeanDefinition)standardFilterBeanDefinition;
+				}	
+			}
+    	}
+    	return null;
+    	
+	}
+
+	private BeanDefinition resolveBeanReference(ParserContext pc, BeanMetadataElement bean) {
+		BeanDefinition beanDefinition = null;
+		if (bean instanceof RuntimeBeanReference) {
+			RuntimeBeanReference filterChainRBR = (RuntimeBeanReference) bean;
+			String beanName = filterChainRBR.getBeanName();
+			if (pc.getRegistry().containsBeanDefinition(beanName)) {				
+				beanDefinition = pc.getRegistry().getBeanDefinition(beanName);
+			}
+		} else if (bean instanceof BeanDefinition) {
+			beanDefinition = (BeanDefinition)bean;
+		}
+		return beanDefinition;
+	}	
+	
 
 	/**
 	 * 
@@ -370,6 +421,11 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
         pc.getRegistry().registerBeanDefinition(ZkBeanIds.ZK_EVENT_PROCESS_INTERCEPTOR, builder.getBeanDefinition());
     }
 
+    /**
+     * create URL matcher according to "path-type" attribute
+     * @param element
+     * @return
+     */
     public static UrlMatcher createUrlMatcher(Element element) {
         String pathType = element.getAttribute(ATT_PATH_TYPE);
         if (!StringUtils.hasText(pathType)) {
