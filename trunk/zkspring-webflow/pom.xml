@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zk</groupId>
 	<artifactId>zkspring-webflow</artifactId>
-	<version>3.1</version>
+	<version>3.1.1</version>
 	<name>ZK Spring Webflow</name>
 	<description>ZK Spring Integration Library Webflow Library</description>
 	<url>http://www.zkoss.org/zkspring-webflow</url>
@@ -20,10 +20,9 @@
 	</scm>
 
 	<properties>
-		<zk.version>[5.0.1, 6.0.0]</zk.version>
+		<zk.version>[5.0.1, 6.0.2]</zk.version>
 		<springwebflow.version>2.2.1.RELEASE</springwebflow.version>
-		<spring.version>3.0.4.RELEASE</spring.version>
-		<zkspringcore.version>[3.0, 3.1]</zkspringcore.version>
+		<spring.version>3.0.7.RELEASE</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -49,38 +48,18 @@
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>org.springframework.binding</artifactId>
 			<version>${springwebflow.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>org.springframework.js</artifactId>
 			<version>${springwebflow.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>org.springframework.webflow</artifactId>
 			<version>${springwebflow.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.zkoss.zk</groupId>
-			<artifactId>zk</artifactId>
-			<version>${zk.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.zkoss.zk</groupId>
-			<artifactId>zul</artifactId>
-			<version>${zk.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.zkoss.zk</groupId>
@@ -97,7 +76,6 @@
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
 			<version>2.2.1</version>
-			<type>jar</type>
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
