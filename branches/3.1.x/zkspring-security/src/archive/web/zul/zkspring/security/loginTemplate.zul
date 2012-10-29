@@ -1,0 +1,13 @@
+<?page id="loginFrame" title="${empty arg.title ? 'Login' : arg.title}"?>
+<window title="${empty arg.title ? 'Login' : arg.title}" 
+	width="${empty arg.width ? '500px' : arg.width}"
+	height="${empty arg.height ? '320px' : arg.height}" 
+	closable="true" sizable="true" maximizable="true" border="normal" mode="highlighted"
+	apply="org.zkoss.spring.security.ui.webapp.LoginTemplateComposer">
+	<custom-attributes loginOKDelay="${arg.loginOKDelay}"/> 
+	<borderlayout>
+	<center border="none">
+		<iframe id="loginfrm" width="100%" height="100%" src="${arg.loginUrl}"/>
+	</center>
+	</borderlayout>
+ </window>
