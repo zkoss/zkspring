@@ -11,6 +11,8 @@ Copyright (C) 2011 Potix Corporation. All Rights Reserved.
  */
 package org.zkoss.bind.examples.order;
 
+import java.util.Calendar;
+
 import org.zkoss.bind.ValidationContext;
 import org.zkoss.bind.Validator;
 import org.zkoss.bind.annotation.Command;
@@ -29,6 +31,8 @@ public class OrderVM {
 	
 	//the selected order
 	Order selected;
+	
+	private String message;
 
 	public ListModelList getOrders() {
 		if (orders == null) {
@@ -96,5 +100,18 @@ public class OrderVM {
 				}
 			}
 		};
+	}
+	
+	@Command @NotifyChange("message")
+	public void allow(){
+		message = "button clicked at "+Calendar.getInstance().getTime();
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

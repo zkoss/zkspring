@@ -5,7 +5,7 @@
 	<artifactId>zkspringissue</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<zk.version>5.0.6</zk.version>
+		<zk.version>6.0.0</zk.version>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-0.0.1-SNAPSHOT-FL-${maven.build.timestamp}</packname>
 		<spring.version>3.0.5.RELEASE</spring.version>
@@ -57,15 +57,11 @@
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkspring-core</artifactId>
 			<version>3.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkspring-security</artifactId>
-			<version>3.1-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>3.1.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

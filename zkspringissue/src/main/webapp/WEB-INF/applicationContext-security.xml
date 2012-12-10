@@ -59,7 +59,8 @@
 <zksp:zk-event login-template-close-delay="5">
 		<zksp:intercept-event path="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<zksp:intercept-event path="/window/listbox" access="IS_ADMIN"/>
-		<zksp:form-login login-page="/login.zul" force-https="true"/>
+		<!-- ZKSPRING-22 -->
+		<zksp:intercept-event event="onClick" path="//testcase2/nestedTemplate/*" access="IS_ADMIN"/>
 	</zksp:zk-event>
 	
 </beans:beans>
