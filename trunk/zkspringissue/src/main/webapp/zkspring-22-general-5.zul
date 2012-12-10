@@ -1,4 +1,8 @@
 
+<!--
+VirtualIdSpace doesn't belong to any page. I send event to a detached component to simulate this case.
+It returns path:null/ without errors. 
+ -->
 <window id="window1" apply="zkspring22.DetachComponentComposer">
 <div id="div">
 <button id="button" label="Send event to a detached component"></button>
