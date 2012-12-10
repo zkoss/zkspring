@@ -3,7 +3,7 @@
 <window id="window" title="teszt" 
 	apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.zkoss.bind.examples.order.OrderVM')">
 
-<!--
+<!-- User Report Test Case
  -->
 		<listbox id="listbox" model="@load(vm.orders)" selectedItem="@bind(vm.selected)">
 			<listhead>
