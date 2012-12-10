@@ -1,5 +1,6 @@
 <zk>
 	<window title="Login" border="normal" width="500px" >
-		
+		User : <textbox></textbox>
+		Password:	<textbox type="password"></textbox>
 	</window>
 </zk>
