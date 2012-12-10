@@ -1,0 +1,16 @@
+<div apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.zkoss.bind.examples.order.OrderVM')">
+
+	Test Case 2: VirtualIdSpace contains IdSpace-component nested template
+	<vlayout children="@load(vm.orders)">
+		<template name="children">
+			<div children="@load(vm.orders)">
+				<template name="children">
+					<div>
+						<window border="normal" width="300px" title="@load(each.id)" />
+					</div>
+				</template>
+			</div>
+		</template>
+	</vlayout>
+</div>
