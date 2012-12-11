@@ -132,37 +132,51 @@ public class ZkEventProcessDefinitionSourceImpl implements ZkEventProcessDefinit
         }
 
         final Component comp = ((Event) object).getTarget();
-        final String path = toPath(comp, new StringBuffer()).toString();
+        final String path = toPath(comp);
         final String eventnm = ((Event) object).getName();
 
         return lookupAttributes(path, eventnm);
     }
 	
-	private StringBuffer toPath(Object comp, StringBuffer sb) {
-		if (comp instanceof Page) {
-			sb.append("//").append(((Page)comp).getId());
-		} else {
-			IdSpace spaceOwner = null;
-			if (comp instanceof IdSpace) {
-				final Component parent = ((Component)comp).getParent();
-				spaceOwner = parent == null ? ((Component)comp).getPage() : parent.getSpaceOwner();
-			} else if (comp instanceof Component){
-				spaceOwner = ((Component)comp).getSpaceOwner();
-				if (!(spaceOwner instanceof Component)){
-					//ZKSPRING-22 in zk6, space owner might be VirtualIdSpace
-					spaceOwner = ((Component)comp).getPage(); 
-				}
-			} else {
-				sb.append("null");
-				return sb;
-			}
-			toPath(spaceOwner, sb);
-			sb.append('/').append(((Component)comp).getId());			
-
+	/*
+	 * Find a component's path by gathering its space owners ID until a Page.
+	 */
+	private String toPath(Component component){
+		StringBuilder path = new StringBuilder();
+		
+		IdSpace currentIdSpace ;
+		if(component instanceof IdSpace)
+			currentIdSpace= (IdSpace) component;
+		else{
+			currentIdSpace = component.getSpaceOwner();
+			path.append("/").append(component.getId());
 		}
-		return sb;
-	}
 
+		//keep finding upper space owner until reach a Page or null
+		while(true) {
+			if(currentIdSpace instanceof Component){
+				path.insert(0,((Component)currentIdSpace).getId());
+				path.insert(0,"/");
+				final Component parent = ((Component)currentIdSpace).getParent();
+				currentIdSpace = parent == null ? ((Component)currentIdSpace).getPage() : parent.getSpaceOwner();
+			}else if( currentIdSpace instanceof Page){
+				path.insert(0,((Page)currentIdSpace).getId());
+				path.insert(0,"//");
+				break;
+			}else { //null (ZK 5) or VirtualIdSpace (ZK 6)
+				/* Since 6.0.0 VirtualIdSpace is introduced.
+				 * According to {@link VirtualIdSpace}, if a component's space owner is VirtualIdSpace, the component is a root component.
+				 * So, its page is null.  
+				 * ZKSPRING-22 in zk6, space owner might be VirtualIdSpace
+				 * ZKSPRING-39, IdSpace-component's parent might be VirtualIdSpace
+				 * */				
+				path.insert(0,"null"); 
+				break;
+			}
+		}
+		
+		return path.toString();
+	}
 	
     /**
      * Performs the actual lookup of the relevant <code>ConfigAttributeDefinition</code> for the specified
