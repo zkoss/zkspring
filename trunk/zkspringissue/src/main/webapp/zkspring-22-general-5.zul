@@ -1,16 +1,15 @@
-
 <!--
-VirtualIdSpace doesn't belong to any page. I send event to a detached component to simulate this case.
-It returns path:null/ without errors. 
- -->
+	VirtualIdSpace doesn't belong to any page. I send event to a detached component to simulate this case in ZK 5.
+	It returns path:null/ without errors. 
+-->
 <window id="window1" apply="zkspring22.DetachComponentComposer">
-<div id="div">
-<button id="button" label="Send event to a detached component"></button>
-</div>
-<window id="window2">
-	<window id="window3">
+	<div id="div">
+		<button id="button" label="Send event to a detached component"></button>
+	</div>
+	<button id="button2" label="Send event to a detached IdSpace Component with detached parent "></button>
+	<window id="window2">
+		<window id="window3"></window>
 	</window>
-</window>
 </window>
 
 
