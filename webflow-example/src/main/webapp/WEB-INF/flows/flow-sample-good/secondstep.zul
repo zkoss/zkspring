@@ -3,7 +3,6 @@
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 
 <zk>
-   
     <window>
         <panel apply="${ZK2ndStep}" id="import" title="2nd Step">
             <panelchildren>
@@ -16,8 +15,10 @@
                     
                 </groupbox>
                 
-                <textbox id="value1" value="@{impHelper}" visible="false"/>
+                <textbox value="@{impHelper}" visible="false"/>
                 
+                <!-- 
+                 -->
                 <textbox id="valuebox" value="@{impHelper.value1, save-after='change.onClick'}"/>
                 <groupbox  closable="false">
                     <button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
@@ -26,8 +27,5 @@
                 </groupbox>
             </panelchildren>
         </panel>
-        ${impHelper}
-        Size: ${impHelper.myList.size()}
     </window>
-   
 </zk>

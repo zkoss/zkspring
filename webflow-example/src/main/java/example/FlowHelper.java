@@ -21,7 +21,7 @@ public class FlowHelper implements Serializable{
     private boolean mybool;
     private int myint;
     
-    String value1 = "A";
+    private String value1 = "A";
     
     
 
@@ -43,13 +43,11 @@ public class FlowHelper implements Serializable{
 
     public List getMyList() {
     	System.out.println("FlowHelper: getMyList:"+myList+", this "+toString());
-//    	new Exception("getMyList").printStackTrace();
         return myList;
     }
 
     public void setMyList(List myList) {
     	System.out.println("FlowHelper: setMyList:"+myList+", this "+toString());
-//    	new Exception("setMyList").printStackTrace();
         this.myList = myList;
     }
 

@@ -3,6 +3,7 @@ package example;
 import java.util.ArrayList;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -19,7 +20,7 @@ import org.zkoss.zul.Panel;
  *
  * @author mschroen
  */
-@Service("ZKStartView")
+@Controller("ZKStartView")
 @Scope("prototype")
 public class ZKStartView extends SelectorComposer<Component> {
 

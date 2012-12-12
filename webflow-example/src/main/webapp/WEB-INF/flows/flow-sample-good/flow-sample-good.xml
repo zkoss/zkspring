@@ -3,9 +3,16 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
           
-    <var name="impHelper" class="example.FlowHelper"/> 
+    <var name="impHelper" class="example.FlowHelper"/>
+    <var name="anotherList" class="example.bean.MyConversation"/>
    
     <view-state id="start" >  
+    	<on-entry>
+    		<set name="conversationScope.conversationMyList" value="anotherList"></set>
+    		<!-- 
+    	 	<evaluate expression="impHelper.value1" result="conversationScope.value1"></evaluate>
+    		 -->
+    	</on-entry>
         <transition on="next" to="secondstep" />
     </view-state>
 
@@ -18,7 +25,3 @@
     </view-state>
     
 </flow>
-
-        <!-- 
-        	<evaluate expression="impHelper.addItem(impHelper.value1)" />
-         -->

@@ -5,17 +5,15 @@
 <zk xmlns="http://www.zkoss.org/2005/zul">
    
     <window apply="${ZKStartView}">
-        <panel  id="imports" title="Start">
+        <panel  id="panel" title="Start">
             <panelchildren>
                 <groupbox  closable="false">
                     <button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
                 </groupbox>
-            <textbox id="value1" value="@{impHelper.value1}"/>    
             </panelchildren>
         </panel>
-        <button label="Hide" id="hide"/> 
-        ${impHelper}
-        ${impHelper.myList.size()}
+        
+        <button label="Toggle Visiblity" id="hide"/> 
     </window>
    
 </zk>
