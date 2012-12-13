@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package example;
+package example.bean;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,7 +22,7 @@ public class FlowHelper implements Serializable{
     private boolean mybool;
     private int myint;
     
-    private String value1 = "A";
+    private String value1 = "item value1";
     
     
 

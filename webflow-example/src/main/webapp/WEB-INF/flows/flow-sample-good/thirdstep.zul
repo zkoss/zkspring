@@ -5,6 +5,11 @@
 <zk>
 
 	<window apply="${ZK3rdStep}">
+		<label multiline="true">
+			Alternative solution:
+				* Use a conversation scoped variable. It's stored in a Http session which means it's in memory
+				So we can access it in a composer without adding extra binding on a ZUL.
+		</label>
 		<panel title="3rd Step">
 			<panelchildren>
 				<listbox id="myList" model="@{impHelper.myList}">
@@ -12,9 +17,13 @@
 						<listcell value="@{entry}" label="@{entry}" />
 					</listitem>
 				</listbox>
-				<label id="valuebox" value="@{impHelper.value1}" />
+				value1:<label id="valuebox" value="@{impHelper.value1}" />
 			</panelchildren>
 		</panel>
-		value1: <label value="@{value1}"/>
+		<vlayout>
+			Add a item into a Conversation scope variable (myConversationVar). It's empty at the beginning.
+			<button id="add" label="Add" />
+			<button label="Next" onClick="" self="@{action(next)}" />
+		</vlayout>
 	</window>
 </zk>

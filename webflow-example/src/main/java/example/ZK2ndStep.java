@@ -5,7 +5,6 @@
 package example;
 
 import java.util.Calendar;
-import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,9 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
+
+import example.bean.FlowHelper;
+import example.bean.MyConversation;
 
 /**
  *
@@ -30,8 +32,7 @@ public class ZK2ndStep extends SelectorComposer<Component> {
     private FlowHelper impHelper;
     @WireVariable
     private String value1;
-    @WireVariable
-    private List conversationMyList;
+   
     
     @Wire
     private Listbox myList;
@@ -58,7 +59,6 @@ public class ZK2ndStep extends SelectorComposer<Component> {
 //            myList.setModel(new ListModelList(impHelper.getMyList()));
             logger.info("Add, impHelper.getMyList().size() = " + impHelper.getMyList().size());
         }
-
     }
 
     @Listen("onClick=#change")

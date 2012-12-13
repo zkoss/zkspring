@@ -32,13 +32,13 @@
         <description>Spring Web Flow URL and FlowId Listener</description>
         <listener-class>org.zkoss.spring.webflow.context.servlet.ZkFlowResourceListener</listener-class>
     </listener>
-     -->
     
     <session-config>
         <session-timeout>60</session-timeout>
         <timer-keep-alive>false</timer-keep-alive>
         <timer-as-inactive>false</timer-as-inactive>
     </session-config>
+     -->
 
     <system-config>
         <cache-provider-class>org.zkoss.zk.ui.impl.SessionDesktopCacheProvider</cache-provider-class>
