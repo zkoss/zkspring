@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 public class FlowHelper implements Serializable{
     
     
-    private List myList;
+    private List myList = new LinkedList();
     private boolean mybool;
     private int myint;
     
@@ -42,25 +43,25 @@ public class FlowHelper implements Serializable{
     }
 
     public List getMyList() {
-    	System.out.println("FlowHelper: getMyList:"+myList+", this "+toString());
+    	System.out.println("getmylist, object: "+ this+",list size "+myList.size());
         return myList;
     }
 
     public void setMyList(List myList) {
-    	System.out.println("FlowHelper: setMyList:"+myList+", this "+toString());
+    	System.out.println("setmylist, object: "+ this+", list size: "+myList.size());
         this.myList = myList;
     }
 
     private void readObject(ObjectInputStream ois)
     		throws IOException, ClassNotFoundException {
     	ois.defaultReadObject();
-    	System.out.println("read "+ this);
+    	System.out.println("read "+ this+", list size: "+myList.size());
     }
 
     private void writeObject(ObjectOutputStream oos)
     		throws IOException {
     	oos.defaultWriteObject();
-    	System.out.println("write "+ this);
+    	System.out.println("write "+ this+", list size: "+myList.size());
     }
 
 	public String getValue1() {
@@ -69,7 +70,7 @@ public class FlowHelper implements Serializable{
 
 	public void setValue1(String value1) {
 		this.value1 = value1;
-		System.out.println(">>>>"+value1);
+		System.out.println(">>>setValue1 "+this+">"+value1);
 	}
 	
 	public void kick(){
