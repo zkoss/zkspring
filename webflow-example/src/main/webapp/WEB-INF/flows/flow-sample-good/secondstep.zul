@@ -6,7 +6,7 @@
 	<window>
 		<label multiline="true">
 			Extended Usage: 
-			* All data we want to modify in a composer should have a data binding on the zul.
+			* All flow-scoped variables we want to modify in a composer should have a data binding on the zul.
 			
 		</label>
 		<panel apply="${ZK2ndStep}" title="2nd Step">

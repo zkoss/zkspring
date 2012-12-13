@@ -7,7 +7,7 @@
 		<label multiline="true">
 			Zk Spring-webflow Standard usage: 
 			* Events trigger actions defined in flow definition	(xml) 
-			* If using a composer, we only can make UI effect and cannot modify data in a
+			* If using a composer, we only can make some UI effects and cannot modify flow-scoped variables in a
 			composer.
 		</label>
 
