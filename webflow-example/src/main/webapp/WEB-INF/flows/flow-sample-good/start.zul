@@ -21,6 +21,7 @@
 			</panelchildren>
 		</panel>
 		<vlayout>
+			Change UI status in a composer
 			<button label="Toggle Visiblity" id="hide" />
 			Add a item through action defined in the flow definition when state transition.
 			<button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />

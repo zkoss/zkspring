@@ -20,6 +20,7 @@
 				value1:<label id="valuebox" value="@{impHelper.value1}" />
 			</panelchildren>
 		</panel>
+		<separator height="20px"/>
 		<vlayout>
 			Add a item into a Conversation scope variable (myConversationVar). It's empty at the beginning.
 			<button id="add" label="Add" />
