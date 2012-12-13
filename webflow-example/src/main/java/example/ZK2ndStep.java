@@ -69,10 +69,6 @@ public class ZK2ndStep extends SelectorComposer<Component> {
     }
     @Listen("onClick=#btnNext")
     public void btnNext() {
-        if (impHelper != null) {
-            // now we modify the list
-            logger.info("impHelper.getMyList().size() = " + impHelper.getMyList().size());
-        }
 
     }
 }
