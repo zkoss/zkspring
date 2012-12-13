@@ -1,6 +1,7 @@
 package example;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Panel;
+
+import example.bean.FlowHelper;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -30,7 +33,7 @@ public class ZKStartView extends SelectorComposer<Component> {
     
     @Wire
     private Panel panel;
-
+    
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);

@@ -3,29 +3,34 @@
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 
 <zk>
-    <window>
-        <panel apply="${ZK2ndStep}" id="import" title="2nd Step">
-            <panelchildren>
-                <groupbox closable="false">
-                    <listbox id="myList" model="@{impHelper.myList, load-after='add.onClick'}">
-                        <listitem self="@{each=entry}" value="@{entry}">
-                            <listcell  value="@{entry}" label="@{entry}"   />
-                        </listitem>
-                    </listbox>
-                    
-                </groupbox>
-                
-                <textbox value="@{impHelper}" visible="false"/>
-                
-                <!-- 
-                 -->
-                <textbox id="valuebox" value="@{impHelper.value1, save-after='change.onClick'}"/>
-                <groupbox  closable="false">
-                    <button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
-                    <button id="add" label="Add"  />
-                    <button id="change" label="Change" />
-                </groupbox>
-            </panelchildren>
-        </panel>
-    </window>
+	<window>
+		<label multiline="true">
+			Extended Usage: 
+			* All data we want to modify in a composer should have a data binding on the zul.
+			
+		</label>
+		<panel apply="${ZK2ndStep}" title="2nd Step">
+			<panelchildren>
+				<groupbox closable="false">
+					<listbox id="myList" model="@{impHelper.myList, load-after='add.onClick'}">
+						<listitem self="@{each=entry}" value="@{entry}">
+							<listcell value="@{entry}" label="@{entry}" />
+						</listitem>
+					</listbox>
+				</groupbox>
+			</panelchildren>
+		</panel>
+		<!-- hidden data binding, just for composer's access -->
+		<textbox value="@{impHelper}" visible="false" />
+		<vlayout>
+		Click "Add" button and you can see that "Text 3" is add to myList in this and next state.
+		<button id="add" label="Add" />
+		value1:
+		<textbox id="valuebox" value="@{impHelper.value1, save-after='change.onClick'}" />
+		Click "Change" button and you can see that value1 is changed in this and next state.
+		<button id="change" label="Change" />
+		</vlayout>
+		<separator/>
+		<button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
+	</window>
 </zk>

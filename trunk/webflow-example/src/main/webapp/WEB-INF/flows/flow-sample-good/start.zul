@@ -2,18 +2,29 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 
-<zk xmlns="http://www.zkoss.org/2005/zul">
-   
-    <window apply="${ZKStartView}">
-        <panel  id="panel" title="Start">
-            <panelchildren>
-                <groupbox  closable="false">
-                    <button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
-                </groupbox>
-            </panelchildren>
-        </panel>
-        
-        <button label="Toggle Visiblity" id="hide"/> 
-    </window>
-   
+<zk>
+	<window apply="${ZKStartView}">
+		<label multiline="true">
+			Zk Spring-webflow Standard usage: 
+			* Events trigger actions defined in flow definition	(xml) 
+			* If using a composer, we only can make UI effect and cannot modify data in a
+			composer.
+		</label>
+
+		<panel id="panel" title="Start">
+			<panelchildren>
+				<listbox id="myList" model="@{impHelper.myList}">
+					<listitem self="@{each=entry}" value="@{entry}">
+						<listcell value="@{entry}" label="@{entry}" />
+					</listitem>
+				</listbox>
+			</panelchildren>
+		</panel>
+		<vlayout>
+			<button label="Toggle Visiblity" id="hide" />
+			Add a item through action defined in the flow definition when state transition.
+			<button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
+		</vlayout>
+	</window>
+
 </zk>
