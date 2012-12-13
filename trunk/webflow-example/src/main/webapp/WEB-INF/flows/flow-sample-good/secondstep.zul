@@ -20,7 +20,8 @@
 				</groupbox>
 			</panelchildren>
 		</panel>
-		<!-- hidden data binding, just for composer's access -->
+		<!-- hidden component with data binding for composer's access.
+		We should use an attribute value that its binding has "write" access, e.g. textbox's value-->
 		<textbox value="@{impHelper}" visible="false" />
 		<vlayout>
 		Click "Add" button and you can see that "Text 3" is add to myList in this and next state.
