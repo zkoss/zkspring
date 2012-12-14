@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+          
+    <var name="flowHelper" class="example.bean.FlowHelper"/> 
+   
+    <view-state id="start" >  
+		<on-entry>
+			<set name="flowScope.helper" value="flowHelper"/>
+		</on-entry>    
+        <transition on="next" to="secondstep" />
+    </view-state>
+
+    <view-state id="secondstep">
+        <transition on="next" to="thirdstep" >
+        </transition>
+    </view-state>
+    
+    <view-state id="thirdstep">
+    </view-state>
+    
+</flow>
+
