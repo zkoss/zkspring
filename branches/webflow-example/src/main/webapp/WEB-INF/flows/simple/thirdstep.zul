@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
-<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-
-<zk xmlns="http://www.zkoss.org/2005/zul">
-   
-                    <button id="btnNext" label="Next" onClick="" disabled="false" self="@{action(next)}" />
-</zk>
