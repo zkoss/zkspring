@@ -204,7 +204,7 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 	 */
 	private RootBeanDefinition getStandardFilter(ParserContext pc,	String filterClassName) {
         
-		if (SpringSecurityCoreVersion.getVersion().indexOf("3.0")>-1){ //it runs with 3.0.x
+		if (SpringSecurityCoreVersion.getVersion().compareTo("3.1.0.RELEASE")<0){ 
 			return getStandardFilter30(pc, filterClassName);
 		}
 
