@@ -90,7 +90,7 @@ public class ZkEventProcessListener implements EventInterceptor {
 	 * <p>
 	 * All intercepted events will invoke this listener but some of them are not secure objects, we should skip them to avoid Spring Security throwing exceptions.
 	 * </p>
-	 * As of Spring Security 3.1.x, configuration file can have multiple &lt;http&gt; tags. Each &lt;http&gt; creates a DefaultSecurityFilterChain 
+	 * Since Spring Security 3.1.0, configuration file can have multiple &lt;http&gt; tags. Each &lt;http&gt; creates a DefaultSecurityFilterChain 
 	 * with a request path matcher. we should skip events sent from zuls and do not pass it to {@link ZkEventProcessInterceptor} under the following conditions:<br/>
 	 * <li>zuls inside &lt;http security="none"&gt;. If no skip, Spring Security will throw AuthenticationCredentialsNotFoundException.</li> 
 	 * <li>zuls inside &lt;http&gt; tag without ZK custom filters.</li>
@@ -99,11 +99,13 @@ public class ZkEventProcessListener implements EventInterceptor {
 	 */
 	private boolean skipInterceptionCheck(){
 		skip = false;
-		if (SpringSecurityCoreVersion.getVersion().indexOf("3.1")>-1){
-			if (SecurityContextHolder.getContext().getAuthentication() == null) { //pages without access control
-				skip = true;
+		if (SecurityContextHolder.getContext().getAuthentication() == null) { //pages without access control
+			skip = true;
+		}else{
+			List<SecurityFilterChain> filterChains = (List<SecurityFilterChain>) SpringUtil.getBean(ZkEventSecurityBeanDefinitionParser.SPRING_SECURITY_31_FILTER_CHAIN);
+			if (filterChains == null){
+				skip = false;
 			}else{
-				List<SecurityFilterChain> filterChains = (List<SecurityFilterChain>) SpringUtil.getBean(ZkEventSecurityBeanDefinitionParser.SPRING_SECURITY_31_FILTER_CHAIN);
 				HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
 
 				for (int i = 0; i < filterChains.size(); i++) {
