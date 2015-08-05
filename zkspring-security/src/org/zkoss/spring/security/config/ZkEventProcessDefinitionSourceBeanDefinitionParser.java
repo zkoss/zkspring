@@ -18,6 +18,7 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.spring.security.config;
 
+import java.beans.PropertyEditorSupport;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.config.http.ZkEventSecurityBeanDefinitionParser;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
@@ -64,7 +66,7 @@ extends	AbstractSingleBeanDefinitionParser {
 	public static LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>> parseInterceptEventsForZkEventProcessMap(List elms,  ParserContext parserContext) {
         LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>> eventProcessDefinitionMap = new LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>>();
         
-        org.springframework.security.access.ConfigAttributeEditor editor = new org.springframework.security.access.ConfigAttributeEditor();
+        PropertyEditorSupport editor = new PropertyEditorSupport();
         for (final Iterator it = elms.iterator(); it.hasNext();) {
             Element elm = (Element) it.next();
 
@@ -83,7 +85,11 @@ extends	AbstractSingleBeanDefinitionParser {
 
             // Convert the comma-separated list of access attributes to a ConfigAttributeDefinition
             if (StringUtils.hasText(access)) {
-                editor.setAsText(access);
+                if (StringUtils.hasText(access)) {
+                    editor.setValue(SecurityConfig.createList(StringUtils.commaDelimitedListToStringArray(access)));
+                } else {
+                    editor.setValue(null);
+                }
                 eventProcessDefinitionMap.put(new EventProcessKey(path, event), (Collection<ConfigAttribute>) editor.getValue());
             }
         }

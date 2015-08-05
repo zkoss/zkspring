@@ -38,7 +38,7 @@ import org.zkoss.zk.ui.event.Event;
  * <p>Used by {@link ZkExceptionTranslationListener} to commence an authentication
  * scheme.</p> 
  * <p>This implementation pops up a login Window and show the login form page
- * (see {@link #setLoginFormUrl}) 
+ * (see {@link LoginUrlAuthenticationEntryPoint(String)})
  * you specified(or the default one if you did not specify) as the content of the
  * window. When the user login OK,
  * it then show the login OK page you specified(see {@link #setLoginOKUrl}) or 
@@ -90,12 +90,16 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	private static final String DEFAULT_LOGIN_TEMPLATE = "~./zul/zkspring/security/loginTemplate.zul";
 	private static final String DEFAULT_LOGIN_OK = "~./zul/zkspring/security/loginOK.zul";
 	private static final String DEFAULT_LOGIN_OK_TEMPLATE = "~./zul/zkspring/security/loginOKTemplate.zul";
-	
+
 	public ZkAuthenticationEntryPoint() {
-		setLoginFormUrl(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
+		this(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
 		//setForceHttps(true);
 	}
-	
+
+	public ZkAuthenticationEntryPoint(String loginFormUrl) {
+		super(loginFormUrl);
+	}
+
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException,
 			ServletException {
@@ -193,13 +197,13 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	 * <p>The default login window template will embed the login form and pop 
 	 * up as a highlighted window. You can use {@link #setLoginTemplateArg(String, Object)}
 	 * to customize the arguments in a limit way. Also you can define your own 
-	 * login form (see {@link #setLoginFormUrl(String)}) and login OK page 
+	 * login form (see {@link LoginUrlAuthenticationEntryPoint(String)}) and login OK page
 	 * (see {@link #setLoginOKUrl(String)}) if you like. Note that, the default 
 	 * login window template will post "onLogin" event to all root components 
 	 * of the page that triggers this login when it pop up for user to login. 
 	 * And then it will post "onLoginOK" event to all root components of the 
 	 * page that triggers this login if user is authenticated successfully. 
-	 * You can get the {@link org.springframework.security.Authentication} by 
+	 * You can get the {@link org.springframework.security.core.Authentication} by
 	 * calling {@link Event#getData()} of the "onLoginOK" event</p>
 	 * 
 	 * <p>If you want to define your own login window template, note that this 
@@ -208,7 +212,6 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	 * 
 	 * @param templateURL the login window template URL
 	 * @see #setLoginTemplateArg(String, Object)
-	 * @see #setLoginFormUrl(String)
 	 * @see #setLoginOKUrl(String)
 	 * @see #setLoginOKDelay(int)
 	 */

@@ -280,123 +280,124 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
         
         //zkAuthenticationEntryPoint
         ZkAuthenticationEntryPoint entryPoint = new ZkAuthenticationEntryPoint();
-        String closeDelay = element.getAttribute(ATT_LOGIN_TEMPLATE_CLOSE_DELAY);
-        if (StringUtils.hasText(closeDelay)) {
-        	int seconds = new Integer(closeDelay).intValue();
-        	entryPoint.setLoginOKDelay(seconds);
-        }
         setEntryPointAttrs(entryPoint, element, pc);
         builder.addPropertyValue("authenticationEntryPoint", entryPoint);
         
         //zkExceptionTranslationFilter
         pc.getRegistry().registerBeanDefinition(ZkBeanIds.ZK_EXCEPTION_TRANSLATION_FILTER, builder.getBeanDefinition());
     }
-    
-    private void setEntryPointAttrs(ZkAuthenticationEntryPoint entryPoint, Element rootElm, ParserContext pc) {
-    	final Element element = DomUtils.getChildElementByTagName(rootElm, ZkElements.FORM_LOGIN);
-    	
-//    	authenticationEntryPoint
-    	
-        RootBeanDefinition exceptionTranslationFilter = getStandardFilter(pc, ExceptionTranslationFilter.class.getName());        
-        RootBeanDefinition formEntryPoint = null;
-    	if (exceptionTranslationFilter != null) {
-	    	PropertyValue pv = exceptionTranslationFilter.getPropertyValues().getPropertyValue("authenticationEntryPoint");
-	    	if (pv != null) {
-	    		formEntryPoint = (RootBeanDefinition) pv.getValue();
-	    	}
-    	}
-    	
-    	if (element == null) {
-    		// Get login-page url and forceHttps from default form entry login point bean (created if <http> element contains <form-login />)
-	        if (formEntryPoint != null) {
-		        String loginFormUrl = (String) formEntryPoint.getPropertyValues().getPropertyValue("loginFormUrl").getValue();
-		        if (StringUtils.hasText(loginFormUrl)) {
-		        	entryPoint.setLoginFormUrl(loginFormUrl);
-		        	entryPoint.setLoginFailUrl(loginFormUrl);
-		        }
-	        	PropertyValue pv = formEntryPoint.getPropertyValues().getPropertyValue("forceHttps");
-	        	if (pv != null) {
-			        String httpForceHttps = (String) pv.getValue();
-			        if (StringUtils.hasText(httpForceHttps)) {
-			        	entryPoint.setForceHttps("true".equals(httpForceHttps));
-			        }
-	        	}
-		        
-	        }
-    		return;
-    	}
-    	
-        //login-ok-url
-    	final String loginOKUrl = element.getAttribute(ATT_LOGIN_OK_URL);
-    	WebConfigUtils.validateHttpRedirect(loginOKUrl, pc, pc.extractSource(element));
-    	if (StringUtils.hasText(loginOKUrl)) {
-    		entryPoint.setLoginOKUrl(loginOKUrl);
-    	}
-        
-        //authentication-failure-url
-        final String loginFailUrl = element.getAttribute(ATT_AUTHENTICATION_FAILURE_URL);
-        WebConfigUtils.validateHttpRedirect(loginFailUrl, pc, pc.extractSource(element));
-        if (StringUtils.hasText(loginFailUrl)) {
-        	entryPoint.setLoginFailUrl(loginFailUrl);
-        }
-        
-        //title
-        final String title = element.getAttribute(ATT_TITLE);
-        if (StringUtils.hasText(title)) {
-        	entryPoint.setLoginTemplateArg("title", title);
-        }
-        
-        //width
-        final String width = element.getAttribute(ATT_WIDTH);
-        if (StringUtils.hasText(width)) {
-        	entryPoint.setLoginTemplateArg("width", width);
-        }
-        
-        //height
-        final String height = element.getAttribute(ATT_HEIGHT);
-        if (StringUtils.hasText(height)) {
-        	entryPoint.setLoginTemplateArg("height", height);
-        }
-    
+
+	private void setEntryPointAttrs(ZkAuthenticationEntryPoint entryPoint, Element rootElm, ParserContext pc) {
+		final Element element = DomUtils.getChildElementByTagName(rootElm, ZkElements.FORM_LOGIN);
+
+		//authenticationEntryPoint
+		RootBeanDefinition exceptionTranslationFilter = getStandardFilter(pc, ExceptionTranslationFilter.class.getName());
+		RootBeanDefinition formEntryPoint = null;
+		if (exceptionTranslationFilter != null) {
+			PropertyValue pv = exceptionTranslationFilter.getPropertyValues().getPropertyValue("authenticationEntryPoint");
+			if (pv != null) {
+				formEntryPoint = (RootBeanDefinition) pv.getValue();
+			}
+		}
+
+		if (element == null) {
+			// Get login-page url and forceHttps from default form entry login point bean (created if <http> element contains <form-login />)
+			if (formEntryPoint != null) {
+				String loginFormUrl = (String) formEntryPoint.getPropertyValues().getPropertyValue("loginFormUrl").getValue();
+				if (StringUtils.hasText(loginFormUrl)) {
+					entryPoint = new ZkAuthenticationEntryPoint(loginFormUrl);
+					entryPoint.setLoginFailUrl(loginFormUrl);
+				}
+				PropertyValue pv = formEntryPoint.getPropertyValues().getPropertyValue("forceHttps");
+				if (pv != null) {
+					String httpForceHttps = (String) pv.getValue();
+					if (StringUtils.hasText(httpForceHttps)) {
+						entryPoint.setForceHttps("true".equals(httpForceHttps));
+					}
+				}
+			}
+			return;
+		}
+
+		//authentication-failure-url
+		final String loginFailUrl = element.getAttribute(ATT_AUTHENTICATION_FAILURE_URL);
+
 		//login-page
 		//if not defined, use login-page defined in form-login from http/FORM_LOGIN_ENTRY_POINT
 		final String loginPage = element.getAttribute(ATT_LOGIN_PAGE);
 		if (StringUtils.hasText(loginPage)) {
-			entryPoint.setLoginFormUrl(loginPage);
-        	if (!StringUtils.hasText(loginFailUrl)) {
-	        	entryPoint.setLoginFailUrl(loginPage + "?login_error=true");
-	        }
+			entryPoint = new ZkAuthenticationEntryPoint(loginPage);
+			if (!StringUtils.hasText(loginFailUrl)) {
+				entryPoint.setLoginFailUrl(loginPage + "?login_error=true");
+			}
 		} else {
-		    if (formEntryPoint != null) {
-		        String loginFormUrl = (String) formEntryPoint.getPropertyValues().getPropertyValue("loginFormUrl").getValue();
-		        if (StringUtils.hasText(loginFormUrl)) {
-		        	entryPoint.setLoginFormUrl(loginFormUrl);
-		        	if (!StringUtils.hasText(loginFailUrl)) {
-			        	entryPoint.setLoginFailUrl(loginFormUrl);
-			        }
-		        }
-		    }
+			if (formEntryPoint != null) {
+				String loginFormUrl = (String) formEntryPoint.getPropertyValues().getPropertyValue("loginFormUrl").getValue();
+				if (StringUtils.hasText(loginFormUrl)) {
+					entryPoint = new ZkAuthenticationEntryPoint(loginFormUrl);
+					if (!StringUtils.hasText(loginFailUrl)) {
+						entryPoint.setLoginFailUrl(loginFormUrl);
+					}
+				}
+			}
 		}
-    
-        //force-https
-        //if not defined, use forceHttps defined if http/FORM_LOGIN_ENTRY_POINT exists
-        final String forceHttps = element.getAttribute(ATT_FORCE_HTTPS);
-        if (StringUtils.hasText(forceHttps)) {
-        	entryPoint.setForceHttps("true".equals(forceHttps));
-        } else {
-	        if (formEntryPoint != null) {
-	        	PropertyValue pv = formEntryPoint.getPropertyValues().getPropertyValue("forceHttps");
-	        	if (pv != null) {
-			        String httpForceHttps = (String) pv.getValue();
-			        if (StringUtils.hasText(httpForceHttps)) {
-			        	entryPoint.setForceHttps("true".equals(httpForceHttps));
-			        }
-	        	}
-	        }
-        }
-    }
-    
-    /**
+
+		//login-ok-url
+		final String loginOKUrl = element.getAttribute(ATT_LOGIN_OK_URL);
+		WebConfigUtils.validateHttpRedirect(loginOKUrl, pc, pc.extractSource(element));
+		if (StringUtils.hasText(loginOKUrl)) {
+			entryPoint.setLoginOKUrl(loginOKUrl);
+		}
+
+		WebConfigUtils.validateHttpRedirect(loginFailUrl, pc, pc.extractSource(element));
+		if (StringUtils.hasText(loginFailUrl)) {
+			entryPoint.setLoginFailUrl(loginFailUrl);
+		}
+
+		//title
+		final String title = element.getAttribute(ATT_TITLE);
+		if (StringUtils.hasText(title)) {
+			entryPoint.setLoginTemplateArg("title", title);
+		}
+
+		//width
+		final String width = element.getAttribute(ATT_WIDTH);
+		if (StringUtils.hasText(width)) {
+			entryPoint.setLoginTemplateArg("width", width);
+		}
+
+		//height
+		final String height = element.getAttribute(ATT_HEIGHT);
+		if (StringUtils.hasText(height)) {
+			entryPoint.setLoginTemplateArg("height", height);
+		}
+
+		//force-https
+		//if not defined, use forceHttps defined if http/FORM_LOGIN_ENTRY_POINT exists
+		final String forceHttps = element.getAttribute(ATT_FORCE_HTTPS);
+		if (StringUtils.hasText(forceHttps)) {
+			entryPoint.setForceHttps("true".equals(forceHttps));
+		} else {
+			if (formEntryPoint != null) {
+				PropertyValue pv = formEntryPoint.getPropertyValues().getPropertyValue("forceHttps");
+				if (pv != null) {
+					String httpForceHttps = (String) pv.getValue();
+					if (StringUtils.hasText(httpForceHttps)) {
+						entryPoint.setForceHttps("true".equals(httpForceHttps));
+					}
+				}
+			}
+		}
+
+		// close delay
+		String closeDelay = element.getAttribute(ATT_LOGIN_TEMPLATE_CLOSE_DELAY);
+		if (StringUtils.hasText(closeDelay)) {
+			int seconds = new Integer(closeDelay);
+			entryPoint.setLoginOKDelay(seconds);
+		}
+	}
+
+	/**
      * 
      * @param element
      * @param pc

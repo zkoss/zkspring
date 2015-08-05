@@ -21,7 +21,7 @@
 	<properties>
 		<zk.version>[5.0.1, 6.0.2]</zk.version>
 		<zkel.version>1.0.2</zkel.version>
-		<springsecurity.version>3.1.2.RELEASE</springsecurity.version>
+		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
 		<servlet-api.version>2.4</servlet-api.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -39,6 +39,11 @@
 			<version>${servlet-api.version}</version>
 			<scope>provided</scope>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-acl</artifactId>
+			<version>${springsecurity.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>

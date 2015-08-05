@@ -69,7 +69,7 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.acls.model.SidRetrievalStrategy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.zkoss.spring.SpringUtil;
@@ -350,7 +350,7 @@ public class SecurityUtil {
 
         for (int i = 0; i < roles.length; i++) {
             String role = roles[i].trim();
-            requiredAuthorities.add(new GrantedAuthorityImpl(role));
+            requiredAuthorities.add(new SimpleGrantedAuthority(role));
         }
 
         return requiredAuthorities;
@@ -360,19 +360,19 @@ public class SecurityUtil {
      * Find the common authorities between the current authentication's {@link GrantedAuthority} and the ones
      * that have been specified in the tag's ifAny, ifNot or ifAllGranted attributes.<p>We need to manually
      * iterate over both collections, because the granted authorities might not implement {@link
-     * Object#equals(Object)} and {@link Object#hashCode()} in the same way as {@link GrantedAuthorityImpl}, thereby
+     * Object#equals(Object)} and {@link Object#hashCode()} in the same way as {@link SimpleGrantedAuthority}, thereby
      * invalidating {@link Collection#retainAll(java.util.Collection)} results.</p>
      * <p>
      * <strong>CAVEAT</strong>:  This method <strong>will not</strong> work if the granted authorities
      * returns a <code>null</code> string as the return value of {@link
-     * org.springframework.security.GrantedAuthority#getAuthority()}.
+     * org.springframework.security.core.authority.SimpleGrantedAuthority#getAuthority()}.
      * </p>
      * <p>Reported by rawdave, on Fri Feb 04, 2005 2:11 pm in the Spring Security forum.</p>
      *
      * @param granted The authorities granted by the authentication. May be any implementation of {@link
      *        GrantedAuthority} that does <strong>not</strong> return <code>null</code> from {@link
-     *        org.springframework.security.GrantedAuthority#getAuthority()}.
-     * @param required A {@link Set} of {@link GrantedAuthorityImpl}s that have been built using ifAny, ifAll or
+     *        org.springframework.security.core.authority.SimpleGrantedAuthority#getAuthority()}.
+     * @param required A {@link Set} of {@link SimpleGrantedAuthority}s that have been built using ifAny, ifAll or
      *        ifNotGranted.
      *
      * @return A set containing only the common authorities between <var>granted</var> and <var>required</var>.
