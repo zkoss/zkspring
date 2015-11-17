@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zk</groupId>
 	<artifactId>zkspring-webflow</artifactId>
-	<version>3.2.0</version>
+	<version>3.2.1-SNAPSHOT</version>
 	<name>ZK Spring Webflow</name>
 	<description>ZK Spring Integration Library Webflow Library</description>
 	<url>http://www.zkoss.org/zkspring-webflow</url>
