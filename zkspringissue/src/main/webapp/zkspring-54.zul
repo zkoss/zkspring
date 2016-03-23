@@ -1,0 +1,30 @@
+<?page id="mypage"?>
+<zk xmlns:w="client">
+	<div>
+		This button simulates a "dummy" request usually triggered by a server push.
+	</div>
+	<!-- JS button cannot be tested in ZATS simulated in test class -->
+	<button label="fire dummy request"
+		w:onClick="zAu.send(new zk.Event(this.desktop, 'dummy', null, {ignorable: true}));" />
+	
+	<window id="mainwin">
+		<div id="mainwin_div">
+			<idspace id="nested">
+				<div id="nested_div">
+					<button id="mybutton" label="normal button" onClick=""/>
+				</div>
+			</idspace>
+		</div>
+	</window>
+	<div id="noIdSpace">
+		<button id="mybutton2" label="no id space parent" onClick=""/>
+	</div>
+	<zscript><![CDATA[
+		Div div = new Div();
+		div.setId("newDiv");
+		Button button = new Button();
+		button.setId("newButton");
+		div.appendChild(button);
+		Events.sendEvent("onCustom", button, null);
+	]]></zscript>
+</zk>

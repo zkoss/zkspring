@@ -137,45 +137,40 @@ public class ZkEventProcessDefinitionSourceImpl implements ZkEventProcessDefinit
 
         return lookupAttributes(path, eventnm);
     }
-	
-	/*
-	 * Find a component's path by gathering its space owners ID until a Page.
-	 */
-	private String toPath(Component component){
-		StringBuilder path = new StringBuilder();
-		
-		IdSpace currentIdSpace ;
-		if(component instanceof IdSpace)
-			currentIdSpace= (IdSpace) component;
-		else{
-			currentIdSpace = component.getSpaceOwner();
-			path.append("/").append(component.getId());
-		}
 
-		//keep finding upper space owner until reach a Page or null
-		while(true) {
-			if(currentIdSpace instanceof Component){
-				path.insert(0,((Component)currentIdSpace).getId());
-				path.insert(0,"/");
-				final Component parent = ((Component)currentIdSpace).getParent();
-				currentIdSpace = parent == null ? ((Component)currentIdSpace).getPage() : parent.getSpaceOwner();
-			}else if( currentIdSpace instanceof Page){
-				path.insert(0,((Page)currentIdSpace).getId());
-				path.insert(0,"//");
-				break;
-			}else { //null (ZK 5) or VirtualIdSpace (ZK 6)
-				/* Since 6.0.0 VirtualIdSpace is introduced.
-				 * According to {@link VirtualIdSpace}, if a component's space owner is VirtualIdSpace, the component is a root component.
-				 * So, its page is null.  
-				 * ZKSPRING-22 in zk6, space owner might be VirtualIdSpace
-				 * ZKSPRING-39, IdSpace-component's parent might be VirtualIdSpace
-				 * */				
-				path.insert(0,"null"); 
-				break;
-			}
+	/*
+	* Build the component's path using its component id, parent spaceOwner(s) and page IDs.
+	* e.g. //mypageid/mywindow/myinclude/mybutton
+	*/
+	private String toPath(Component component) {
+		return component == null ? "null" : buildPathForComponent(component, new StringBuilder("")).toString();
+	}
+	
+	private StringBuilder buildPathForComponent(Component component, StringBuilder pathBuilder) {
+		return buildPathForIdSpace(getEnclosingIdSpace(component), pathBuilder)
+				.append(component.getId());
+	}
+	
+	private StringBuilder buildPathForIdSpace(IdSpace idSpace, StringBuilder pathBuilder) {
+		if(idSpace instanceof Component) {
+			buildPathForComponent((Component)idSpace, pathBuilder);
+		} else if(idSpace instanceof Page) {
+			pathBuilder.append("//").append(((Page)idSpace).getId());
+		} else {
+			//null (ZK 5) or {@link VirtualIdSpace} (since ZK 6)
+			pathBuilder.append("null");
 		}
-		
-		return path.toString();
+		return pathBuilder.append("/"); 
+	}
+
+	private IdSpace getEnclosingIdSpace(Component component) {
+		IdSpace spaceOwner = component.getSpaceOwner();
+		if(spaceOwner != component) {
+			return spaceOwner;
+		} else {
+			Component parent = component.getParent();
+			return parent == null ? component.getPage() : parent.getSpaceOwner(); 
+		}
 	}
 	
     /**
