@@ -2,7 +2,10 @@ package zkspringissue;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.security.access.ConfigAttribute;
 import org.zkoss.spring.security.intercept.zkevent.ZkEventProcessDefinitionSourceImpl;
@@ -18,10 +21,15 @@ public class ZkSpring54Test {
 		ZkEventProcessDefinitionSourceImpl testee = new ZkEventProcessDefinitionSourceImpl(matcher);
 		testee.addSecureEvent("/**", null, Collections.singletonList(configAttr("ANONYMUS")));
 		testee.addSecureEvent("/some/other", null, Collections.singletonList(configAttr("OTHER")));
+		
+		//no NPE should occur
 		Collection<ConfigAttribute> attributes = testee.getAttributes(new Event("dummy"));
+
+		Set<String> roles =  new HashSet<String>();
 		for (ConfigAttribute configAttribute : attributes) {
-			System.out.println(configAttribute.getAttribute());
+			roles.add(configAttribute.getAttribute());			
 		}
+		Assert.assertEquals("expect ANONYMUS", Collections.singleton("ANONYMUS"), roles);
 	}
 
 	private ConfigAttribute configAttr(String myval) {
