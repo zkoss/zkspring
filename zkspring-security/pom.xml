@@ -21,7 +21,7 @@
 	<properties>
 		<zk.version>8.0.0</zk.version>
 		<zkel.version>1.0.2</zkel.version>
-		<springsecurity.version>3.1.2.RELEASE</springsecurity.version>
+		<springsecurity.version>4.2.3.RELEASE</springsecurity.version>
 		<servlet-api.version>2.4</servlet-api.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

@@ -22,7 +22,6 @@
 	<properties>
 		<zk.version>8.0.0</zk.version>
 		<springwebflow.version>2.2.1.RELEASE</springwebflow.version>
-		<spring.version>3.0.7.RELEASE</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

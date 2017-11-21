@@ -26,7 +26,9 @@ import java.util.List;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.config.http.ZkEventSecurityBeanDefinitionParser;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
@@ -63,8 +65,7 @@ extends	AbstractSingleBeanDefinitionParser {
     @SuppressWarnings({ "unchecked", "deprecation" })
 	public static LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>> parseInterceptEventsForZkEventProcessMap(List elms,  ParserContext parserContext) {
         LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>> eventProcessDefinitionMap = new LinkedHashMap<EventProcessKey, Collection<ConfigAttribute>>();
-        
-        org.springframework.security.access.ConfigAttributeEditor editor = new org.springframework.security.access.ConfigAttributeEditor();
+
         for (final Iterator it = elms.iterator(); it.hasNext();) {
             Element elm = (Element) it.next();
 
@@ -83,8 +84,8 @@ extends	AbstractSingleBeanDefinitionParser {
 
             // Convert the comma-separated list of access attributes to a ConfigAttributeDefinition
             if (StringUtils.hasText(access)) {
-                editor.setAsText(access);
-                eventProcessDefinitionMap.put(new EventProcessKey(path, event), (Collection<ConfigAttribute>) editor.getValue());
+                eventProcessDefinitionMap.put(new EventProcessKey(path, event),
+                        SecurityConfig.createListFromCommaDelimitedString(access));
             }
         }
         

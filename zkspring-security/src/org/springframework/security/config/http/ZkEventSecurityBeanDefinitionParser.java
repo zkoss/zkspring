@@ -226,7 +226,7 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 			
 			for (BeanMetadataElement securityFilter : securityFilterList) {
 	    		BeanDefinition standardFilterBeanDefinition = resolveBeanReference(pc, securityFilter);
-	    		if(standardFilterBeanDefinition != null && standardFilterBeanDefinition.getBeanClassName().equals(filterClassName)) {
+	    		if(standardFilterBeanDefinition != null && filterClassName.equals(standardFilterBeanDefinition.getBeanClassName())) {
 	    			return (RootBeanDefinition)standardFilterBeanDefinition;
 				}	
 			}
@@ -286,8 +286,8 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
         	entryPoint.setLoginOKDelay(seconds);
         }
         setEntryPointAttrs(entryPoint, element, pc);
-        builder.addPropertyValue("authenticationEntryPoint", entryPoint);
-        
+        builder.addConstructorArgValue(entryPoint);
+
         //zkExceptionTranslationFilter
         pc.getRegistry().registerBeanDefinition(ZkBeanIds.ZK_EXCEPTION_TRANSLATION_FILTER, builder.getBeanDefinition());
     }

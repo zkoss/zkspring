@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
+import org.springframework.security.web.util.UrlUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.zkoss.spring.security.ui.ZkExceptionTranslationListener;
 import org.zkoss.zk.ui.Executions;
@@ -38,7 +40,7 @@ import org.zkoss.zk.ui.event.Event;
  * <p>Used by {@link ZkExceptionTranslationListener} to commence an authentication
  * scheme.</p> 
  * <p>This implementation pops up a login Window and show the login form page
- * (see {@link #setLoginFormUrl}) 
+ * (see {@link LoginUrlAuthenticationEntryPoint#LoginUrlAuthenticationEntryPoint(String)})
  * you specified(or the default one if you did not specify) as the content of the
  * window. When the user login OK,
  * it then show the login OK page you specified(see {@link #setLoginOKUrl}) or 
@@ -90,12 +92,26 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	private static final String DEFAULT_LOGIN_TEMPLATE = "~./zul/zkspring/security/loginTemplate.zul";
 	private static final String DEFAULT_LOGIN_OK = "~./zul/zkspring/security/loginOK.zul";
 	private static final String DEFAULT_LOGIN_OK_TEMPLATE = "~./zul/zkspring/security/loginOKTemplate.zul";
-	
+
 	public ZkAuthenticationEntryPoint() {
-		setLoginFormUrl(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
+		super(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
+		setLoginTemplate(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
 		//setForceHttps(true);
 	}
-	
+
+	public void afterPropertiesSet() throws Exception {
+		Assert.isTrue(
+				StringUtils.hasText(getLoginFormUrl())
+						&& UrlUtils.isValidRedirectUrl(getLoginFormUrl()),
+				"loginFormUrl must be specified and must be a valid redirect URL");
+		if (isUseForward() && UrlUtils.isAbsoluteUrl(getLoginFormUrl())) {
+			throw new IllegalArgumentException(
+					"useForward must be false if using an absolute loginFormURL");
+		}
+		Assert.notNull(getPortMapper(), "portMapper must be specified");
+		Assert.notNull(getPortResolver(), "portResolver must be specified");
+	}
+
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException,
 			ServletException {
@@ -199,7 +215,7 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	 * of the page that triggers this login when it pop up for user to login. 
 	 * And then it will post "onLoginOK" event to all root components of the 
 	 * page that triggers this login if user is authenticated successfully. 
-	 * You can get the {@link org.springframework.security.Authentication} by 
+	 * You can get the {@link org.springframework.security.core.Authentication} by
 	 * calling {@link Event#getData()} of the "onLoginOK" event</p>
 	 * 
 	 * <p>If you want to define your own login window template, note that this 
@@ -215,7 +231,15 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	public void setLoginTemplate(String templateURL) {
 		_loginTemplate = templateURL;
 	}
-	
+
+	public String getLoginFormUrl() {
+		return getLoginTemplate();
+	}
+
+	public void setLoginFormUrl(String loginFormUrl) {
+		setLoginTemplate(loginFormUrl);
+	}
+
 	/**
 	 * Returns the login template URL.
 	 * @return the login template URL.

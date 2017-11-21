@@ -31,11 +31,14 @@ import org.zkoss.spring.security.ui.webapp.ZkAuthenticationEntryPoint;
  */
 public class ZkExceptionTranslationFilter extends ExceptionTranslationFilter {
 	public ZkExceptionTranslationFilter() {
-		super();
-		setAuthenticationEntryPoint(new ZkAuthenticationEntryPoint());
+		this(new ZkAuthenticationEntryPoint());
+	}
+
+	public ZkExceptionTranslationFilter(ZkAuthenticationEntryPoint entryPoint) {
+		super(entryPoint);
 		setAccessDeniedHandler(new ZkAccessDeniedHandler());
-		//This is for secure ZK Ajax request. 
+		//This is for secure ZK Ajax request.
 		//Have to set to false to disallow redirect to saved Ajax request.
-//		setCreateSessionAllowed(false); 
+//		setCreateSessionAllowed(false);
 	}
 }
