@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zk</groupId>
 	<artifactId>zkspring-security</artifactId>
-	<version>3.2.1-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<name>ZK Spring Security</name>
 	<description>ZK Spring Integration Security Library</description>
 	<url>http://www.zkoss.org/zkspring-security</url>
@@ -21,7 +21,7 @@
 	<properties>
 		<zk.version>8.0.0</zk.version>
 		<zkel.version>1.0.2</zkel.version>
-		<springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+		<springsecurity.version>4.2.4.RELEASE</springsecurity.version>
 		<servlet-api.version>2.4</servlet-api.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
