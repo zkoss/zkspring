@@ -3,27 +3,36 @@
 <!-- - Sample namespace-based configuration - - $Id: applicationContext-security.xml 
 	3019 2008-05-01 17:51:48Z luke_t $ -->
 
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:zkc="http://www.zkoss.org/2008/zkspring/core"
     xmlns:zksp="http://www.zkoss.org/2008/zkspring/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-        http://www.zkoss.org/2008/zkspring/core http://www.zkoss.org/2008/zkspring/core/zkspring-core.xsd 
+        http://www.zkoss.org/2008/zkspring/core http://www.zkoss.org/2008/zkspring/core/zkspring-core.xsd
         http://www.zkoss.org/2008/zkspring/security http://www.zkoss.org/2008/zkspring/security/zkspring-security.xsd">
-		
-     <!--
-       - Enable the @Secured annotation to secure service layer methods
-       -->                   
+
+
+	<!--
+	- Enable the @Secured annotation to secure service layer methods
+	-->
 	<global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-	<http auto-config="true">
-        <intercept-url pattern="/secure/extreme/**" access="hasRole('ROLE_SUPERVISOR')"/>
-        <intercept-url pattern="/secure/**" access="hasRole('ROLE_USER')" />
-        <intercept-url pattern="/**" access="permitAll" />
-		 <form-login login-page="/login.zul"
-			authentication-failure-url="/login.zul?login_error=1" />
+	<!-- default accessDecisionManager contains some voters that don't support ZK Event as a secure object -->
+	<b:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<b:constructor-arg>
+			<b:list> <!-- For securing ZK Event, only RoleVoter support any class -->
+				<b:bean class="org.springframework.security.access.vote.RoleVoter" />
+			</b:list>
+		</b:constructor-arg>
+	</b:bean>
+
+	<http auto-config="true" use-expressions="false" access-decision-manager-ref="accessDecisionManager">
+		<intercept-url pattern="/secure/extreme/**" access="ROLE_SUPERVISOR"/>
+		<intercept-url pattern="/secure/**" access="ROLE_USER" />
+		<intercept-url pattern="/**" access="ROLE_ANONYMOUS" />
+		<form-login login-page="/login.zul"
+		authentication-failure-url="/login.zul?login_error=1" />
 		<!-- <logout logout-success-url="/home.zul"/> -->
         <!-- Following is list of ZK Spring Security custom filters. 
         	They needs to be exactly in the same order as shown below in order to work.  -->
@@ -32,6 +41,8 @@
         <custom-filter ref="zkEnableSessionInvalidateFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
         <custom-filter ref="zkLoginOKFilter" after="FILTER_SECURITY_INTERCEPTOR"/>
         <custom-filter ref="zkError403Filter" after="LOGOUT_FILTER"/>
+		<!-- disable CSRF to make ajax popup work-->
+		<csrf disabled="true"/>
 	</http>
 
 	<!-- - Usernames/Passwords are - rod/koala - dianne/emu - scott/wombat -peter/opal -->
@@ -51,13 +62,12 @@
 		</authentication-provider>
 	</authentication-manager>
 	
-		<!--  Securing ZK events -->
+	<!--  Securing ZK events -->
 	<zkc:zk-config/>
 	<zksp:zk-event login-template-close-delay="5">
 		<zksp:intercept-event path="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<zksp:intercept-event path="/window/listbox" access="IS_ADMIN"/>
-		<!-- ZKSPRING-22 -->
 		<zksp:intercept-event event="onClick" path="//testcase2/nestedTemplate/*" access="IS_ADMIN"/>
 	</zksp:zk-event>
 	
-</beans:beans>
+</b:beans>
