@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.http.ZkEventSecurityBeanDefinitionParser;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,9 +52,8 @@ import org.zkoss.zk.ui.util.EventInterceptor;
  * @since 1.0
  */
 public class ZkEventProcessListener implements EventInterceptor {
-	private static final String DEFAULT_EVENT_PROCESS_INTERCEPTOR_NAME = "zkEventProcessInterceptor";
 	private final Log logger = LogFactory.getLog(getClass());
-	
+
 	private ZkEventProcessInterceptor _interceptor;
 	private boolean skip = false;
 	
@@ -75,7 +75,7 @@ public class ZkEventProcessListener implements EventInterceptor {
 		}
 		
 		if (_interceptor == null) {
-			_interceptor = (ZkEventProcessInterceptor)SpringUtil.getBean(DEFAULT_EVENT_PROCESS_INTERCEPTOR_NAME, ZkEventProcessInterceptor.class);
+			_interceptor = (ZkEventProcessInterceptor)SpringUtil.getBean(ZkBeanIds.ZK_EVENT_PROCESS_INTERCEPTOR, ZkEventProcessInterceptor.class);
 			if (_interceptor == null) {
 				_interceptor = new ZkEventProcessInterceptor(); 
 			}
@@ -102,7 +102,7 @@ public class ZkEventProcessListener implements EventInterceptor {
 		if (SecurityContextHolder.getContext().getAuthentication() == null) { //pages without access control
 			skip = true;
 		}else{
-			List<SecurityFilterChain> filterChains = (List<SecurityFilterChain>) SpringUtil.getBean(ZkEventSecurityBeanDefinitionParser.SPRING_SECURITY_31_FILTER_CHAIN);
+			List<SecurityFilterChain> filterChains = (List<SecurityFilterChain>) SpringUtil.getBean(BeanIds.FILTER_CHAINS);
 			if (filterChains == null){
 				skip = false;
 			}else{

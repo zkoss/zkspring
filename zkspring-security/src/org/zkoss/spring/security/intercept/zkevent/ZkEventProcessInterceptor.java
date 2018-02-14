@@ -32,7 +32,7 @@ import org.zkoss.zk.ui.event.Event;
  * path pattern and event name.
  * Determine if the request relates to a secured or public invocation by looking up the secure object request against the SecurityMetadataSource.
  * </p>
- * About AbstractSecurityInterceptor's basic concept, refer to Spring Security Reference 3.0.7 "Secure Objects and the AbstractSecurityInterceptor".
+ * About AbstractSecurityInterceptor's basic concept, Spring Security Reference 4.2.4 9.5.2 Secure Objects and the AbstractSecurityInterceptor
  * @author henrichen
  * @since 1.0
  */

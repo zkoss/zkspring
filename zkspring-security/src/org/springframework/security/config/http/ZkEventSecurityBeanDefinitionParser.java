@@ -167,35 +167,6 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 	}
 
 	/**
-	 * Returns standard filter bean definition created by HttpSecurityBeanDefinitionParser for Spring Security 3.0.x.
-	 * Implement it upon HttpSecurityBeanDefinitionParser.parse() under Spring Security 3.0.x.
-	 * @param pc
-	 * @param filterClassName
-	 * @return
-	 */
-	private RootBeanDefinition getStandardFilter30(ParserContext pc, String filterClassName) {
-		RootBeanDefinition filterChainProxy = (RootBeanDefinition) pc.getRegistry().getBeanDefinition(BeanIds.FILTER_CHAIN_PROXY);
-		PropertyValue filterChainMapProperty = filterChainProxy.getPropertyValues().getPropertyValue("filterChainMap");
-        if (filterChainMapProperty != null) {
-        	Map filterChainMap = (Map) filterChainMapProperty.getValue();
-        	Set pathSet = filterChainMap.keySet();
-        	for (Iterator iterator = pathSet.iterator(); iterator.hasNext();) {
-        		Object list = filterChainMap.get(iterator.next());
-        		if(list instanceof List) {
-        			List<BeanMetadataElement> filterList = (List<BeanMetadataElement>) list;
-					for (BeanMetadataElement filterBean :  filterList) {
-						BeanDefinition standardFilterBeanDefinition = resolveBeanReference(pc, filterBean);
-						if(standardFilterBeanDefinition != null && standardFilterBeanDefinition.getBeanClassName().equals(filterClassName)) {
-							return (RootBeanDefinition)standardFilterBeanDefinition;
-						}	
-					}
-        		}
-			}
-        }
-		return null;
-	}
-	
-	/**
 	 * Get Spring Security standard filters' BeanDefinition. Because ZK filter BeanDefinitions use the same PropertyValue.
 	 * We get them by iterating Spring Security FILTER_CHAIN_PROXY(3.0.x) or FILTER_CHAINS(3.1.x) bean's properties.
 	 * The filter bean definition in Spring Security 3.0.x and 3.1.x has different structure respectively.  
@@ -204,11 +175,7 @@ public class ZkEventSecurityBeanDefinitionParser implements BeanDefinitionParser
 	 */
 	private RootBeanDefinition getStandardFilter(ParserContext pc,	String filterClassName) {
         
-		if (SpringSecurityCoreVersion.getVersion().compareTo("3.1.0.RELEASE")<0){ 
-			return getStandardFilter30(pc, filterClassName);
-		}
-
-		BeanDefinition filterChain = pc.getRegistry().getBeanDefinition(SPRING_SECURITY_31_FILTER_CHAIN);
+		BeanDefinition filterChain = pc.getRegistry().getBeanDefinition(BeanIds.FILTER_CHAINS);
 		List<BeanReference> filterChainsSourceList = (List<BeanReference>)filterChain.getPropertyValues().getPropertyValue("sourceList").getValue();
 	 
     	for (BeanReference filterChainBean : filterChainsSourceList) {
