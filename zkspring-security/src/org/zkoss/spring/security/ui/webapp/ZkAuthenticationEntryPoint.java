@@ -64,6 +64,7 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	private String _loginOKTemplate; //login window template URL
 	private String _loginOKUrl; //login OK URL
 	private String _loginFailUrl; //login Fail URL
+	private String loginFormUrl; //since spring security 4, hte loginFormUrl of LoginUrlAuthenticationEntryPoint becomes private and no setter
 	private int _delay = 0; //the delay time to close the pop up login window, default to close immediatly.
 	
     public static final String SPRING_SECURITY_SAVED_REQUEST_KEY = "SPRING_SECURITY_SAVED_REQUEST_KEY";
@@ -95,7 +96,6 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 
 	public ZkAuthenticationEntryPoint() {
 		super(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
-		setLoginTemplate(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL);
 		//setForceHttps(true);
 	}
 
@@ -120,7 +120,7 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         final String template = getLoginTemplate();
-		final String loginUrl = buildRedirectUrlToLoginPage(httpRequest, httpResponse, authException);
+		final String loginUrl = buildRedirectUrlToLoginPage(httpRequest, httpResponse, authException); //return a complete URL e.g. http://...
         final String loginOKUrl = getLoginOKUrl() == null ? 
         		DEFAULT_LOGIN_OK : getLoginOKUrl();
         final String loginOKTemplate = getLoginOKTemplate() == null ?
@@ -145,7 +145,6 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 		}
 		// Need to flush previously saved request - Bug fix for secure page showing up in login popup
 //		httpRequest.getSession().setAttribute(AbstractAuthenticationProcessingFilter.SPRING_SECURITY_SAVED_REQUEST_KEY, null);
-		
 		Executions.createComponents(
 				template == null || template.trim().length() == 0 ? 
 					DEFAULT_LOGIN_TEMPLATE : template, null, args);
@@ -233,11 +232,11 @@ public class ZkAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
 	}
 
 	public String getLoginFormUrl() {
-		return getLoginTemplate();
+		return this.loginFormUrl == null ? super.getLoginFormUrl() : this.loginFormUrl;
 	}
 
 	public void setLoginFormUrl(String loginFormUrl) {
-		setLoginTemplate(loginFormUrl);
+		this.loginFormUrl = loginFormUrl;
 	}
 
 	/**
