@@ -38,14 +38,14 @@ import org.zkoss.zk.ui.util.Configuration;
  * @since 3.0
  */
 public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
-	private static String RESOLVER_CLASS = org.zkoss.spring.DelegatingVariableResolver.RESOLVER_CLASS;
+	private static String RESOLVER_CLASS = CoreWebAppInit.RESOLVER_CLASS;
 	private static String SECURITY_RESOLVER = "org.zkoss.spring.init.SecurityVariableResolver";
-	@SuppressWarnings("deprecation")
+
 	public void init(WebApp wapp) throws Exception {
 		final Configuration conf = wapp.getConfiguration();
 		
 		final ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) 
-			WebApplicationContextUtils.getRequiredWebApplicationContext((ServletContext)wapp.getNativeContext());
+			WebApplicationContextUtils.getRequiredWebApplicationContext(wapp.getServletContext());
 		
 		//add listener for ZK + Security
 		if (ctx.containsBeanDefinition(ZkBeanIds.ZK_DESKTOP_REUSE_FILTER)) {

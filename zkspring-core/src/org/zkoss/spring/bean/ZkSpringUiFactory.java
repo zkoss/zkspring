@@ -58,7 +58,6 @@ import org.zkoss.zk.ui.sys.RequestInfo;
 public class ZkSpringUiFactory extends SimpleUiFactory {
 	public static final String DESKTOP_REUSE = "zkoss.spring.DESKTOP_REUSE";
 	public static final String DESKTOP_URL = "zkoss.spring.DESKTOP_URL";
-	private static final String BINDING_COMPOSER = "${"+ZkBeanIds.ZK_BINDING_COMPOSER+"}";
 
 	public PageDefinition getPageDefinition(RequestInfo ri, String path) {
 		PageDefinition pd = super.getPageDefinition(ri, path);
@@ -78,48 +77,6 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 		return pd;
 	}
 
-	/**
-	 * @since 1.2
-	 */
-	public PageDefinition getPageDefinitionDirectly(
-	RequestInfo ri, String content, String extension) {
-		PageDefinition pd = super.getPageDefinitionDirectly(ri, content, extension);
-		//bug 2684322: Nullpoint when accese to a nonexist page
-		if (pd != null) {
-//			applyZkSpringDelegatingVariableResolver(pd);
-//			applyZkSpringBeanBindingComposer(pd);
-		}
-		return pd;
-	}
-
-	/**
-	 * @since 1.2
-	 */
-	public PageDefinition getPageDefinitionDirectly(
-	RequestInfo ri, Document content, String extension) {
-		PageDefinition pd = super.getPageDefinitionDirectly(ri, content, extension);
-		//bug 2684322: Nullpoint when accese to a nonexist page
-		if (pd != null) {
-//			applyZkSpringDelegatingVariableResolver(pd);
-//			applyZkSpringBeanBindingComposer(pd);
-		}
-		return pd;
-	}
-	
-	/**
-	 * @since 1.2
-	 */
-	public PageDefinition getPageDefinitionDirectly(
-	RequestInfo ri, Reader reader, String extension) throws IOException {
-		PageDefinition pd = super.getPageDefinitionDirectly(ri, reader, extension);
-		//bug 2684322: Nullpoint when accese to a nonexist page
-		if (pd != null) {
-//			applyZkSpringDelegatingVariableResolver(pd);
-//			applyZkSpringBeanBindingComposer(pd);
-		}
-		return pd;
-	}
-	
 	public Desktop newDesktop(RequestInfo ri, String updateURI, String path) {
 		final ServletRequest request = (ServletRequest)ri.getNativeRequest();
 		final String url = Https.getOriginFullRequest(request);
@@ -158,34 +115,6 @@ public class ZkSpringUiFactory extends SimpleUiFactory {
 		}
 	}
 
-	//@since 1.2
-	private void applyZkSpringDelegatingVariableResolver(PageDefinition pd) {
-		final VariableResolverInfo varResolverInfo = new VariableResolverInfo(org.zkoss.spring.DelegatingVariableResolver.class);
-		pd.addVariableResolverInfo(varResolverInfo);
-	}
-
-	//since 1.2
-	private void applyZkSpringBeanBindingComposer(PageDefinition pd) {
-		applyZkSpringBeanBindingComposer(pd.getChildren());
-	}
-	
-	//since 1.2
-	private void applyZkSpringBeanBindingComposer(List nodes) {
-		for (final Iterator it = nodes.iterator(); it.hasNext();) {
-			final Object node = it.next();
-			if (node instanceof ComponentInfo) {
-				final ComponentInfo ci = (ComponentInfo) node;
-				applyZkSpringBeanBindingComposer(ci.getChildren()); //recursive
-				final String apply = ci.getApply();
-				if (apply == null) { //apply is null
-					ci.setApply(BINDING_COMPOSER);
-				} else if (apply.indexOf(BINDING_COMPOSER) < 0) { //apply not null but not binding composer yet
-					ci.setApply(BINDING_COMPOSER + ","+ apply);
-				}
-			}
-		}
-	}
-	
 	private static class ReusablePage extends PageImpl {
 		private static final long serialVersionUID = 20090116165127L;
 		private boolean _reuse;

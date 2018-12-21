@@ -36,7 +36,6 @@ public class SpringUtil {
 	/**
 	 * Get the spring application context.
 	 */
-	@SuppressWarnings("deprecation")
 	public static ApplicationContext getApplicationContext() {
 		Execution exec = Executions.getCurrent();
 		if (exec == null) {
@@ -44,7 +43,7 @@ public class SpringUtil {
 		}
 		
 		return WebApplicationContextUtils.getRequiredWebApplicationContext(
-				(ServletContext)exec.getDesktop().getWebApp().getNativeContext());
+				exec.getDesktop().getWebApp().getServletContext());
 	}
 	
 	/**
@@ -65,7 +64,6 @@ public class SpringUtil {
 	/**
 	 * Get the spring bean by the specified name and class.
 	 */		
-	@SuppressWarnings("unchecked")
 	public static Object getBean(String name, Class cls) {
 		Object o = null;
 		try {

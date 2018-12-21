@@ -37,17 +37,6 @@ public abstract class ZkBeanIds {
 	public static final String ZK_EVENT_PROCESS_INTERCEPTOR = "zkEventProcessInterceptor";
 	public static final String ZK_DESKTOP_REUSE_FILTER = "zkDesktopReuseFilter";
 	
-	//webflow
-	public static final String ZK_CONVERSION_SERVICE = "zkConversionService";
-	public static final String ZK_EXPRESSION_PARSER = "zkExpressionParser";
-	public static final String ZK_FLOW_VIEW_FACTORY_CREATOR = "zkFlowViewFactoryCreator";
-	public static final String ZK_FLOW_RESOURCE_VIEW_RESOLVER = "zkFlowResourceViewResolver";
-	public static final String ZK_FLOW_HANDLER_ADAPTER = "zkFlowHandlerAdapter";
-	public static final String ZK_FLOW_URL_HANDLER = "zkFlowUrlHandler";
-	public static final String ZK_AJAX_HANDLER = "zkAjaxHandler";
-	
 	//zk-config
 	public static final String ZK_SCOPE_CONFIG = "zkScopeConfig";
-	public static final String ZK_TYPE_PROPERTY_EDITOR = "zkTypePropertyEditor";
-	public static final String ZK_BINDING_COMPOSER = "zkBindingComposer";
 }

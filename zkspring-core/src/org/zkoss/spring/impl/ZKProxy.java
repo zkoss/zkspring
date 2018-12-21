@@ -41,19 +41,11 @@ import org.zkoss.zk.ui.sys.ExecutionCtrl;
  * @since 1.2.0
  */
 public class ZKProxy {
-	private static Proxy _proxy;
+	private static Proxy _proxy = newProxy5();
 	
-	/** Reeturns the ZK Proxy used to access version-dependent features.
+	/** Returns the ZK Proxy used to access version-dependent features.
 	 */
 	public static Proxy getProxy() {
-		if (_proxy == null) {//no need to synchronized
-			try {
-				Classes.forNameByThread("org.zkoss.zk.ui.sys.PageRenderer");
-				_proxy = newProxy5();
-			} catch (ClassNotFoundException ex) {
-				_proxy = newProxy3();
-			}
-		}
 		return _proxy;
 	}
 	
@@ -103,8 +95,7 @@ public class ZKProxy {
 				exec.removeAttribute(name);
 			}
 
-			public void responseSent(DesktopCtrl desktopCtrl, String channel,
-					String reqId, Object resInfo) {
+			public void responseSent(DesktopCtrl desktopCtrl, String channel, String reqId, Object resInfo) {
 				desktopCtrl.responseSent(reqId, resInfo);
 			}
 
@@ -134,79 +125,6 @@ public class ZKProxy {
                         }
                 }
                 return null;
-
-//				final Page page = exec.getCurrentPage();
-//				Scope scope= ZkSpringIntegrationContext.getContextComponent();
-//				if(scope == null) {
-//					scope = Scopes.getCurrent(page);
-//					if (scope != null)  {
-//						Object o = null;
-//						if(scope instanceof IdSpace) {
-//							o = scope.getAttribute("self", false);
-//						} else {
-//							if(scope instanceof Component) {
-//								o = scope.getAttribute("self", false);
-//								Component self = (Component) o;
-//								if (self == null) {
-//									self = (Component) Scopes.getImplicit("self", null);
-//								}
-//								return self;
-//							} 
-//						}
-//					}
-//				} else {
-//					return (Component) scope;
-//				}
-//				return null;
-			}
-		};
-	}
-	
-	private static Proxy newProxy3() {
-		return new Proxy() {
-
-			public void removeAttribute(Execution exec, String name) {
-				((ServletRequest)exec.getNativeRequest()).removeAttribute(name);
-				//can't access removeAttribute directly, since signature of ZK 5 changed
-			}
-
-			public void responseSent(DesktopCtrl desktopCtrl, String channel,
-					String reqId, Object resInfo) {
-				try {
-					final Method m = 
-						DesktopCtrl.class.getDeclaredMethod("responseSent", new Class[] {String.class, String.class, Object.class});
-					m.invoke(desktopCtrl, new Object[] {channel, reqId, resInfo});
-				} catch (Exception e) {
-					throw UiException.Aide.wrap(e);
-				}
-				//can't access responseSent directly, since signature of ZK 5 changed
-			}
-
-			public void setAttribute(Execution exec, String name, Object value) {
-				((ServletRequest)exec.getNativeRequest()).setAttribute(name, value);
-				//can't access setAttribute directly, since signature of ZK 5 changed
-			}
-
-			public Component getSelf(ExecutionCtrl exec) {
-				final Page page = exec.getCurrentPage();
-				final Scope scope = Scopes.getCurrent(page);
-				if (scope != null) {
-					Component self = (Component) scope.getAttribute("self", true);
-					//since ZK 3.6.1, event handling, use getImplicit()
-					if (self == null) {
-						self = (Component) Scopes.getImplicit("self", null);
-					}
-					return self;
-				}
-				return null;
-			}
-			
-			public void setAttribute(Session session, String name, Object value) {
-				((javax.servlet.http.HttpSession)session.getNativeSession()).setAttribute(name, value);
-			}
-
-			public void removeAttribute(Session session, String name) {
-				((javax.servlet.http.HttpSession)session.getNativeSession()).removeAttribute(name);
 			}
 		};
 	}

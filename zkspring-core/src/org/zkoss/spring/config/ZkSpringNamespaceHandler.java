@@ -27,17 +27,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
  * @since 1.0
  */
 public class ZkSpringNamespaceHandler extends NamespaceHandlerSupport {
-
 	public void init() {
-		//--Spring bean--//
-		//<ui-lookup id="..." type="..." [path="..."] [scope="..."]/>
-		registerBeanDefinitionParser("ui-lookup", new ZkComponentFactoryBeanDefinitionParser());
-		//<ui-lookup-all [ids="id1,id2,..."] [scope="..."]/>
-		registerBeanDefinitionParser("ui-lookup-all", new ZkComponentFactoryBeansDefinitionParser());
-		//<zk-config/>
 		registerBeanDefinitionParser("zk-config", new ZkConfigDefinitionParser());
-		// Following feature is commented as we introduce GenericSpringComposer as an equivalent feature
-		//<component-scan />
-//		registerBeanDefinitionParser("component-scan", new ZkComponentScanBeanDefinitionParser());
 	}
 }

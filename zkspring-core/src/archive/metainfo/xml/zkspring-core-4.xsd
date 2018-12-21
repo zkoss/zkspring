@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.zkoss.org/2008/zkspring/core"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://www.zkoss.org/2008/zkspring/core"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	
+	<xs:import namespace="http://www.springframework.org/schema/beans" />
+	<!-- ZK Component Lookup and ZK scopes-->
+	<xs:element name="zk-config">
+		<xs:annotation>
+			<xs:documentation>Used to configure ZK such as ZK specific scopes('desktop', 'page', and 'execution') and others. 
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>
+

@@ -26,13 +26,16 @@ import org.zkoss.lang.Objects;
 import org.zkoss.xel.VariableResolver;
 
 /**
+ * @deprecated As of release 4.0 obsolete.
+ * Implemented identically super class {@link org.zkoss.zkplus.spring.DelegatingVariableResolver}
+ *
  * <p>
  * DelegatingVariableResolver for resolving Spring beans,
- * Spring Security variables and Spring Webflow variables.
+ * Spring Security variables.
  * </p>
  * <p>
  * It delegates variable resolving to ZK Spring core, ZK Spring Security
- * and ZK Spring FlowResolver if they are on application classpath.
+ * Resolver if they are on application classpath.
  * <p>
  * Usage:<br>
  * <code>&lt;?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?&gt;</code>
@@ -44,53 +47,6 @@ import org.zkoss.xel.VariableResolver;
  * @author henrichen
  * @since 3.0
  */
+@Deprecated
 public class DelegatingVariableResolver extends org.zkoss.zkplus.spring.DelegatingVariableResolver {
-	public static String RESOLVER_CLASS = "org.zkoss.spring.VariableResolver.class";
-	/**
-	 * Holds list of variable resolvers for Spring core (3.0 and later),
-	 * Spring security(3.0 and later)
-	 */
-	protected List _variableResolvers = new ArrayList();
-
-	public DelegatingVariableResolver() {
-		final String classes = Library.getProperty(RESOLVER_CLASS);
-		
-		String[] vrClss = classes.split(",");
-		for (int i = 0; i < vrClss.length; i++) {
-			try {
-				Object o = Classes.newInstanceByThread(vrClss[i]);
-				if(!_variableResolvers.contains(o)) {
-					_variableResolvers.add(o);
-				}
-			} catch (Exception e) {
-				// do nothing
-			}
-		}
-	}
-
-	/**
-	 * Resolves variable name by name. It can resolve a spring bean, spring
-	 * security authentication and spring web flow variables depending upon ZK
-	 * Spring libraries in the classpath
-	 */
-	public Object resolveVariable(String name) {
-		Object o = null;
-		for (final Iterator it = _variableResolvers.iterator(); it.hasNext();) {
-			VariableResolver resolver = (VariableResolver) it.next();
-			o = resolver.resolveVariable(name);
-			if (o != null) {
-				return o;
-			}
-		}
-		return o;
-	}
-
-	public int hashCode() {
-		return Objects.hashCode(_variableResolvers);
-	}
-
-	public boolean equals(Object obj) {
-		return this == obj || (obj instanceof DelegatingVariableResolver
-				&& Objects.equals(_variableResolvers, ((DelegatingVariableResolver) obj)._variableResolvers));
-	}
 }
