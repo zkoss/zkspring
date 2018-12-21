@@ -21,6 +21,5 @@
   <modules>
   	<module>../zkspring-core</module>
   	<module>../zkspring-security</module>
-  	<module>../zkspring-webflow</module>
   </modules>
 </project>
