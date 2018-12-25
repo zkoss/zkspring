@@ -3,19 +3,19 @@ package bigbank.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bigbank.BankServiceScenario1;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import bigbank.Account;
-import bigbank.BankServiceScenario2;
 
 public class PostAccountsScenario2 implements Controller {
 
-	private BankServiceScenario2 bankService;
+	private BankServiceScenario1 bankService;
 	
-	public PostAccountsScenario2(BankServiceScenario2 bankService) {
+	public PostAccountsScenario2(BankServiceScenario1 bankService) {
 		Assert.notNull(bankService);
 		this.bankService = bankService;
 	}

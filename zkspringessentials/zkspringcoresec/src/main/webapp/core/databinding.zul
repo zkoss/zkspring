@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk xmlns="http://www.zkoss.org/2005/zul">
 <window title="Bean in ZK databinding annotations" width="640px" border="normal" >
@@ -10,11 +9,11 @@ Expected last name:
 	Dasnurkar	
 </label>
 
- <grid width="400px">
+ <grid width="400px" apply="org.zkoss.bind.BindComposer">
         <rows>
-            <row> First Name: <textbox value="@{person.firstName}"/></row>
-            <row> Last Name: <textbox value="@{person.lastName}"/></row>
-            <row> Full Name: <label value="@{person.fullName}"/></row>
+            <row> First Name: <textbox value="@bind(person.firstName)"/></row>
+            <row> Last Name: <textbox value="@bind(person.lastName)"/></row>
+            <row> Full Name: <label value="@bind(person.fullName)"/></row>
         </rows>
     </grid>
 </window>

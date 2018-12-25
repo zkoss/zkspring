@@ -4,22 +4,22 @@
     <groupId>zkspringcoresec</groupId>
     <artifactId>zkspringcoresec</artifactId>
     <name>zkspringcoresec</name>
-    <version>3.1.1</version>
+    <version>4.0.0</version>
     <properties>
-        <zk.version>6.5.1</zk.version>
+        <zk.version>8.6.0.1-Eval</zk.version>
         <zkspring.version>4.0.0-SNAPSHOT</zkspring.version>
-        <spring.version>4.3.12.RELEASE</spring.version>
-        <springsecurity.version>4.2.4.RELEASE</springsecurity.version>
-        <commons-fileupload.version>1.2.1</commons-fileupload.version>
-        <commons-io.version>1.4</commons-io.version>
-        <servlet-api.version>2.4</servlet-api.version>
+        <spring.version>4.3.21.RELEASE</spring.version>
+        <springsecurity.version>4.2.10.RELEASE</springsecurity.version>
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+        <commons-io.version>2.6</commons-io.version>
+        <servlet-api.version>2.5</servlet-api.version>
         <jstl-api.version>1.1.2</jstl-api.version>
-        <junit.version>4.7</junit.version>
+        <junit.version>4.12</junit.version>
         <concurrent.version>1.3.4</concurrent.version>
-        <commons-lang.version>2.5</commons-lang.version>
+        <commons-lang.version>2.6</commons-lang.version>
         <javassist.version>3.14.0-GA</javassist.version>
     </properties>
-    <description>We should replace zuljsp 1.6 with 2.0 for compatibility issue with zk 6.0.0.
+    <description>
         Project version corresponds to zkspring core version that the project uses.
     </description>
     <repositories>
@@ -46,6 +46,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>${servlet-api.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -137,111 +138,23 @@
             <artifactId>zul</artifactId>
             <version>${zk.version}</version>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-all</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>rhino</groupId>
-                    <artifactId>js</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jruby</groupId>
-                    <artifactId>jruby</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.python</groupId>
-                    <artifactId>jython</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.portlet</groupId>
-                    <artifactId>portlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zhtml</artifactId>
             <version>${zk.version}</version>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-all</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>rhino</groupId>
-                    <artifactId>js</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jruby</groupId>
-                    <artifactId>jruby</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.python</groupId>
-                    <artifactId>jython</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.portlet</groupId>
-                    <artifactId>portlet-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zuljsp</artifactId>
             <version>2.0</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>zweb</artifactId>
-                    <groupId>org.zkoss.common</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>zcommon</artifactId>
-                    <groupId>org.zkoss.common</groupId>
-                </exclusion>
-            </exclusions>
+            <!--<scope>runtime</scope>-->
         </dependency>
         <dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zkspring-core</artifactId>
             <version>${zkspring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.web.servlet</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.context.support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.transaction</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.expression</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.zkoss.zk</groupId>
@@ -252,12 +165,6 @@
         <dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zkplus</artifactId>
-            <version>${zk.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.zkoss.zk</groupId>
-            <artifactId>zkex</artifactId>
             <version>${zk.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -293,7 +200,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -302,16 +209,18 @@
         <plugins>
             <!-- Run with Jetty -->
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
+                <!--<groupId>org.eclipse.jetty</groupId>-->
+                <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.2.22.v20170606</version>
+                <!--<version>9.4.14.v20181114</version>-->
+                <version>7.6.16.v20140903</version>
                 <configuration>
                     <webAppConfig>
                         <contextPath>/${project.artifactId}</contextPath>
-                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-                        <!-- no need to scan anything as we're using servlet 2.5 to reduce start-up time-->
-                        <webInfIncludeJarPattern>^$</webInfIncludeJarPattern>
-                        <containerIncludeJarPattern>^$</containerIncludeJarPattern>
+                        <!--<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>-->
+                        <!--&lt;!&ndash; no need to scan anything as we're using servlet 2.5 to reduce start-up time&ndash;&gt;-->
+                        <!--<webInfIncludeJarPattern>^$</webInfIncludeJarPattern>-->
+                        <!--<containerIncludeJarPattern>^$</containerIncludeJarPattern>-->
                     </webAppConfig>
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                 </configuration>

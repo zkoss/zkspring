@@ -1,8 +1,11 @@
 package bigbank;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository("bankDao")
 public class BankDaoStub implements BankDao {
 	private long id = 0;
 	@SuppressWarnings("unchecked")

@@ -7,13 +7,13 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import bigbank.BankServiceScenario2;
+import bigbank.BankServiceScenario1;
 
 public class ListAccountsScenario2 implements Controller {
 
-	private BankServiceScenario2 bankService;
+	private BankServiceScenario1 bankService;
 	
-	public ListAccountsScenario2(BankServiceScenario2 bankService) {
+	public ListAccountsScenario2(BankServiceScenario1 bankService) {
 		Assert.notNull(bankService);
 		this.bankService = bankService;
 	}

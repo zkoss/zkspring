@@ -10,7 +10,7 @@ This is a protected page. You can get to me if you've been remembered,
 or if you've authenticated this session.
 </p>
 
-<sec:authorize ifAllGranted="ROLE_SUPERVISOR">
+<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
 	You are a supervisor! You can therefore see the <a href="extreme/index.jsp">extremely secure page</a>.<br/><br/>
 </sec:authorize>
 
@@ -28,8 +28,8 @@ or if you've authenticated this session.
 	</z:rows>
 </z:grid>
 <z:separator bar="true"></z:separator>
-<z:button label="Home" href="../home.zul"/>
-<z:button label="Logout" href="../logout"/>
+<z:button label="Home" href="/home.zul"/>
+<z:button label="Logout" href="/logout"/>
 </z:window>
 </z:page>
 </body>

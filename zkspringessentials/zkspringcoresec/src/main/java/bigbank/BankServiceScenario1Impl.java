@@ -1,14 +1,16 @@
 package bigbank;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-@Qualifier("bankServiceScenario1Impl")
+@Service("bankServiceScenario1")
 public class BankServiceScenario1Impl implements BankServiceScenario1 {
     private BankDao bankDao;
 
+    @Autowired
     public BankServiceScenario1Impl(BankDao bankDao) {
-        Assert.notNull(bankDao);
+        Assert.notNull(bankDao, "missing bankDao");
         this.bankDao = bankDao;
     }
 
@@ -17,7 +19,7 @@ public class BankServiceScenario1Impl implements BankServiceScenario1 {
     }
 
     public Account post(Account account, double amount) {
-        Assert.notNull(account);
+        Assert.notNull(account, "account missing");
 
         // We read account bank from DAO so it reflects the latest balance
         Account a = bankDao.readAccount(account.getId());

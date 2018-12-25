@@ -4,12 +4,13 @@
 package org.zkoss.zkspringessentials.beans;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * @author ashish
  *
  */
-@org.springframework.stereotype.Component("msgBean")
+@Component("msgBean")
 @Scope("desktop")
 public class SimpleMessageBean {
 

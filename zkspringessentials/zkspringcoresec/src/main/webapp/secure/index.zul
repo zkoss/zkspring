@@ -29,5 +29,5 @@ or if you've authenticated this session.
 </grid>
 <separator bar="true"></separator>
 <button label="Home" href="../home1.zul"/>
-<button label="Logout" href="../j_spring_security_logout"/>
+<button label="Logout" href="/logout"/>
 </window>

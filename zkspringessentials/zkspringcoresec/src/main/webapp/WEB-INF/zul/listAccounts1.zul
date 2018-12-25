@@ -1,0 +1,22 @@
+<?page id="testZul" title="Accounts" ?>
+<zk>
+<window title="Accounts" border="normal" width="500px"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('bigbank.web.BigbankViewModel')">
+	<grid model="@init(vm.accounts)">
+		<template name="model">
+			<row>
+				<label value="${each.id}"/>
+				<label value="${each.holder}"/>
+				<label value="@load(each.balance)"/>
+				<button label="-$20" onClick="@command('adjustBalance', accountId=each.id, amount=-20.00)"/>
+				<button label="-$5" onClick="@command('adjustBalance', accountId=each.id, amount=-5.00)"/>
+				<button label="+$5" onClick="@command('adjustBalance', accountId=each.id, amount=5.00)"/>
+				<button label="+$20" onClick="@command('adjustBalance', accountId=each.id, amount=20.00)"/>
+			</row>
+		</template>
+	</grid>
+</window>
+*Home <button label="Go!" href="/home.zul"/>
+<button label="Logout" href="/logout"/>
+</zk>

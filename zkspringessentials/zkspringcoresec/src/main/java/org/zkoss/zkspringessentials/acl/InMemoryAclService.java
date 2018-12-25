@@ -31,39 +31,14 @@ public class InMemoryAclService implements AclService {
 
 	@PostConstruct
 	public void initializeACLs() {
-		// create ACLs according to requirements of tutorial application
-//		ObjectIdentity user1 = new ObjectIdentityImpl(User.class, "rod");
-//		ObjectIdentity user2 = new ObjectIdentityImpl(User.class, "dianne");
-//		ObjectIdentity user3 = new ObjectIdentityImpl(User.class, "scott");
-//		ObjectIdentity user4 = new ObjectIdentityImpl(User.class, "peter");
-
 		final int OBJECT_ID_FOR_ACL_TEST =1;
 		ObjectIdentity user1 = new ObjectIdentityImpl(Person.class, OBJECT_ID_FOR_ACL_TEST);
 		Acl acl1 = new SimpleAclImpl(user1, new LinkedList<AccessControlEntry>());
 		acl1.getEntries().add(new AccessControlEntryImpl("ace1", acl1, new PrincipalSid("rod"), BasePermission.ADMINISTRATION, true, true, true));
-		
 		acl1.getEntries().add(new AccessControlEntryImpl("ace2", acl1, new PrincipalSid("dianne"), BasePermission.CREATE, true, true, true));
-		
 		acl1.getEntries().add(new AccessControlEntryImpl("ace3", acl1, new PrincipalSid("peter"), BasePermission.WRITE, true, true, true));
-		
 		acl1.getEntries().add(new AccessControlEntryImpl("ace4", acl1, new PrincipalSid("scott"), BasePermission.READ, true, true, true));
-
 		acls.put(acl1.getObjectIdentity(), acl1);
-		
-//		Acl acl1 = new SimpleAclImpl(user1, new LinkedList<AccessControlEntry>());
-//		acl1.getEntries().add(new AccessControlEntryImpl("ace1", acl1, new PrincipalSid("manager1"), BasePermission.READ, true, true, true));
-//		acls.put(acl1.getObjectIdentity(), acl1);
-//		Acl acl2 = new SimpleAclImpl(user2, new LinkedList<AccessControlEntry>());
-//		acl2.getEntries().add(new AccessControlEntryImpl("ace2", acl2, new PrincipalSid("manager1"), BasePermission.READ, true, true, true));
-//		acls.put(acl2.getObjectIdentity(), acl2);
-//		Acl acl3 = new SimpleAclImpl(user3, new LinkedList<AccessControlEntry>());
-//		acl3.getEntries().add(new AccessControlEntryImpl("ace3", acl3, new PrincipalSid("manager2"), BasePermission.READ, true, true, true));
-//		acls.put(acl3.getObjectIdentity(), acl3);
-//		Acl acl4 = new SimpleAclImpl(user4, new LinkedList<AccessControlEntry>());
-//		acl4.getEntries().add(new AccessControlEntryImpl("ace4", acl4, new PrincipalSid("manager2"), BasePermission.READ, true, true, true));
-//		acls.put(acl4.getObjectIdentity(), acl4);
-		
-		
 	}
 
 	public List<ObjectIdentity> findChildren(ObjectIdentity parentIdentity) {
