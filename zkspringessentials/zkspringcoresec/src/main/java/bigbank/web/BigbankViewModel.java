@@ -1,11 +1,7 @@
 package bigbank.web;
 
 import bigbank.Account;
-import bigbank.BankServiceScenario1;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
+import bigbank.BankServiceScenario;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -19,20 +15,19 @@ import org.zkoss.zul.ListModelList;
 public class BigbankViewModel {
 
 	@WireVariable
-	private BankServiceScenario1 bankServiceScenario1;
+	private BankServiceScenario bankServiceScenario;
 
 	private ListModelList<Account> accounts;
 
 	@Init
 	public void init() {
-		accounts = new ListModelList<Account>(bankServiceScenario1.findAccounts());
+		accounts = new ListModelList<Account>(bankServiceScenario.findAccounts());
 	}
 
 	@Command
 	public void adjustBalance(@BindingParam("accountId") Long id, @BindingParam("amount") Double amount) {
-		final Account account = bankServiceScenario1.readAccount(id);
-		final Account updatedAccount = bankServiceScenario1.post(account, amount);
-		account.setBalance(updatedAccount.getBalance());
+		final Account account = bankServiceScenario.readAccount(id);
+		account.setBalance(bankServiceScenario.post(account, amount).getBalance());
 		BindUtils.postNotifyChange(null, null, account, "balance");
 	}
 

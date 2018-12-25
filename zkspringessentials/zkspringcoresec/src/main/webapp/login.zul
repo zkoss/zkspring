@@ -1,5 +1,5 @@
 <?page id="testZul" title="CUSTOM ZK + SPRING SECURITY LOGIN"?>
-<window id="loginwin" title="CUSTOM ZK + SPRING SECURITY LOGIN" border="normal" width="500px">
+<window id="loginwin" title="CUSTOM ZK + SPRING SECURITY LOGIN" border="normal" width="750px">
 	<groupbox>
 		<caption>Valid users</caption>
 	<grid>
@@ -13,7 +13,7 @@
 				rod <label value="koala"/><label value="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER"/>
 			</row>
 			<row>
-				dianne <label value="emu"/><label value="ROLE_USER,ROLE_TELLER"/>
+				dianne <label value="emu"/><label value="ROLE_USER, ROLE_TELLER"/>
 			</row>
 			<row>
 				scott <label value="wombat"/><label value="ROLE_USER"/>
@@ -40,11 +40,12 @@
     		<rows>
     			<row>User: <textbox id="u" name="username" focus="true"/></row>
     			<row>Password: <textbox id="p" type="password" name="password"/></row>
-    			<row><checkbox id="r" name="_spring_security_remember_me"/>Don't ask for my password for two weeks</row>
-    			<row spans="2"><hbox>
-    				<h:input type="submit" value="Submit Query"/>
-  	  				<h:input type="reset" value="Reset"/>
-    			</hbox></row>
+    			<row spans="2">
+					<hlayout>
+						<button type="submit" label="Submit Query"/>
+						<button type="reset" label="Reset"/>
+					</hlayout>
+    			</row>
     		</rows>
     	</grid>
     </h:form>

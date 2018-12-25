@@ -1,7 +1,8 @@
 <?page id="testZul" title="Accounts" ?>
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 <zk>
-<window title="Accounts" border="normal" width="500px"
-		apply="org.zkoss.bind.BindComposer"
+<window title="Accounts" border="normal" width="750px"
 		viewModel="@id('vm') @init('bigbank.web.BigbankViewModel')">
 	<grid model="@init(vm.accounts)">
 		<template name="model">
@@ -17,6 +18,6 @@
 		</template>
 	</grid>
 </window>
-*Home <button label="Go!" href="/home.zul"/>
+*Home <button label="Go!" href="/index.zul"/>
 <button label="Logout" href="/logout"/>
 </zk>

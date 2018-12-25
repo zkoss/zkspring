@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-@Service("bankServiceScenario1")
-public class BankServiceScenario1Impl implements BankServiceScenario1 {
+@Service("bankServiceScenario")
+public class BankServiceScenarioImpl implements BankServiceScenario {
     private BankDao bankDao;
 
     @Autowired
-    public BankServiceScenario1Impl(BankDao bankDao) {
+    public BankServiceScenarioImpl(BankDao bankDao) {
         Assert.notNull(bankDao, "missing bankDao");
         this.bankDao = bankDao;
     }

@@ -6,12 +6,14 @@ package org.zkoss.zkspringessentials.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zkspringessentials.beans.SimpleMessageBean;
-import org.zkoss.zul.Button;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 /**
  * @author ashish
@@ -19,20 +21,27 @@ import org.zkoss.zul.Textbox;
  */
 @Component("scopesCtrl1")
 @Scope("desktop")
-public class ScopesController extends GenericForwardComposer {
+public class ScopesController extends SelectorComposer {
 
 	@Autowired
-	private SimpleMessageBean msgBean;
-	
+	private SimpleMessageBean msgBean; /*desktop scoped bean, separate instance for each browser tab*/
+
+	@Wire
 	private Textbox name;
-	private Button setAppNameBtn;
-	private Button showAppNameBtn;
-	
-	public void onClick$setAppNameBtn(Event evt) {
+
+	@Listen("onClick=#setAppNameBtn")
+	public void setAppNameBtn() {
 		msgBean.setMsg(name.getValue());
 	}
-	
-	public void onClick$showAppNameBtn(Event evt) throws InterruptedException {
+
+	@Listen("onClick=#showAppNameBtn")
+	public void showAppName() {
 		Messagebox.show(msgBean.getMsg());
+	}
+
+	@Listen("onClick=#showPageBtn")
+	public void showPage() {
+		Window win = (Window) Executions.createComponents("customScopesWindow.zul", null, null);
+		win.doHighlighted();
 	}
 }

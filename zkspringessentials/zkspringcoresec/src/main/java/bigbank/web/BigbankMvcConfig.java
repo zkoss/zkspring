@@ -11,9 +11,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 public class BigbankMvcConfig extends WebMvcConfigurerAdapter {
 
-	@GetMapping("/listAccounts1.html")
+	@GetMapping("/listAccounts.html")
 	public String listAccounts() {
-		return "listAccounts1";
+		return "listAccounts";
 	}
 
 	public void configureViewResolvers(ViewResolverRegistry viewResolverRegistry) {

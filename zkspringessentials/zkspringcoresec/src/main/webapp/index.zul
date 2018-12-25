@@ -1,7 +1,28 @@
-<window title="ZK Spring Essentials Example links" border="normal" width="100%">
-<vbox>
-Example 1 (Page-based)<a href="home.zul"> here</a>
-<separator />
-Example 2 (Ajax-based)<a href="home1.zul"> here</a>
-</vbox>
-</window>
+<?page id="main" title="ZK + Spring Security (Tutorial)"?>
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<zk>
+	<window id="win" title="Home Page" border="normal" width="750px">
+		<grid>
+			<rows>
+				<row>
+					Any one can list accounts.
+					<button label="Go!" href="listAccounts.html"/>
+				</row>
+				<row>
+					Your principal object is ...:
+					<label id="principal" value="${execution.userPrincipal.name}"/>
+				</row>
+				<row>
+					Secure page
+					<button label="Go!" href="secure/index.zul"/>
+				</row>
+				<row>
+					Extremely secure page
+					<button label="Go!" href="secure/extreme/index.zul"/>
+				</row>
+			</rows>
+		</grid>
+	</window>
+	<button label="Logout" href="/logout"/>
+	*Any one can view this page
+</zk>
