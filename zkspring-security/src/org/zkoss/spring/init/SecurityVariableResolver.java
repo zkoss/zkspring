@@ -40,7 +40,6 @@ public class SecurityVariableResolver implements VariableResolver, Serializable 
 	 * Get the spring bean by the specified name.
 	 */		
 	public Object resolveVariable(String name) {
-	
 		if ("authentication".equals(name)) {
 			return SecurityUtil.getAuthentication();
 		}

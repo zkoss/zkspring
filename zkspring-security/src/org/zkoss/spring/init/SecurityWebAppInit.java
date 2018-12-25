@@ -19,14 +19,9 @@ Copyright (C) 2009 Potix Corporation. All Rights Reserved.
 
 package org.zkoss.spring.init;
 
-import javax.servlet.ServletContext;
-
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.zkoss.lang.Library;
-import org.zkoss.spring.security.config.ZkBeanIds;
-import org.zkoss.spring.security.intercept.zkevent.ZkEventProcessListener;
-import org.zkoss.spring.security.ui.ZkExceptionTranslationListener;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.util.Configuration;
 
@@ -45,12 +40,6 @@ public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 		
 		final ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) 
 			WebApplicationContextUtils.getRequiredWebApplicationContext(wapp.getServletContext());
-		
-		//add listener for ZK + Security
-		if (ctx.containsBeanDefinition(ZkBeanIds.ZK_DESKTOP_REUSE_FILTER)) {
-			conf.addListener(ZkExceptionTranslationListener.class);
-			conf.addListener(ZkEventProcessListener.class);
-		}
 		
 		String classes = Library.getProperty(RESOLVER_CLASS);
 		if (classes == null) {
