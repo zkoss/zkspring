@@ -19,11 +19,13 @@
 		<url>http://code.google.com/p/zkspring/source/browse/</url>
 	</scm>
 	<properties>
-		<zk.version>8.0.0</zk.version>
-		<zkel.version>1.0.2</zkel.version>
-		<springsecurity.version>4.2.4.RELEASE</springsecurity.version>
-		<servlet-api.version>2.4</servlet-api.version>
+		<maven.compiler.source>1.5</maven.compiler.source>
+		<maven.compiler.target>1.5</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<zk.version>8.0.0</zk.version>
+		<springsecurity.version>4.2.10.RELEASE</springsecurity.version>
+		<slf4j.version>1.7.25</slf4j.version>
+		<servlet-api.version>2.4</servlet-api.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -34,11 +36,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
-			<scope>provided</scope>
-			<optional>true</optional>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkspring-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -60,14 +60,16 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.zkoss.zk</groupId>
-			<artifactId>zkspring-core</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 	<build>

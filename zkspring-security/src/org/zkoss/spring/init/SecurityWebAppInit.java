@@ -25,7 +25,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.zkoss.lang.Library;
 import org.zkoss.spring.security.config.ZkBeanIds;
-import org.zkoss.spring.security.config.ZkSecurityContextListener;
 import org.zkoss.spring.security.intercept.zkevent.ZkEventProcessListener;
 import org.zkoss.spring.security.ui.ZkExceptionTranslationListener;
 import org.zkoss.zk.ui.WebApp;
@@ -49,7 +48,6 @@ public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 		
 		//add listener for ZK + Security
 		if (ctx.containsBeanDefinition(ZkBeanIds.ZK_DESKTOP_REUSE_FILTER)) {
-			conf.addListener(ZkSecurityContextListener.class);
 			conf.addListener(ZkExceptionTranslationListener.class);
 			conf.addListener(ZkEventProcessListener.class);
 		}

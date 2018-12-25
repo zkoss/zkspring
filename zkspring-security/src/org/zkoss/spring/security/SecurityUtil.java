@@ -55,10 +55,7 @@ import java.util.StringTokenizer;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.acls.domain.DefaultPermissionFactory;
-import org.springframework.security.acls.domain.ObjectIdentityRetrievalStrategyImpl;
-import org.springframework.security.acls.domain.PermissionFactory;
-import org.springframework.security.acls.domain.SidRetrievalStrategyImpl;
+import org.springframework.security.acls.domain.*;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.AclService;
 import org.springframework.security.acls.model.NotFoundException;
@@ -92,7 +89,7 @@ public class SecurityUtil {
 	 *
 	 * @param hasPermission A comma separated list of integers, each 
 	 *  representing a required bit mask permission from a subclass of 
-	 * {@link org.springframework.security.acl.basic.AbstractBasicAclEntry}.
+	 * {@link org.springframework.security.acls.domain.BasePermission}.
 	 * @param domainObject The actual domain object instance for which permissions
 	 *	are being evaluated.
 	 * @return true if current Authentication has one of the specified permission
