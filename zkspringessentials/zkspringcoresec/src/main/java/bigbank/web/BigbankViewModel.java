@@ -1,7 +1,7 @@
 package bigbank.web;
 
 import bigbank.Account;
-import bigbank.BankServiceScenario;
+import bigbank.BankService;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -15,19 +15,19 @@ import org.zkoss.zul.ListModelList;
 public class BigbankViewModel {
 
 	@WireVariable
-	private BankServiceScenario bankServiceScenario;
+	private BankService bankService;
 
 	private ListModelList<Account> accounts;
 
 	@Init
 	public void init() {
-		accounts = new ListModelList<Account>(bankServiceScenario.findAccounts());
+		accounts = new ListModelList<Account>(bankService.findAccounts());
 	}
 
 	@Command
 	public void adjustBalance(@BindingParam("accountId") Long id, @BindingParam("amount") Double amount) {
-		final Account account = bankServiceScenario.readAccount(id);
-		account.setBalance(bankServiceScenario.post(account, amount).getBalance());
+		final Account account = bankService.readAccount(id);
+		account.setBalance(bankService.post(account, amount).getBalance());
 		BindUtils.postNotifyChange(null, null, account, "balance");
 	}
 

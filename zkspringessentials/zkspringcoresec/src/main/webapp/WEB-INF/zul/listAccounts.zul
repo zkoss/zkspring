@@ -2,22 +2,45 @@
 <?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 <zk>
-<window title="Accounts" border="normal" width="750px"
-		viewModel="@id('vm') @init('bigbank.web.BigbankViewModel')">
-	<grid model="@init(vm.accounts)">
-		<template name="model">
-			<row>
-				<label value="${each.id}"/>
-				<label value="${each.holder}"/>
-				<label value="@load(each.balance)"/>
-				<button label="-$20" onClick="@command('adjustBalance', accountId=each.id, amount=-20.00)"/>
-				<button label="-$5" onClick="@command('adjustBalance', accountId=each.id, amount=-5.00)"/>
-				<button label="+$5" onClick="@command('adjustBalance', accountId=each.id, amount=5.00)"/>
-				<button label="+$20" onClick="@command('adjustBalance', accountId=each.id, amount=20.00)"/>
-			</row>
-		</template>
-	</grid>
-</window>
-*Home <button label="Go!" href="/index.zul"/>
-<button label="Logout" href="/logout"/>
+	<custom-attributes scope="desktop" loginRedirectUrl="/listAccounts.html"/>
+	<window title="Accounts" border="normal" width="750px"
+			viewModel="@id('vm') @init('bigbank.web.BigbankViewModel')">
+		Everyone can see this page.
+		<separator/>
+		Only users with the ROLE_TELLER or ROLE_SUPERVISOR can change the account balances as annotated in bigbank.BankService
+		(using Spring Method Security)
+		<separator height="30px"/>
+		Current User: ${authentication.name}
+		<separator/>
+		Current Roles: ${authentication.authorities}
+		<separator/>
+		<zk if="${sec:isNoneGranted('ROLE_TELLER,ROLE_SUPERVISOR')}">
+			<label style="color: red" value="With you current permissions cannot update account balances. (But you can try!)"/>
+		</zk>
+		<zk if="${sec:isAnyGranted('ROLE_TELLER,ROLE_SUPERVISOR')}">
+			<label style="color: green" value="You can update the account balances."/>
+		</zk>
+		<separator/>
+		<grid model="@init(vm.accounts)">
+			<template name="model">
+				<row>
+					<label value="${each.id}"/>
+					<label value="${each.holder}"/>
+					<label value="@load(each.balance)"/>
+					<button label="-$20" onClick="@command('adjustBalance', accountId=each.id, amount=-20.00)"/>
+					<button label="-$5" onClick="@command('adjustBalance', accountId=each.id, amount=-5.00)"/>
+					<button label="+$5" onClick="@command('adjustBalance', accountId=each.id, amount=5.00)"/>
+					<button label="+$20" onClick="@command('adjustBalance', accountId=each.id, amount=20.00)"/>
+				</row>
+			</template>
+		</grid>
+	</window>
+	<separator/>
+	<button label="Home" href="/index.zul"/>
+	<zk if="${sec:isNoneGranted('ROLE_USER')}">
+		<button label="Login" href="/login.zul?redirect-after-login=${loginRedirectUrl}"/>
+	</zk>
+	<zk if="${sec:isAllGranted('ROLE_USER')}">
+		<button label="Logout" href="/logout"/>
+	</zk>
 </zk>

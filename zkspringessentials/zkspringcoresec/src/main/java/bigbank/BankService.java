@@ -3,7 +3,7 @@ package bigbank;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-public interface BankServiceScenario {
+public interface BankService {
 
     public Account readAccount(Long id);
 

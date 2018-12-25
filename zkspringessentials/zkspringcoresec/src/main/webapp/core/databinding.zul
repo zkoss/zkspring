@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<zk xmlns="http://www.zkoss.org/2005/zul">
+<zk>
 	<window title="Bean in ZK databinding annotations" width="750px" border="normal">
 		<label multiline="true">
-			Expected first name: Ashish
-			Expected last name: Dasnurkar
+			Expected first name: ZkSpring
+			Expected last name: TestUser
 		</label>
 
 		<grid apply="org.zkoss.bind.BindComposer">
 			<rows>
 				<row>First Name:
-					<textbox value="@bind(person.firstName)"/>
+					<textbox instant="true" value="@bind(person.firstName)"/>
 				</row>
 				<row>Last Name:
-					<textbox value="@bind(person.lastName)"/>
+					<textbox instant="true" value="@bind(person.lastName)"/>
 				</row>
 				<row>Full Name:
-					<label value="@bind(person.fullName)"/>
+					<label value="@load(person.fullName)"/>
 				</row>
 			</rows>
 		</grid>

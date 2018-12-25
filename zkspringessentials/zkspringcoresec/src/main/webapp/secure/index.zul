@@ -28,9 +28,10 @@
 				<row><label value="authentication.principal.accountNonLocked"/>${authentication.principal.accountNonLocked}</row>
 			</rows>
 		</grid>
-		<separator />
+		<separator/>
 		<hlayout>
 			<button label="Home" href="/index.zul"/>
+			<button label="View ACL" href="acl.zul"/>
 			<button label="Logout" href="/logout"/>
 		</hlayout>
 	</window>

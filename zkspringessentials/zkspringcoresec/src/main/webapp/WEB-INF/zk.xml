@@ -6,4 +6,9 @@
 	<session-config>
 	    <session-timeout>1800</session-timeout>    
 	</session-config>
+
+	<error-page>
+		<exception-type>org.springframework.security.access.AccessDeniedException</exception-type>
+		<location>/errors/ajaxDenied.zul</location>
+	</error-page>
 </zk>

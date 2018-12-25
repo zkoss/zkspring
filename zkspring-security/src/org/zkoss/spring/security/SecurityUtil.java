@@ -101,12 +101,10 @@ public class SecurityUtil {
 			return false;
 		}
 		initializeIfRequired();
-        
+
         final List<Permission> requiredPermissions = parsePermissions(hasPermission);
 
-        Object resolvedDomainObject = domainObject;
-
-        if (resolvedDomainObject == null) {
+        if (domainObject == null) {
             // Of course they have access to a null object!
         	return true;
         }
@@ -117,7 +115,7 @@ public class SecurityUtil {
         }
 
         List<Sid> sids = _sidRetrievalStrategy.getSids(SecurityContextHolder.getContext().getAuthentication());
-        ObjectIdentity oid = _objectIdentityRetrievalStrategy.getObjectIdentity(resolvedDomainObject);
+        ObjectIdentity oid = _objectIdentityRetrievalStrategy.getObjectIdentity(domainObject);
 
         // Obtain aclEntrys applying to the current Authentication object
         try {
@@ -248,7 +246,7 @@ public class SecurityUtil {
                 permissions.add(permissionFactory.buildFromName(permission));
             }
         }
-            return new ArrayList<Permission>(permissions);
+		return new ArrayList<Permission>(permissions);
 	}
 	
 	private static void initializeIfRequired() {

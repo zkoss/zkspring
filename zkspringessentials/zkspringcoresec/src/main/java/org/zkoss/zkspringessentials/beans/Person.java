@@ -1,40 +1,49 @@
 package org.zkoss.zkspringessentials.beans;
 
+import org.zkoss.bind.annotation.DependsOn;
+
 public class Person {
 	private int id;
-	private String _firstName = "";
-	private String _lastName = "";
+	private String firstName = "";
+	private String lastName = "";
 
-	// getter and setters
+	public Person(int id, String firstName, String lastName) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	public void setFirstName(String firstName) {
-		_firstName = firstName;
+		this.firstName = firstName;
 	}
 
 	public String getFirstName() {
-		return _firstName;
+		return firstName;
 	}
 
 	public void setLastName(String lastName) {
-		_lastName = lastName;
+		this.lastName = lastName;
 	}
 
 	public String getLastName() {
-		return _lastName;
+		return lastName;
 	}
 
-	public void setFullName(String f) {
-		// do nothing.
-	}
-
+	@DependsOn({"firstName", "lastName"})
 	public String getFullName() {
-		return _firstName + " " + _lastName;
+		return firstName + " " + lastName;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	@Override
+	public String toString() {
+		return "Person{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				'}';
 	}
 }

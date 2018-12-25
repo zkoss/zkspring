@@ -1,6 +1,6 @@
 <?page title="access denied" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window title="access denied" border="normal">
-		congratulations! your access has been denied.
+	<window title="Page Access denied" border="normal">
+		Congratulations! Your access has been denied.
 	</window>
 </zk>

@@ -10,7 +10,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.zkoss.zkspringessentials.acl.InMemoryAclService;
 
 @Configuration
@@ -22,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.headers().frameOptions().sameOrigin();
+
 		http.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/secure/extreme/**").hasRole("SUPERVISOR")
 				.antMatchers(HttpMethod.GET, "/secure/**").hasRole("USER")
@@ -30,11 +35,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/login")
 				.loginPage("/login.zul")
 				.failureUrl("/login.zul?login_error=1")
+				.successHandler(redirectLoginSuccessHandler())
 				.and()
 				.logout()
 				.logoutSuccessUrl("/index.zul")
-				.invalidateHttpSession(true)
-				.and();
+				.invalidateHttpSession(true);
+	}
+
+	private AuthenticationSuccessHandler redirectLoginSuccessHandler() {
+		final SavedRequestAwareAuthenticationSuccessHandler redirectLoginHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+		redirectLoginHandler.setTargetUrlParameter("redirect-after-login");
+		return redirectLoginHandler;
 	}
 
 	@Override

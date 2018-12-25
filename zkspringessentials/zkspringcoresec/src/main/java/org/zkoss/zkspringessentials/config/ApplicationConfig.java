@@ -1,16 +1,13 @@
 package org.zkoss.zkspringessentials.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.zkoss.spring.config.ZkScopesConfigurer;
 import org.zkoss.zkspringessentials.beans.Person;
 import org.zkoss.zkspringessentials.beans.SimpleBean;
 
 @Configuration
-@ComponentScan(basePackages = {"bigbank", "org.zkoss.zkspringessentials"})
-@Import({ZkScopesConfigurer.class, SecurityConfig.class})
+@ComponentScan("org.zkoss.zkspringessentials")
+@Import(ZkScopesConfigurer.class) //enable zk's custom scopes
 public class ApplicationConfig {
 
 	@Bean
@@ -19,10 +16,8 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	@Scope("desktop")
 	public Person person() {
-		final Person person = new Person();
-		person.setFirstName("Ashish");
-		person.setLastName("Dasnurkar");
-		return person;
+		return new Person(123, "ZkSpring", "TestUser");
 	}
 }

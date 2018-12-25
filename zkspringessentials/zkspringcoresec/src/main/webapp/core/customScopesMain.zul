@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <window title="Custom Scopes Example - Main Page" border="normal" width="750px" apply="${scopesCtrl1}">
-	<label value="Enter Message Text:"></label>
+	Enter Message Text:
 	<hlayout>
 		<textbox id="name" />
 		<button id="setAppNameBtn" label="Set" />
