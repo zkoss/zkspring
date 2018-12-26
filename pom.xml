@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.zkoss.zk</groupId>
+	<artifactId>zkspring-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>ZK Spring Parent</name>
+	<description>Aggregator project to build all zkspring modules</description>
+	<url>https://www.zkoss.org/product/zkspring</url>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:https://github.com/zkoss/zkspring/</connection>
+		<url>https://github.com/zkoss/zkspring/</url>
+	</scm>
+	<modules>
+		<module>zkspring-core</module>
+		<module>zkspring-security</module>
+		<module>zkspringessentials/zkspringcoresec</module>
+	</modules>
+</project>

@@ -6,7 +6,7 @@
 	<version>4.0.0-SNAPSHOT</version>
 	<name>ZK Spring Security</name>
 	<description>ZK Spring Integration Security Library</description>
-	<url>http://www.zkoss.org/zkspring-security</url>
+	<url>https://www.zkoss.org/product/zkspring</url>
 	<licenses>
 		<license>
 			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
@@ -15,8 +15,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://code.google.com/p/zkspring/source/browse/</connection>
-		<url>http://code.google.com/p/zkspring/source/browse/</url>
+		<connection>scm:git:https://github.com/zkoss/zkspring/</connection>
+		<url>https://github.com/zkoss/zkspring/</url>
 	</scm>
 	<properties>
 		<maven.compiler.source>1.5</maven.compiler.source>

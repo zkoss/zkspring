@@ -1,0 +1,23 @@
+#!/bin/bash
+
+maindir="$(pwd)"
+ver=$(head -1 version)
+stamp=$(date +%Y%m%d%H)
+target=$1
+if [ "$target" == "official" ] ; then
+	pver=$ver
+else
+	pver=$ver-FL-$stamp
+fi
+
+echo $pver
+
+set -e
+
+bash ./upVer $ver-SNAPSHOT $pver
+
+mvn clean install -pl zkspring-security -am
+mvn source:jar repository:bundle-create --batch-mode -DskipTests -pl zkspring-security -am
+
+cd $maindir
+bash ./prepare-upload.sh $pver
