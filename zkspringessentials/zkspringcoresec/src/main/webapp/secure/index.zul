@@ -4,8 +4,7 @@
 <zk xmlns:n="native">
 	<window title="Secure Page" border="normal" width="750px">
 		<n:p>
-			This is a protected page. You can get to me if you've been remembered,
-			or if you've authenticated this session.
+			This is a protected page. You can get to me if you've authenticated this session.
 		</n:p>
 
 		<zk if="${sec:isAllGranted('ROLE_SUPERVISOR')}">
