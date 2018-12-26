@@ -1,1 +1,2 @@
-http\://www.zkoss.org/2008/zkspring/core/zkspring-core-4.xsd=metainfo/xml/zkspring-core-4.xsd
+http\://www.zkoss.org/2008/zkspring/core/zkspring-core.xsd=metainfo/xml/zkspring-core-4.0.xsd
+http\://www.zkoss.org/2008/zkspring/core/zkspring-core-4.0.xsd=metainfo/xml/zkspring-core-4.0.xsd

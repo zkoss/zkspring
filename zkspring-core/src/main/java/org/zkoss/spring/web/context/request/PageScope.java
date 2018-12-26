@@ -50,10 +50,13 @@ import org.zkoss.zk.ui.sys.ExecutionCtrl;
 
 /**
  * ZK Page scope; accessible only in ZK event handling request.
- *  
+ *
  * @author henrichen
  * @since 1.2
+ *
+ * @deprecated obsolete since 4.0.0
  */
+@Deprecated
 public class PageScope implements Scope {
 	private static final String PAGE_SCOPE = "ZK_SPRING_PAGE_SCOPE";
 	

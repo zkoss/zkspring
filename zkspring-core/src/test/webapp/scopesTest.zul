@@ -1,0 +1,10 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+	<label id="webappScoped" value="${webappScopedBean.value}"/>
+	<label id="desktopScoped" value="${desktopScopedBean.value}"/>
+	<label id="executionScoped" value="${executionScopedBean.value}"/>
+
+	<div id="testDiv" apply="org.zkoss.spring.test.ScopesTestComposer">
+		<button id="rewireBeans"/>
+	</div>
+</zk>

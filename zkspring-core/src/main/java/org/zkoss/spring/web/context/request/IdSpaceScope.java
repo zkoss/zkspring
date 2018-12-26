@@ -35,9 +35,11 @@ import org.zkoss.zk.ui.sys.ExecutionCtrl;
 
 /**
  * ZK IdSpace scope; accessible only in ZK event handling request.
- * 
+ *
  * @author henrichen
  * @since 1.2
+ * 
+ * @deprecated obsolete since 4.0.0
  */
 public class IdSpaceScope implements Scope {
 	private static final String IDSPACE_SCOPE = "ZK_SPRING_IDSPACE_SCOPE";

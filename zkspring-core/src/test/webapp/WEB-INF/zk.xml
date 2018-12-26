@@ -1,0 +1,6 @@
+<zk>
+	<preference>
+		<name>org.zkoss.zk.ui.WebApp.name</name>
+		<value>ZkSpringTestApp</value>
+	</preference>
+</zk>

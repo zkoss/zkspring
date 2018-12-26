@@ -35,10 +35,13 @@ import org.zkoss.zk.ui.sys.ExecutionCtrl;
 
 /**
  * ZK Component scope; accessible only in ZK event handling request.
- * 
+ *
  * @author henrichen
  * @since 1.2
+ *
+ * @deprecated obsolete since 4.0.0
  */
+@Deprecated
 public class ComponentScope implements Scope {
 	private static final String COMPONENT_SCOPE = "ZK_SPRING_COMPONENT_SCOPE";
 
