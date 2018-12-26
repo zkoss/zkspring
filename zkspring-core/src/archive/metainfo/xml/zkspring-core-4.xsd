@@ -7,7 +7,7 @@
 	attributeFormDefault="unqualified">
 	
 	<xs:import namespace="http://www.springframework.org/schema/beans" />
-	<!-- ZK Component Lookup and ZK scopes-->
+	<!-- ZK scopes-->
 	<xs:element name="zk-config">
 		<xs:annotation>
 			<xs:documentation>Used to configure ZK such as ZK specific scopes('desktop', 'page', and 'execution') and others. 

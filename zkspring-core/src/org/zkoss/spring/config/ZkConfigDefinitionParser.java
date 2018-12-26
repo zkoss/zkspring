@@ -25,7 +25,6 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import org.zkoss.spring.security.config.ZkBeanIds;
 
 /**
  * Register zk specific scopes
@@ -34,11 +33,12 @@ import org.zkoss.spring.security.config.ZkBeanIds;
  * @since 1.2
  */
 public class ZkConfigDefinitionParser implements BeanDefinitionParser {
+	public static final String ZK_SCOPE_CONFIG = "zkScopeConfig";
 
 	public BeanDefinition parse(Element element, ParserContext pc) {
 		final BeanDefinitionRegistry reg = pc.getRegistry();
 		//register ZK scopes
-		reg.registerBeanDefinition(ZkBeanIds.ZK_SCOPE_CONFIG, new RootBeanDefinition(ZkScopesConfigurer.class));
+		reg.registerBeanDefinition(ZK_SCOPE_CONFIG, new RootBeanDefinition(ZkScopesConfigurer.class));
 		return null;
 	}
 }
