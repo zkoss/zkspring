@@ -8,6 +8,9 @@
     <packaging>war</packaging>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <zk.version>8.6.0.1-Eval</zk.version>
         <zkspring.version>4.0.0-SNAPSHOT</zkspring.version>
         <spring.version>5.1.3.RELEASE</spring.version>
@@ -16,6 +19,7 @@
         <!--<springsecurity.version>4.2.10.RELEASE</springsecurity.version>-->
         <commons-io.version>2.6</commons-io.version>
         <servlet-api.version>3.1.0</servlet-api.version>
+		<zats.version>2.0.0</zats.version>
         <junit.version>4.12</junit.version>
     </properties>
     <description>
@@ -23,16 +27,12 @@
     </description>
     <repositories>
         <repository>
-            <id>ZK EE</id>
-            <url>http://mavensync.zkoss.org/maven2</url>
-        </repository>
-        <repository>
-            <id>ZK PE Evaluation</id>
-            <url>http://mavensync.zkoss.org/zk/pe-eval</url>
+            <id>ZK CE</id>
+            <url>https://mavensync.zkoss.org/maven2</url>
         </repository>
         <repository>
             <id>ZK EE Evaluation</id>
-            <url>http://mavensync.zkoss.org/zk/ee-eval</url>
+            <url>https://mavensync.zkoss.org/eval</url>
         </repository>
     </repositories>
     <dependencies>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.zkoss.zats</groupId>
             <artifactId>zats-mimic-ext7</artifactId>
-            <version>2.0.0</version>
+            <version>${zats.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -114,36 +114,21 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
     <build>
         <plugins>
-            <!-- Run with Jetty -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
-                <!--<groupId>org.mortbay.jetty</groupId>-->
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.14.v20181114</version>
-                <!--<version>7.6.16.v20140903</version>-->
                 <configuration>
                     <webAppConfig>
                         <contextPath>/${project.artifactId}</contextPath>
-                        <!--<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>-->
-                        <!--&lt;!&ndash; no need to scan anything as we're using servlet 2.5 to reduce start-up time&ndash;&gt;-->
-                        <!--<webInfIncludeJarPattern>^$</webInfIncludeJarPattern>-->
-                        <!--<containerIncludeJarPattern>^$</containerIncludeJarPattern>-->
                     </webAppConfig>
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-            </resource>
-        </resources>
     </build>
 </project>

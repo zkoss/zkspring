@@ -1,4 +1,4 @@
-package org.zkoss.zkspringessentials.acl;
+package org.zkoss.zkspringessentials.app.acl;
 
 import org.springframework.security.acls.domain.AuditLogger;
 import org.springframework.security.acls.domain.ConsoleAuditLogger;

@@ -1,0 +1,8 @@
+<zk>
+	<config-name>zkspringcoresec-test-config</config-name>
+	<!-- ensure test cases run with the english locale to be independent of the OS locale -->
+	<library-property>
+		<name>org.zkoss.web.preferred.locale</name>
+		<value>en</value>
+	</library-property>
+</zk>

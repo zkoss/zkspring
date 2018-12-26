@@ -4,10 +4,10 @@
 <zk>
 	<custom-attributes scope="desktop" loginRedirectUrl="/listAccounts.html"/>
 	<window title="Accounts" border="normal" width="750px"
-			viewModel="@id('vm') @init('bigbank.web.BigbankViewModel')">
+			viewModel="@id('vm') @init('org.zkoss.zkspringessentials.bigbank.web.BigbankViewModel')">
 		Everyone can see this page.
 		<separator/>
-		Only users with the ROLE_TELLER or ROLE_SUPERVISOR can change the account balances as annotated in bigbank.BankService
+		Only users with the ROLE_TELLER or ROLE_SUPERVISOR can change the account balances as annotated in org.zkoss.zkspringessentials.bigbank.BankService
 		(using Spring Method Security)
 		<separator height="30px"/>
 		Current User: ${authentication.name}

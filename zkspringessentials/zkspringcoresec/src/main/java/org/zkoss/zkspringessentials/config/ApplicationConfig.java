@@ -2,11 +2,11 @@ package org.zkoss.zkspringessentials.config;
 
 import org.springframework.context.annotation.*;
 import org.zkoss.spring.config.ZkScopesConfigurer;
-import org.zkoss.zkspringessentials.beans.Person;
-import org.zkoss.zkspringessentials.beans.SimpleBean;
+import org.zkoss.zkspringessentials.app.beans.Person;
+import org.zkoss.zkspringessentials.app.beans.SimpleBean;
 
 @Configuration
-@ComponentScan("org.zkoss.zkspringessentials")
+@ComponentScan({"org.zkoss.zkspringessentials.config", "org.zkoss.zkspringessentials.app"})
 @Import(ZkScopesConfigurer.class) //enable zk's custom scopes
 public class ApplicationConfig {
 

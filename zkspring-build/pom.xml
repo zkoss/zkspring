@@ -21,5 +21,6 @@
   <modules>
   	<module>../zkspring-core</module>
   	<module>../zkspring-security</module>
+  	<module>../zkspringessentials/zkspringcoresec</module>
   </modules>
 </project>

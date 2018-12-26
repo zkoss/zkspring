@@ -1,7 +1,7 @@
-package bigbank.web;
+package org.zkoss.zkspringessentials.bigbank.web;
 
-import bigbank.Account;
-import bigbank.BankService;
+import org.zkoss.zkspringessentials.bigbank.Account;
+import org.zkoss.zkspringessentials.bigbank.BankService;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;

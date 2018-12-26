@@ -1,6 +1,5 @@
-package bigbank;
+package org.zkoss.zkspringessentials.bigbank;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface BankService {

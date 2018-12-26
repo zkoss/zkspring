@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.zkoss.zkspringessentials.beans;
+package org.zkoss.zkspringessentials.app.beans;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package bigbank;
+package org.zkoss.zkspringessentials.bigbank;
 
 import org.springframework.stereotype.Repository;
 

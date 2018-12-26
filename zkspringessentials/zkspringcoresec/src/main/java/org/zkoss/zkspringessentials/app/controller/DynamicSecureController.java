@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.zkoss.zkspringessentials.controller;
+package org.zkoss.zkspringessentials.app.controller;
 
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;

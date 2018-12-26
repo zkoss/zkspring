@@ -1,4 +1,4 @@
-package bigbank;
+package org.zkoss.zkspringessentials.bigbank;
 
 /**
  * Note this class does not represent best practice, as we are failing to

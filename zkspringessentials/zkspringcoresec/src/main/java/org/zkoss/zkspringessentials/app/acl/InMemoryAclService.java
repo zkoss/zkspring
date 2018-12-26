@@ -1,4 +1,4 @@
-package org.zkoss.zkspringessentials.acl;
+package org.zkoss.zkspringessentials.app.acl;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.util.Assert;
-import org.zkoss.zkspringessentials.beans.Person;
+import org.zkoss.zkspringessentials.app.beans.Person;
 
 /**
 * The simplest possible implementation of AclService interface. Uses in-memory

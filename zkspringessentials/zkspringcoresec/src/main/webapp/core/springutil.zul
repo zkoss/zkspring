@@ -1,7 +1,7 @@
 <zk>
 	<zscript>
 		import org.zkoss.zkplus.spring.SpringUtil;
-		import org.zkoss.zkspringessentials.beans.*;
+		import org.zkoss.zkspringessentials.app.beans.*;
 		SimpleBean simple = SpringUtil.getBean("simpleBean");
 		String msg = simple.getMessage();
 	</zscript>

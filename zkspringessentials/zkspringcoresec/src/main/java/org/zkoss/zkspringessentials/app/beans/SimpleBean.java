@@ -1,4 +1,4 @@
-package org.zkoss.zkspringessentials.beans;
+package org.zkoss.zkspringessentials.app.beans;
 
 public class SimpleBean {
 

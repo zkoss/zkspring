@@ -21,7 +21,7 @@
 	</listener>
 
 	<servlet>
-		<servlet-name>bigbank</servlet-name>
+		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 		<init-param>
@@ -30,7 +30,7 @@
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>bigbank</servlet-name>
+		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 

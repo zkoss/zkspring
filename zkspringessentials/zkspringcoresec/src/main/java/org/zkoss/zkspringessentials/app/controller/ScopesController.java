@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.zkoss.zkspringessentials.controller;
+package org.zkoss.zkspringessentials.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -10,7 +10,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zkspringessentials.beans.SimpleMessageBean;
+import org.zkoss.zkspringessentials.app.beans.SimpleMessageBean;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;

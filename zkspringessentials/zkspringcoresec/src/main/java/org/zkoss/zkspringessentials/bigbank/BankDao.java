@@ -1,4 +1,4 @@
-package bigbank;
+package org.zkoss.zkspringessentials.bigbank;
 
 public interface BankDao {
 	public Account readAccount(Long id);
