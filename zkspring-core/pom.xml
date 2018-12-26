@@ -75,12 +75,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src/archive</directory>
-			</resource>
-		</resources>	
-	</build>
 </project>
