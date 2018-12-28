@@ -29,8 +29,8 @@ public class SpringUtilTest {
 	@Autowired
 	private ServletContext servletContext;
 
-	private Execution mockExecution = Mockito.spy(Execution.class);
-	private Desktop mockDesktop = Mockito.spy(Desktop.class);
+	private Execution mockExecution = Mockito.mock(Execution.class);
+	private Desktop mockDesktop = Mockito.mock(Desktop.class);
 	private WebApp mockWebApp = Mockito.mock(WebApp.class);
 
 	private DelegatingVariableResolver vr;
