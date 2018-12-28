@@ -35,7 +35,6 @@ import org.zkoss.xel.VariableResolver;
  */
 public class SecurityVariableResolver implements VariableResolver, Serializable {
 	
-	
 	/**
 	 * Get the spring bean by the specified name.
 	 */		

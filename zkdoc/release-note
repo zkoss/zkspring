@@ -1,9 +1,12 @@
 zkspring 4.0.0
-* New Features:
-  Support Spring (& Security) 4/5
+* Removed Features
   Removed deprecated/obsolete features from zkspring-core / zkspring-security
   Removed zkspring-webflow
+
+* New Features:
+  Support Spring (& Security) 4/5
   Simplified configuration (Java-Config and XML)
+  Websocket/Serverpush support for zkspring-security (init/cleanup SecurityContextHolder)
 
 zkspring 3.1.1
 *New Feature:
