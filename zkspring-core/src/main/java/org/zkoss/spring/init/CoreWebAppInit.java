@@ -23,9 +23,9 @@ import org.zkoss.lang.Library;
 import org.zkoss.zk.ui.WebApp;
 
 /**
- * Register spring core related variable resolver..
- * @author henrichen
- * @see metainfo/zk/config.xml
+ * Register spring core related variable resolver, configured in "zkspring-core.jar:metainfo/zk/config.xml".
+ * @author henrichen, Robert
+ *
  * @since 3.0
  */
 public class CoreWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {

@@ -24,10 +24,11 @@ import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.util.Configuration;
 
 /**
- * Adds ZK Spring Security listeners and register security related variable resolver. 
+ * Adds ZK Spring Security listeners and register security related variable resolver ("zkspring-security.jar:metainfo/zk/config.xml")
  * @author henrichen, Robert
- * @see metainfo/zk/config.xml
  * @since 3.0
+ *
+ * @see SecurityContextAwareExecutionListener
  */
 public class SecurityWebAppInit implements org.zkoss.zk.ui.util.WebAppInit {
 	private static String RESOLVER_CLASS = CoreWebAppInit.RESOLVER_CLASS;

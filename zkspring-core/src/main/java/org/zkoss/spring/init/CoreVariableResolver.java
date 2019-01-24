@@ -30,6 +30,8 @@ public class CoreVariableResolver implements VariableResolver, Serializable {
 	
 	/**
 	 * Get the spring application context.
+	 *
+	 * @return the current application context
 	 */
 	protected ApplicationContext getApplicationContext() {
 		if (_ctx != null)
@@ -41,7 +43,10 @@ public class CoreVariableResolver implements VariableResolver, Serializable {
 	
 	/**
 	 * Get the spring bean by the specified name.
-	 */		
+	 *
+	 * @param name the spring bean name
+	 * @return the bean found by that name or null
+	 */
 	public Object resolveVariable(String name) {
 	
 		if ("springContext".equals(name)) {

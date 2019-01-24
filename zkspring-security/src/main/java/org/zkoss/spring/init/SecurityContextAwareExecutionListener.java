@@ -12,11 +12,11 @@ import static org.springframework.security.web.context.HttpSessionSecurityContex
 
 /**
  * ZK Listener to fill/cleanup Springs {@link SecurityContextHolder} for executions outside Spring's security filter chain.
- * e.g. Websocket requests or executions activated from background threads (server push / eventqueues / manual activation).<br/>
- * <br/>
+ * e.g. Websocket requests or executions activated from background threads (server push / eventqueues / manual activation).<br>
+ * <br>
  * This implementation will retrieve the current {@link SecurityContext} stored in the Http Session using Spring's
- * default attribute name {@link org.springframework.security.web.context.HttpSessionSecurityContextRepository#SPRING_SECURITY_CONTEXT_KEY}<br/>
- * The listener can be enabled/disabled via the library property 'org.zkoss.spring.init.SecurityContextAwareExecutionListener.enabled'.<br/>
+ * default attribute name {@link org.springframework.security.web.context.HttpSessionSecurityContextRepository#SPRING_SECURITY_CONTEXT_KEY}<br>
+ * The listener can be enabled/disabled via the library property 'org.zkoss.spring.init.SecurityContextAwareExecutionListener.enabled'.<br>
  * After disabling a custom implementation can be provided e.g. by overriding the {@link #loadSecurityContext(Execution)} method.
  * @author Robert
  * @see org.zkoss.zk.ui.util.ExecutionInit
@@ -51,6 +51,12 @@ public class SecurityContextAwareExecutionListener implements ExecutionInit, Exe
 		}
 	}
 
+	/**
+	 * Retrieve the current {@link SecurityContext} from the session associated with the given execution
+	 *
+	 * @param execution the current execution
+	 * @return a SecurityContext or null
+	 */
 	protected SecurityContext loadSecurityContext(Execution execution) {
 		return (SecurityContext) execution.getSession().getAttribute(SPRING_SECURITY_CONTEXT_KEY);
 	}

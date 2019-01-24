@@ -18,6 +18,7 @@ package org.zkoss.spring;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -34,21 +35,30 @@ import org.zkoss.zk.ui.UiException;
  */
 public class SpringUtil {
 	/**
-	 * Get the spring application context.
+	 * Get the current spring application context.
+	 *
+	 * @return the current application context
+	 * @throws UiException when not in an active zk execution
 	 */
 	public static ApplicationContext getApplicationContext() {
+
 		Execution exec = Executions.getCurrent();
 		if (exec == null) {
 			throw new UiException("SpringUtil can be called only under ZK environment!");
 		}
-		
+
 		return WebApplicationContextUtils.getRequiredWebApplicationContext(
 				exec.getDesktop().getWebApp().getServletContext());
 	}
-	
+
 	/**
 	 * Get the spring bean by the specified name.
-	 */		
+	 *
+	 * @param name the bean name
+	 * @return the bean found in the current spring application context or null if no bean was found under the name
+	 * 
+	 * @see BeanFactory#getBean(java.lang.String)
+	 */
 	public static Object getBean(String name) {
 		Object o = null;
 		try {
@@ -63,7 +73,13 @@ public class SpringUtil {
 
 	/**
 	 * Get the spring bean by the specified name and class.
-	 */		
+	 *
+	 * @param name the bean name
+	 * @param cls the bean class
+	 * @return the bean found in the current spring application context or null if no bean was found under the name
+	 *
+	 * @see BeanFactory#getBean(java.lang.String, java.lang.Class)
+	 */
 	public static Object getBean(String name, Class cls) {
 		Object o = null;
 		try {

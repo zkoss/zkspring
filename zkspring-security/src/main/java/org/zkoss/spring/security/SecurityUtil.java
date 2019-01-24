@@ -182,6 +182,8 @@ public class SecurityUtil {
 	
 	/**
 	 * Return the current Authentication object.
+	 *
+	 * @return the current {@link Authentication} object retrieved from {@link SecurityContextHolder} or null
 	 */
 	public static Authentication getAuthentication() {
 	    if ((SecurityContextHolder.getContext() != null)
