@@ -1,12 +1,29 @@
 zkspring 4.0.0
+* New/Closed Features:
+   - Support Spring (Core & Security) 4/5
+   - Websocket/Serverpush support for zkspring-security (init/cleanup SecurityContextHolder)
+   - Renamed custom ZK scope "application" to "webapp" (spring-web already provides a scope named "application")
+  [ZKSPRING-57] - provide java config alternatives for XML based configuration
+  [ZKSPRING-56] - obsolete
+  [ZKSPRING-47] - obsolete
+  [ZKSPRING-27] - obsolete (feature removed)
+  [ZKSPRING-29] - obsolete
+
+* Closed/Fixed bugs:
+  [ZKSPRING-54] - obsolete (feature removed)
+  [ZKSPRING-51] - Dependencies marked as optional (can / must be provided by user)
+  [ZKSPRING-40] - obsolete (feature removed)
+  [ZKSPRING-38] - obsolete (feature removed)
+
 * Removed Features
   Removed deprecated/obsolete features from zkspring-core / zkspring-security
-  Removed zkspring-webflow
+   - Removed support for injecting ZK Components into Spring Beans
+   - Removed configurable ajax login
+   - Removed event security
+   - Deprecated custom scopes "page" & "idspace"
+  Removed zkspring-webflow module
 
-* New Features:
-  Support Spring (& Security) 4/5
-  Simplified configuration (Java-Config and XML)
-  Websocket/Serverpush support for zkspring-security (init/cleanup SecurityContextHolder)
+zkspring 3.2.0
 
 zkspring 3.1.1
 *New Feature:
