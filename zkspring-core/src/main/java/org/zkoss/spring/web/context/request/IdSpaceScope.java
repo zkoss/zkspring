@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
-import org.zkoss.spring.impl.ZKProxy;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -47,7 +46,7 @@ public class IdSpaceScope implements Scope {
 	public Object get(String name, ObjectFactory<?> objectFactory) {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			Object o = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			Object o = ZKScopesHelper.getSelf((ExecutionCtrl)exec);
 			Component self = null; 
 			if(o instanceof Component)
 				self = (Component) o;
@@ -82,7 +81,7 @@ public class IdSpaceScope implements Scope {
 	public String getConversationId() {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			final Component self = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			final Component self = ZKScopesHelper.getSelf((ExecutionCtrl)exec);
 			final IdSpace idspace = self.getSpaceOwner();
 			if (idspace instanceof Component) {
 				return ((Component)idspace).getUuid();
@@ -100,7 +99,7 @@ public class IdSpaceScope implements Scope {
 	public Object remove(String name) {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			final Component self = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			final Component self = ZKScopesHelper.getSelf((ExecutionCtrl)exec);
 			final IdSpace idspace = self.getSpaceOwner();
 			Map idspaceScope = null;
 			if (idspace instanceof Component) {

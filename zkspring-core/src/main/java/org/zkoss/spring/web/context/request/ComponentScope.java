@@ -24,13 +24,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
-import org.zkoss.spring.impl.ZKProxy;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.IdSpace;
-import org.zkoss.zk.ui.Page;
-import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 
 /**
@@ -48,7 +44,7 @@ public class ComponentScope implements Scope {
 	public Object get(String name, ObjectFactory<?> objectFactory) {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			final Component self = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			final Component self = ZKScopesHelper.getSelf((ExecutionCtrl)exec);
 			if (self != null) {
 				Map compScope = (Map) self.getAttribute(COMPONENT_SCOPE);
 				if (compScope == null) {
@@ -69,7 +65,7 @@ public class ComponentScope implements Scope {
 	public String getConversationId() {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			final Component self = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			final Component self = ZKScopesHelper.getSelf((ExecutionCtrl)exec);
 			if (self != null)
 				return self.getUuid();
 		}
@@ -83,7 +79,7 @@ public class ComponentScope implements Scope {
 	public Object remove(String name) {
 		final Execution exec = Executions.getCurrent();
 		if (exec != null) {
-			final Component self = ZKProxy.getProxy().getSelf((ExecutionCtrl)exec);
+			final Component self = ZKScopesHelper.getSelf((ExecutionCtrl)exec);
 			Map compScope = (Map) self.getAttribute(COMPONENT_SCOPE);
 			return compScope != null ? compScope.remove(name) : null;
 		}

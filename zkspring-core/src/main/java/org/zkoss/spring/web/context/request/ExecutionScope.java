@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
-import org.zkoss.spring.impl.ZKProxy;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 
@@ -41,7 +40,7 @@ public class ExecutionScope implements Scope {
 		if (exec != null) {
 			Map execScope = (Map) exec.getAttribute(EXEC_SCOPE);
 			if (execScope == null) {
-				ZKProxy.getProxy().setAttribute(exec, EXEC_SCOPE, execScope = new HashMap());
+				exec.setAttribute(EXEC_SCOPE, execScope = new HashMap());
 			}
 			Object scopedObject = execScope.get(name);
 			if (scopedObject == null) {
