@@ -28,5 +28,5 @@ package org.zkoss.spring;
 public class Version {
 	/** Returns the version UID.
 	 */
-	public static final String UID = "4.0.0";
+	public static final String UID = "4.0.1";
 }
