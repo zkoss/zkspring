@@ -1,5 +1,8 @@
 zkspring 4.0.1
 
+* New Features:
+  [ZKSPRING-59] - Enhance optional spring-security dependency handling
+
 zkspring 4.0.0
 * New/Closed Features:
    - Support Spring (Core & Security) 4/5
