@@ -27,7 +27,7 @@
 		<slf4j.version>1.7.25</slf4j.version>
 		<servlet-api.version>3.1.0</servlet-api.version>
 		<zats.version>2.0.0</zats.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<mockito.version>2.23.4</mockito.version>
 	</properties>
 	<repositories>
