@@ -10,14 +10,13 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <zk.version>8.6.0.1-Eval</zk.version>
         <zkspring.version>4.0.2-SNAPSHOT</zkspring.version>
         <spring.version>5.2.7.RELEASE</spring.version>
         <springsecurity.version>5.3.3.RELEASE</springsecurity.version>
-        <commons-io.version>2.6</commons-io.version>
         <servlet-api.version>3.1.0</servlet-api.version>
-		<zats.version>2.0.0</zats.version>
+        <zats.version>2.1.0</zats.version>
         <junit.version>4.13.1</junit.version>
     </properties>
     <description>
@@ -92,12 +91,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet-api.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
         </dependency>
 
         <dependency>
