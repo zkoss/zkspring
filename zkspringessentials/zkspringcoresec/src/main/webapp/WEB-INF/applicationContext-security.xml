@@ -17,24 +17,7 @@
 	</b:bean>
 
 	<!--simulate a customer's setting-->
-	<http use-expressions="true" security="none" pattern="/zkau/**" disable-url-rewriting="false"/>
 
-	<http auto-config="true" use-expressions="false" access-decision-manager-ref="accessDecisionManager" >
-		<intercept-url pattern="/secure/extreme/**" access="ROLE_SUPERVISOR" />
-		<intercept-url pattern="/secure/**" access="ROLE_USER" />
-		<!-- allow anonymous access: no specify or both ROLE_ANONYMOUS, ROLE_USER
-		<intercept-url pattern="/**" access="ROLE_ANONYMOUS, ROLE_USER" />-->
-		<form-login login-processing-url="/j_spring_security_check" login-page="/login.zul" authentication-failure-url="/login.zul?login_error=1" default-target-url="/secure/index.zul"/>
-		<logout logout-success-url="/index.zul" invalidate-session="true" logout-url="/j_spring_security_logout" />
-		<!-- to make ajax login work-->
-		<csrf disabled="true"/>
-		<headers>
-			<frame-options policy="SAMEORIGIN" />
-		</headers>
-		<session-management session-authentication-strategy-ref="fixation"/>
-	</http>
-
-	<!-- - Usernames/Passwords are - rod/koala - dianne/emu - scott/wombat -peter/opal -->
 	<authentication-manager>
 		<authentication-provider>
 			<password-encoder hash="md5" />
@@ -47,7 +30,27 @@
 		</authentication-provider>
 	</authentication-manager>
 
-	<b:bean id="fixation" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy
-"/>
+	<http use-expressions="true" security="none" pattern="/zkau/**" disable-url-rewriting="false"/>
+	<!-- - Usernames/Passwords are - rod/koala - dianne/emu - scott/wombat -peter/opal -->
+	<http auto-config="true" use-expressions="false" access-decision-manager-ref="accessDecisionManager" >
+		<intercept-url pattern="/secure/extreme/**" access="ROLE_SUPERVISOR" />
+		<intercept-url pattern="/secure/**" access="ROLE_USER" />
+		<!-- it seems the following 2 lines cause the redirecting problem	-->
+		<intercept-url pattern="/login.zul" access="ROLE_ANONYMOUS" />
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		<form-login login-processing-url="/j_spring_security_check" login-page="/login.zul" authentication-failure-url="/login.zul?login_error=1" default-target-url="/secure/index.zul"/>
+		<logout logout-success-url="/index.zul" invalidate-session="true" logout-url="/j_spring_security_logout" />
+		<!-- to make ajax login work-->
+		<csrf disabled="true"/>
+		<headers>
+			<frame-options policy="SAMEORIGIN" />
+		</headers>
+<!--		<session-management session-authentication-strategy-ref="fixation" />-->
+		<!--		invalid-session-url="/home.zul"-->
+	</http>
 
+	<b:bean id="fixation"
+			class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" >
+		<b:property name="alwaysCreateSession" value="true"/>
+ 	</b:bean>
 </b:beans>
