@@ -1,0 +1,26 @@
+<?page title="Secure Page"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<window title="Secure Page" border="normal" width="500px" xmlns:n="http://www.zkoss.org/2005/zk/native">
+<n:p>
+This is a protected page. You can get to me if you've been remembered,
+or if you've authenticated this session.
+</n:p>
+
+	If you are a supervisor! You can therefore see the <n:a href="extreme/extreme.zul">extremely secure page</n:a>.
+
+<n:h4>Properties obtained using implicit Object <n:b>"authentication"</n:b>.</n:h4>
+<grid >
+	<columns>
+		<column label="Expression"/>
+		<column label="Value" />
+	</columns>
+	<rows>
+		<row><label value="username"/>${execution.userPrincipal.principal.username}</row>
+		<row><label value="enabled"/>${execution.userPrincipal.principal.enabled}</row>
+		<row><label value="authorities"/>${execution.userPrincipal.principal.authorities}</row>
+	</rows>
+</grid>
+<separator bar="true"></separator>
+<button label="Home" href="../home1.zul"/>
+<button label="Logout" href="../j_spring_security_logout"/>
+</window>
