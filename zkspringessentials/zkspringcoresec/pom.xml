@@ -6,8 +6,7 @@
     <name>zkspringcoresec</name>
     <version>3.1.1</version>
     <properties>
-        <zk.version>6.5.1</zk.version>
-        <zkspring.version>4.0.0-SNAPSHOT</zkspring.version>
+        <zk.version>9.5.0.3-Eval</zk.version>
         <spring.version>4.3.12.RELEASE</spring.version>
         <springsecurity.version>4.2.4.RELEASE</springsecurity.version>
         <commons-fileupload.version>1.2.1</commons-fileupload.version>
@@ -24,7 +23,7 @@
     </description>
     <repositories>
         <repository>
-            <id>ZK EE</id>
+            <id>ZK CE</id>
             <url>http://mavensync.zkoss.org/maven2</url>
         </repository>
         <repository>
@@ -214,50 +213,7 @@
         </dependency>
         <dependency>
             <groupId>org.zkoss.zk</groupId>
-            <artifactId>zkspring-core</artifactId>
-            <version>${zkspring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.web.servlet</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.context.support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.transaction</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>org.springframework.expression</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.zkoss.zk</groupId>
-            <artifactId>zkspring-security</artifactId>
-            <version>${zkspring.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.zkoss.zk</groupId>
             <artifactId>zkplus</artifactId>
-            <version>${zk.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.zkoss.zk</groupId>
-            <artifactId>zkex</artifactId>
             <version>${zk.version}</version>
             <scope>compile</scope>
         </dependency>
