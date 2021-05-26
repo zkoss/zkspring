@@ -24,7 +24,7 @@
 		<intercept-url pattern="/secure/**" access="ROLE_USER" />
 		<!-- allow anonymous access: no specify or both ROLE_ANONYMOUS, ROLE_USER
 		<intercept-url pattern="/**" access="ROLE_ANONYMOUS, ROLE_USER" />-->
-		<form-login login-page="/login.zul" authentication-failure-url="/login.zul?login_error=1" />
+		<form-login login-processing-url="/j_spring_security_check" login-page="/login.zul" authentication-failure-url="/login.zul?login_error=1" default-target-url="/secure/index.zul"/>
 		<logout logout-success-url="/index.zul" invalidate-session="true" logout-url="/j_spring_security_logout" />
 		<!-- to make ajax login work-->
 		<csrf disabled="true"/>

@@ -35,7 +35,7 @@
 
 	<groupbox>
 	<caption>Login</caption>
-    <h:form id="f" name="f" action="login" method="POST" xmlns:h="native">
+    <h:form id="f" name="f" action="j_spring_security_check" method="POST" xmlns:h="native">
     	<grid>
     		<rows>
     			<row>User: <textbox id="u" name="username" focus="true"/></row>
