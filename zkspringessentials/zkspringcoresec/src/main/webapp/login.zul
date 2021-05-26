@@ -38,8 +38,8 @@
     <h:form id="f" name="f" action="j_spring_security_check" method="POST" xmlns:h="native">
     	<grid>
     		<rows>
-    			<row>User: <textbox id="u" name="username" focus="true"/></row>
-    			<row>Password: <textbox id="p" type="password" name="password"/></row>
+    			<row>User: <textbox id="u" name="username" focus="true" value="rod"/></row>
+    			<row>Password: <textbox id="p" type="password" name="password" value="koala"/></row>
     			<row><checkbox id="r" name="_spring_security_remember_me"/>Don't ask for my password for two weeks</row>
     			<row spans="2"><hbox>
     				<h:input type="submit" value="Submit Query"/>
