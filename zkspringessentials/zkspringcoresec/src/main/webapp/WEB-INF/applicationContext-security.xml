@@ -45,10 +45,12 @@
 		<headers>
 			<frame-options policy="SAMEORIGIN" />
 		</headers>
-<!--		<session-management session-authentication-strategy-ref="fixation" />-->
+		<request-cache ref="requestCache"/>
+		<session-management session-authentication-strategy-ref="fixation" />
 		<!--		invalid-session-url="/home.zul"-->
 	</http>
 
+	<b:bean id="requestCache" class="org.springframework.security.web.savedrequest.NullRequestCache"/>
 	<b:bean id="fixation"
 			class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" >
 		<b:property name="alwaysCreateSession" value="true"/>
