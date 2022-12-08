@@ -34,8 +34,13 @@
 	</properties>
 	<repositories>
 		<repository>
-			<id>ZK Maven</id>
+			<id>ZK CE</id>
+			<name>ZK CE Repository</name>
 			<url>https://mavensync.zkoss.org/maven2</url>
+		</repository>
+		<repository>
+			<id>ZK EE</id>
+			<url>https://maven.zkoss.org/repo/zk/ee</url>
 		</repository>
 	</repositories>
 
