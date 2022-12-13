@@ -1,5 +1,6 @@
 package org.zkoss.spring.test;
 
+import jakarta.servlet.ServletContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,6 @@ import org.zkoss.zk.ui.sys.ExecutionsCtrl;
 import org.zkoss.zk.ui.sys.WebAppsCtrl;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
-import javax.servlet.ServletContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestAppConfig.class})
