@@ -1,4 +1,7 @@
 zkspring 4.0.2
+* New Features:
+[ZKSPRING-60] - zkspring-core supports spring framework 5.3.24
+[ZKSPRING-61] - zkspring-security supports spring-security 5.8.0
 
 zkspring 4.0.1
 
