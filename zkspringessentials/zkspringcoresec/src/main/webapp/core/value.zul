@@ -1,0 +1,7 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<vlayout apply="${valueController}">
+	@Value Example
+	<label id="valueFromFile" value="${valueController.valueFromFile}"/>
+	<button forEach="${valueController.valuesArray}" label="${each}"/>
+	<checkbox forEach="${valueController.valuesMap}" label="${each}"/>
+</vlayout>

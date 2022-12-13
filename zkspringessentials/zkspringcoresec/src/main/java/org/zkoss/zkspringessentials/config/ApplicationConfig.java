@@ -8,6 +8,7 @@ import org.zkoss.zkspringessentials.app.beans.SimpleBean;
 @Configuration
 @ComponentScan({"org.zkoss.zkspringessentials.config", "org.zkoss.zkspringessentials.app"})
 @Import(ZkScopesConfigurer.class) //enable zk's custom scopes
+@PropertySource("classpath:values.properties")
 public class ApplicationConfig {
 
 	@Bean
