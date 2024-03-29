@@ -1,10 +1,10 @@
 <zk>
-	<window id="errorModal" title="Ajax Access Denied" border="normal" mode="modal" closable="true">
-		Congratulations! Your Ajax request has been denied.
-		<separator/>
-		<hlayout>
-			<button label="Login" href="/login.zul?redirect-after-login=${loginRedirectUrl}"/>
-			<button label="Stay" forward="onClick=errorModal.onClose"/>
-		</hlayout>
-	</window>
+    <window id="errorModal" border="normal" mode="modal" closable="true"
+            apply="org.zkoss.zkspringessentials.app.controller.ErrorHandlingController">
+        <label id="errorMessage"/>
+        <hlayout>
+            <button label="Login" href="/login.zul?redirect-after-login=${loginRedirectUrl}"/>
+            <button label="Stay" forward="onClick=errorModal.onClose"/>
+        </hlayout>
+    </window>
 </zk>

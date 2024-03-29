@@ -41,11 +41,13 @@
 				<rows>
 					<row>User: <textbox id="u" name="username" focus="true"/></row>
 					<row>Password: <textbox id="p" type="password" name="password"/></row>
-					<row spans="2">
+					<row>
+						<cell colspan="2">
 						<hlayout>
 							<button type="submit" label="Submit Query"/>
 							<button type="reset" label="Reset"/>
 						</hlayout>
+						</cell>
 					</row>
 				</rows>
 			</grid>
