@@ -20,19 +20,19 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
-	<servlet>
-		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value></param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>
-		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
+<!--	<servlet>-->
+<!--		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>-->
+<!--		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+<!--		<load-on-startup>1</load-on-startup>-->
+<!--		<init-param>-->
+<!--			<param-name>contextConfigLocation</param-name>-->
+<!--			<param-value></param-value>-->
+<!--		</init-param>-->
+<!--	</servlet>-->
+<!--	<servlet-mapping>-->
+<!--		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>-->
+<!--		<url-pattern>*.html</url-pattern>-->
+<!--	</servlet-mapping>-->
 
 	<servlet>
 		<servlet-name>zkLoader</servlet-name>

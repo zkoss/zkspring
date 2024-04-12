@@ -9,9 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-@Controller
-@EnableWebMvc
-@ComponentScan("org.zkoss.zkspringessentials.bigbank")
+//@Controller
+//@EnableWebMvc
+//@ComponentScan("org.zkoss.zkspringessentials.bigbank")
 public class BigbankMvcConfig implements WebMvcConfigurer {
 
 	@GetMapping("/listAccounts.html")
