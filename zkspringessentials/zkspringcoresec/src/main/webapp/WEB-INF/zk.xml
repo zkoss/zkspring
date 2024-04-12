@@ -6,8 +6,9 @@
 	</client-config>
 
 	<session-config>
-
-	    <session-timeout>1800</session-timeout>    
+		<automatic-timeout>true</automatic-timeout>
+	    <session-timeout>5</session-timeout>
+		<timeout-uri>/index.html</timeout-uri>
 	</session-config>
 
 	<error-page> <!-- ZK-5680 -->
