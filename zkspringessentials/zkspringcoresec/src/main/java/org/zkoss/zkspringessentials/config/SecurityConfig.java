@@ -31,8 +31,8 @@ public class SecurityConfig {
         http.headers().frameOptions().sameOrigin();
 
         http.authorizeRequests()
-                .requestMatchers(HttpMethod.GET, "/secure/extreme/**").hasRole("SUPERVISOR")
-                .requestMatchers(HttpMethod.GET, "/secure/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/secure/extreme/**").hasRole("SUPERVISOR")
+                .antMatchers(HttpMethod.GET, "/secure/**").hasRole("USER")
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login")
