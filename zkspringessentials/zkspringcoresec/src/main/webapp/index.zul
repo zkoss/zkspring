@@ -1,4 +1,6 @@
 <?page id="main" title="ZK + Spring Security (Tutorial)"?>
+<?style href="/main.css" type="text/css"?>
+<?style href="/css/main2.css" type="text/css"?>
 <?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
 <zk>
 	<window id="win" title="Home Page" border="normal" width="750px">
