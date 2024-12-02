@@ -33,6 +33,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/secure/extreme/**").hasRole("SUPERVISOR")
                 .antMatchers(HttpMethod.GET, "/secure/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/**").denyAll()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login")
