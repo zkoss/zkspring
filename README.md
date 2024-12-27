@@ -3,7 +3,7 @@ Provide Spring framework integration features. Please read [ZK Spring Essentials
 
 # Release Process
 
-1. Update [release note](zkdoc/release-note) according to tracker > Releases
+1. Update [release note](zkdoc/release-note) according to https://tracker.zkoss.org/ > Releases
 2. Run release command according to the edition (freshly/official)
 3. Upload to file server > release folder
 4. Set a tag for official version

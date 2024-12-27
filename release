@@ -1,8 +1,35 @@
 #!/bin/bash
 
+extract_version() {
+    local pom_file_path=$1
+
+    # Check if the file exists
+    if [ ! -f "$pom_file_path" ]; then
+        echo "File not found: $pom_file_path"
+        return 1
+    fi
+
+    # Step 1: Use sed to initially extract the version, including any '-SNAPSHOT'
+    local full_version=$(sed -n '0,/<version>/{s/.*<version>\([^<]*\)<\/version>.*/\1/p}' "$pom_file_path")
+    # Step 2: Remove '-SNAPSHOT' if present
+    local extracted_version=$(echo "$full_version" | sed 's/-SNAPSHOT$//')
+
+    if [ -z "$extracted_version" ]; then
+        echo "Version not found in: $pom_file_path"
+        return 1
+    fi
+
+    # Return the version as output
+    echo $extracted_version
+    return 0
+}
+
 maindir="$(pwd)"
-ver=$(head -1 version)
+pom_file="zkspring-core/pom.xml"
+ver=$(extract_version "$pom_file")
+echo $ver
 stamp=$(date +%Y%m%d%H)
+
 target=$1
 if [ "$target" == "official" ] ; then
 	pver=$ver
@@ -21,3 +48,5 @@ mvn source:jar javadoc:jar repository:bundle-create --batch-mode -DskipTests -pl
 
 cd $maindir
 bash ./prepare-upload.sh $pver
+
+
