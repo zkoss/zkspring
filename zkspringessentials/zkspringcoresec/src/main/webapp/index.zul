@@ -6,7 +6,7 @@
 			<rows>
 				<row>
 					Any one can list accounts.
-					<button label="Go!" href="listAccounts.html"/>
+					<button label="List Account" href="listAccounts.html"/>
 				</row>
 				<row>
 					Your principal object is ...:

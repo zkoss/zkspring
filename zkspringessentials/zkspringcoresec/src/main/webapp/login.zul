@@ -44,7 +44,7 @@
 					<row>
 						<cell colspan="2">
 						<hlayout>
-							<button type="submit" label="Submit Query"/>
+							<button id="submit" type="submit" label="Submit Query"/>
 							<button type="reset" label="Reset"/>
 						</hlayout>
 						</cell>
