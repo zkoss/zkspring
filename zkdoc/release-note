@@ -1,3 +1,10 @@
+zkspring 6.2.1
+maintenance release - verify the features working with spring 6.2.1 and spring security 6.4.2
+
+zkspring 6.0.0
+* New Feature
+[ZKSPRING-62] - Support Spring framework 6.0
+
 zkspring 4.0.2
 * New Features:
 [ZKSPRING-60] - zkspring-core supports spring framework 5.3.24

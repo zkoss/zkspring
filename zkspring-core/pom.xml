@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zk</groupId>
 	<artifactId>zkspring-core</artifactId>
-	<version>4.0.2</version>
+	<version>6.2.1</version>
 	<name>ZK Spring Core</name>
 	<description>ZK Spring Core Integration Library</description>
 	<url>https://www.zkoss.org/product/zkspring</url>
@@ -19,15 +19,14 @@
 		<url>https://github.com/zkoss/zkspring/</url>
 	</scm>
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<zk.version>9.6.0</zk.version>
-		<spring.version>5.3.24</spring.version>
-		<servlet-api.version>3.1.0</servlet-api.version>
-		<zats.version>3.0.0</zats.version>
-		<junit.version>4.13.1</junit.version>
-		<mockito.version>2.23.4</mockito.version>
+		<zk.version>9.6.0-jakarta</zk.version>
+		<spring.version>6.2.1</spring.version>
+		<zats.version>4.0.0</zats.version>
+		<junit.version>4.13.2</junit.version>
+		<mockito.version>4.9.0</mockito.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -43,9 +42,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- spring dependencies provided by user choice because users usually include their own version -->
@@ -70,7 +69,7 @@
 
 		<dependency>
 			<groupId>org.zkoss.zats</groupId>
-			<artifactId>zats-mimic-ext96</artifactId>
+			<artifactId>zats-mimic</artifactId>
 			<version>${zats.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -90,6 +89,12 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.30</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

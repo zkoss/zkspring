@@ -1,5 +1,6 @@
 package org.zkoss.spring.security.test;
 
+import jakarta.servlet.ServletContext;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,7 +16,6 @@ import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
 
-import javax.servlet.ServletContext;
 import java.util.HashMap;
 import java.util.Map;
 

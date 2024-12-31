@@ -37,6 +37,15 @@ function upVer {
     echo "$1 pom.xml"
     grep -n --color=auto $targetVersion $1/pom.xml
 
+    echo "$1 config.xml"
+    find $1/src -name config.xml -exec sed -i "
+    /<version/,/\/version>/s/>$oldVersion.*<\//>$newVersion<\//g
+    " {} \; -exec grep -n --color=auto $newVersion {} \;
+
+    echo "$1 Version.java"
+    find $1/src -name Version.java -exec sed -i "
+    s/UID = \"$oldVersion.*\";/UID = \"$newVersion\";/g
+    " {} \; -exec grep -n --color=auto $newVersion {} \;
 }
 
 upVer zkspring-core
