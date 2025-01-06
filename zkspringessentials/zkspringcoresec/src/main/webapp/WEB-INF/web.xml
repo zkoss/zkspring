@@ -41,9 +41,21 @@
 			<param-name>update-uri</param-name>
 			<param-value>/zkau</param-value>
 		</init-param>
+		<!-- since 9.5.0 -->
+		<init-param>
+			<param-name>resource-uri</param-name>
+			<param-value>/zkres</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+	<servlet><!-- since 9.5.0 -->
+		<servlet-name>resourceEngine</servlet-name>
+		<servlet-class>org.zkoss.zk.au.http.DHtmlResourceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>resourceEngine</servlet-name>
+		<url-pattern>/zkres/*</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
