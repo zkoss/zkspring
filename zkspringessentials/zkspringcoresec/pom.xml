@@ -11,10 +11,10 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <zk.version>9.6.4-jakarta-Eval</zk.version>
-        <zkspring.version>6.0.0</zkspring.version>
-        <spring.version>6.0.0</spring.version>
-        <springsecurity.version>6.0.0</springsecurity.version>
+        <zk.version>9.6.5-jakarta</zk.version>
+        <zkspring.version>6.2.1</zkspring.version>
+        <spring.version>6.2.1</spring.version>
+        <springsecurity.version>6.4.2</springsecurity.version>
         <servlet-api.version>3.1.0</servlet-api.version>
         <zats.version>4.0.0</zats.version>
         <junit.version>4.13.1</junit.version>
@@ -30,6 +30,10 @@
         <repository>
             <id>ZK EE Evaluation</id>
             <url>https://mavensync.zkoss.org/eval</url>
+        </repository>
+        <repository>
+            <id>ZK EE</id>
+            <url>https://maven.zkoss.org/repo/zk/ee</url>
         </repository>
     </repositories>
     <dependencies>
@@ -86,18 +90,11 @@
             <version>2.17.1</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet-api.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.zkoss.zats</groupId>
             <artifactId>zats-mimic</artifactId>
@@ -111,10 +108,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3</version>
-            <scope>compile</scope>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${springsecurity.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
