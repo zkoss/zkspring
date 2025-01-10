@@ -19,8 +19,8 @@ public class ErrorHandlingController extends SelectorComposer {
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
         Execution exec = Executions.getCurrent();
-        Throwable exception = (Throwable) exec.getAttribute("javax.servlet.error.exception");
-        if (exception.getCause().getCause() instanceof AccessDeniedException){
+        Throwable exception = (Throwable) exec.getAttribute("jakarta.servlet.error.exception");
+        if (exception instanceof AccessDeniedException){
             errorModal.setTitle("Access Denied");
             errorMessage.setValue("Ajax Access Denied");
         }else{
