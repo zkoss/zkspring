@@ -2,23 +2,21 @@ package org.zkoss.zkspringessentials.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.core.userdetails.*;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.*;
+import org.springframework.security.web.savedrequest.NullRequestCache;
+import org.springframework.security.web.util.matcher.*;
 import org.zkoss.zkspringessentials.app.acl.InMemoryAclService;
 
 import java.util.Arrays;
 
 /**
- * see https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter/
+ * see https://www.spring-doc.cn/spring-security/6.1.9/servlet_authorization_authorize-http-requests.en.html
  */
 @Configuration
 @EnableWebSecurity
@@ -27,24 +25,44 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.headers().frameOptions().sameOrigin();
-
-        http.authorizeRequests()
-                .requestMatchers(HttpMethod.GET, "/secure/extreme/**").hasRole("SUPERVISOR")
-                .requestMatchers(HttpMethod.GET, "/secure/**").hasRole("USER")
-                .and()
-                .formLogin()
+        http.csrf(csrf -> csrf.disable()) //doesn't work with ZK, because ZK uses its own CSRF protection
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.sameOrigin())
+            ).authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(new AntPathRequestMatcher("/zkres/**")).permitAll() //permit ZK getting resources from DHtmlResourceServlet
+                .requestMatchers(new ZkDesktopRemoveRequestMatcher()).permitAll() //permit ZK desktop removal request
+                //permit application specific public pages
+                .requestMatchers(new AntPathRequestMatcher("/login.zul"),
+                        new AntPathRequestMatcher("/index.zul"),
+                        new AntPathRequestMatcher("/")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/**/*.html")).permitAll()
+                //secure specific paths with specific roles
+                .requestMatchers(new AntPathRequestMatcher("/secure/extreme/**")).hasRole("SUPERVISOR")
+                .requestMatchers(new AntPathRequestMatcher( "/secure/**")).hasRole("USER")
+                .requestMatchers(new AntPathRequestMatcher( "/zkau/**")).hasRole("USER")
+                //all other unspecified paths are secured, even if they are not explicitly listed, when using authorizeHttpRequests()
+            )
+            .formLogin(form -> form
                 .loginProcessingUrl("/login")
                 .loginPage("/login.zul")
                 .failureUrl("/login.zul?login_error=1")
+                .defaultSuccessUrl("/index.zul", true) //specify true to always redirect to index.zul after login, avoid redirect to the last requested URL, because it might be a zkau
                 .successHandler(redirectLoginSuccessHandler())
-                .and()
-                .logout()
+            )
+            .logout(logout -> logout
                 .logoutSuccessUrl("/index.zul")
-                .invalidateHttpSession(true);
+                .invalidateHttpSession(true)
+            )
+            /* when an end-user sends an AJAX without authentication, turn 302 to 403, and redirect to login page in zk.xml
+            * because zk client engine cannot handle the HTML result of 302, redirect to login.zul page */
+            .exceptionHandling(exception -> exception
+                .defaultAuthenticationEntryPointFor(
+                        new Http403ForbiddenEntryPoint(),
+                        new AntPathRequestMatcher("/zkau", "POST"))
+            );
         return http.build();
     }
+
 
     /**
      * allows login urls with a specific redirect parameter after successful login
@@ -56,6 +74,7 @@ public class SecurityConfig {
         final SavedRequestAwareAuthenticationSuccessHandler redirectLoginHandler =
                 new SavedRequestAwareAuthenticationSuccessHandler();
         redirectLoginHandler.setTargetUrlParameter("redirect-after-login");
+        redirectLoginHandler.setRequestCache(new NullRequestCache()); //avoid saving /zkau, so avoid being redirected to /zkau after login
         return redirectLoginHandler;
     }
 
