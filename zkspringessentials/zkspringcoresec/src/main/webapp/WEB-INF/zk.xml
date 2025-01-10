@@ -6,12 +6,18 @@
 	</client-config>
 
 	<session-config>
-
-	    <session-timeout>1800</session-timeout>    
+	    <session-timeout>1800</session-timeout>
 	</session-config>
 
 	<error-page> <!-- ZK-5680 -->
 		<exception-type>java.lang.RuntimeException</exception-type>
 		<location>/errors/ajaxDenied.zul</location>
 	</error-page>
+	<client-config>
+		<error-reload>
+			<device-type>ajax</device-type>
+			<error-code>403</error-code>
+			<reload-uri>/login.zul</reload-uri>
+		</error-reload>
+	</client-config>
 </zk>
