@@ -25,13 +25,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) //doesn't work with ZK, because ZK uses its own CSRF protection
+        http.csrf(csrf -> csrf.disable()) //Need to disable spring's CSRF. ZK uses its own CSRF protection, see https://www.zkoss.org/wiki/ZK_Developer%27s_Reference/Security_Tips/Cross-site_Request_Forgery#ZK_Desktop_ID_as_CSRF_token
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
-            ).authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(new AntPathRequestMatcher("/zkres/**")).permitAll() //permit ZK getting resources from DHtmlResourceServlet
+            ).authorizeHttpRequests(authorize -> authorize //if you build a login page in zul, you need the following 2 settings
+                .requestMatchers(new AntPathRequestMatcher("/zkres/**")).permitAll() //permit ZK getting resources from DHtmlResourceServlet, since 9.5.0
                 .requestMatchers(new ZkDesktopRemoveRequestMatcher()).permitAll() //permit ZK desktop removal request
-                //permit application specific public pages
+                //permit application-specific public pages
                 .requestMatchers(new AntPathRequestMatcher("/login.zul"),
                         new AntPathRequestMatcher("/index.zul"),
                         new AntPathRequestMatcher("/")).permitAll()
