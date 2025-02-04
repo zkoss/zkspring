@@ -17,7 +17,7 @@ public class BankDaoStub implements BankDao {
 			id++;
 			account.setId(id);
 		}
-		accounts.put(new Long(account.getId()), account);
+		accounts.put(Long.valueOf(account.getId()), account);
 		System.out.println("SAVE: " + account);
 	}
 
