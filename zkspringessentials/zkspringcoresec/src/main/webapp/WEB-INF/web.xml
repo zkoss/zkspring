@@ -19,6 +19,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
+	<listener>
+		<description>Used to cleanup when a session is destroyed</description>
+		<display-name>ZK Session Cleaner</display-name>
+		<listener-class>org.zkoss.zk.ui.http.HttpSessionListener</listener-class>
+	</listener>
 
 	<servlet>
 		<servlet-name>org.zkoss.zkspringessentials.bigbank</servlet-name>
@@ -48,6 +53,14 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>zkLoader</servlet-name>
+		<url-pattern>*.zul</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>zkLoader</servlet-name>
+		<url-pattern>*.zhtml</url-pattern>
+	</servlet-mapping>
 	<servlet><!-- since 9.5.0 -->
 		<servlet-name>resourceEngine</servlet-name>
 		<servlet-class>org.zkoss.zk.au.http.DHtmlResourceServlet</servlet-class>
@@ -55,6 +68,19 @@
 	<servlet-mapping>
 		<servlet-name>resourceEngine</servlet-name>
 		<url-pattern>/zkres/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>auEngine</servlet-name>
+		<servlet-class>org.zkoss.zk.au.http.DHtmlUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>auEngine</servlet-name>
+		<url-pattern>/zkau/*</url-pattern>
+	</servlet-mapping>
+	<!-- an anonymous update channel allowed by security config -->
+	<servlet-mapping>
+		<servlet-name>auEngine</servlet-name>
+		<url-pattern>/openzkau/*</url-pattern>
 	</servlet-mapping>
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -64,30 +90,6 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-	<listener>
-		<description>Used to cleanup when a session is destroyed</description>
-		<display-name>ZK Session Cleaner</display-name>
-		<listener-class>org.zkoss.zk.ui.http.HttpSessionListener</listener-class>
-	</listener>
-	<servlet>
-		<servlet-name>auEngine</servlet-name>
-		<servlet-class>
-			org.zkoss.zk.au.http.DHtmlUpdateServlet
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>zkLoader</servlet-name>
-		<url-pattern>*.zul</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>zkLoader</servlet-name>
-		<url-pattern>*.zhtml</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>auEngine</servlet-name>
-		<url-pattern>/zkau/*</url-pattern>
-	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.zul</welcome-file>

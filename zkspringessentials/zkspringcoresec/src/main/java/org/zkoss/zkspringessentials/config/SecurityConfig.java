@@ -28,9 +28,10 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable()) //Need to disable spring's CSRF. ZK uses its own CSRF protection, see https://www.zkoss.org/wiki/ZK_Developer%27s_Reference/Security_Tips/Cross-site_Request_Forgery#ZK_Desktop_ID_as_CSRF_token
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
-            ).authorizeHttpRequests(authorize -> authorize //if you build a login page in zul, you need the following 2 settings
+            ).authorizeHttpRequests(authorize -> authorize //if you build a login page in zul, you need the following ZK-specific settings
                 .requestMatchers(new AntPathRequestMatcher("/zkres/**")).permitAll() //permit ZK getting resources from DHtmlResourceServlet, since 9.5.0
                 .requestMatchers(new ZkDesktopRemoveRequestMatcher()).permitAll() //permit ZK desktop removal request
+                .requestMatchers(new AntPathRequestMatcher("/openzkau/**")).permitAll() //permit an alternative zkau URL to communicate with a server
                 //permit application-specific public pages
                 .requestMatchers(new AntPathRequestMatcher("/login.zul"),
                         new AntPathRequestMatcher("/index.zul"),
