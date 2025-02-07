@@ -1,29 +1,31 @@
 <?page id="testZul" title="CUSTOM ZK + SPRING SECURITY LOGIN"?>
 <zk xmlns:h="native">
-	<window id="loginwin" title="CUSTOM ZK + SPRING SECURITY LOGIN" border="normal" width="750px">
+	<window id="loginwin" title="CUSTOM ZK + SPRING SECURITY LOGIN" border="normal" width="750px"
+			apply="org.zkoss.zkspringessentials.app.controller.LoginComposer">
 		<groupbox>
 			<caption>Valid users</caption>
-		<grid>
-			<columns>
-				<column label="username"/>
-				<column label="password"/>
-				<column label="authorities"/>
-			</columns>
-			<rows>
-				<row>
-					rod <label value="koala"/><label value="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER"/>
-				</row>
-				<row>
-					dianne <label value="emu"/><label value="ROLE_USER, ROLE_TELLER"/>
-				</row>
-				<row>
-					scott <label value="wombat"/><label value="ROLE_USER"/>
-				</row>
-				<row>
-					peter <label value="opal"/><label value="ROLE_USER"/>
-				</row>
-			</rows>
-		</grid>
+			<grid>
+				<columns>
+					<column label="username"/>
+					<column label="password"/>
+					<column label="authorities"/>
+					<column />
+				</columns>
+				<rows>
+					<row>
+						<label value="rod"/><label value="koala"/><label value="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER"/><button sclass="autofill" label="fill"/>
+					</row>
+					<row>
+						<label value="dianne"/> <label value="emu"/><label value="ROLE_USER, ROLE_TELLER"/><button sclass="autofill" label="fill"/>
+					</row>
+					<row>
+						<label value="scott"/> <label value="wombat"/><label value="ROLE_USER"/><button sclass="autofill" label="fill"/>
+					</row>
+					<row>
+						<label value="peter" /> <label value="opal"/><label value="ROLE_USER"/><button sclass="autofill" label="fill"/>
+					</row>
+				</rows>
+			</grid>
 		</groupbox>
 		<!-- this form-login-page form is also used as the
 			 form-error-page to ask for a login again. -->
@@ -43,7 +45,7 @@
 					<row>Password: <textbox id="p" type="password" name="password"/></row>
 					<row>
 						<cell colspan="2">
-						<hlayout>
+						<hlayout style="text-align:right">
 							<button id="submit" type="submit" label="Submit Query"/>
 							<button type="reset" label="Reset"/>
 						</hlayout>
@@ -57,4 +59,5 @@
 		</h:form>
 		</groupbox>
 	</window>
+	<script src="~./openzkau.js"/>
 </zk>
