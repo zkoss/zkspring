@@ -77,11 +77,6 @@
 		<servlet-name>auEngine</servlet-name>
 		<url-pattern>/zkau/*</url-pattern>
 	</servlet-mapping>
-	<!-- an anonymous update channel allowed by security config -->
-	<servlet-mapping>
-		<servlet-name>auEngine</servlet-name>
-		<url-pattern>/openzkau/*</url-pattern>
-	</servlet-mapping>
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
