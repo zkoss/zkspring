@@ -1,7 +1,16 @@
 # ZK Spring
-Provide Spring framework integration features. Please read [ZK Spring Essentials](http://books.zkoss.org/wiki/ZK_Spring_Essentials).
+Provide ZK-Spring framework integration. Highlighted features include exposing Spring-managed beans within the ZK framework, ZK custom scopes for Spring-managed beans, and securing ZK components. Please read [ZK Spring Essentials](https://docs.zkoss.org/zk_spring_essentials/introduction).
 
-# Release Process
+## About ZK
+ZK is a highly productive open source Java framework for building amazing enterprise web and mobile applications.
+
+## ZK Resources
+* [Core Framework](https://github.com/zkoss/zk)
+* [Documentation](https://www.zkoss.org/documentation)
+* [ZK Website](https://zkoss.org)
+
+# Instructions for project admin
+## Release Process
 
 1. Update [release note](zkdoc/release-note) according to https://tracker.zkoss.org/ > Releases
 2. Run release command according to the edition (freshly/official)
@@ -11,19 +20,19 @@ Provide Spring framework integration features. Please read [ZK Spring Essentials
 6. Change to the next version with `-SNAPSHOT`. Run `upVer oldversion newVersion FL`
 7. Update ZK Spring Essentials
 
-## Release Command
-### Freshly
+### Release Command
+#### Freshly
 `./release`
 
 It automatically appends a date string into the version in `pom.xml`.
 
-### Official
+#### Official
 `./release official`
 
 It automatically removes `-SNAPSHOT` from the version in `pom.xml`.
 
 
-# Publish to repository
+## Publish to repository
 [jenkins2 > PBFUM](http://jenkins2/view/Maven_update/job/PBFUM/)
 
 
