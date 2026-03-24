@@ -11,7 +11,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <zk.version>9.6.5-jakarta</zk.version>
+        <zk.version>10.3.0.1-jakarta</zk.version>
         <zkspring.version>6.2.1</zkspring.version>
         <spring.version>6.2.1</spring.version>
         <springsecurity.version>6.4.2</springsecurity.version>
