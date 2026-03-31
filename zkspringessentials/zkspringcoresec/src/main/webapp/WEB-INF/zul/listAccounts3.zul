@@ -1,0 +1,55 @@
+<?page id="testZul3" title="Accounts (Composer + Spring AOP)" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+<zk>
+	<custom-attributes scope="desktop" loginRedirectUrl="/listAccounts3.html"/>
+	<window id="mainWin" title="Accounts — MVC Composer + Spring AOP Authorization" border="normal" width="750px"
+			apply="${bigbankComposer}">
+		Everyone can see this page.
+		<separator/>
+		Authorization via @RequiresRole on the Composer event handler, enforced by Spring AOP
+		(CGLIB proxy). No @BindingParam is used — the handler receives MouseEvent, so CGLIB
+		does not strip any parameter annotations.
+		<separator height="30px"/>
+		Current User: ${authentication.name}
+		<separator/>
+		Current Roles: ${authentication.authorities}
+		<separator/>
+		<zk if="${sec:isNoneGranted('ROLE_TELLER,ROLE_SUPERVISOR')}">
+			<label style="color: red" value="With your current permissions you cannot update account balances. (But you can try!)"/>
+		</zk>
+		<zk if="${sec:isAnyGranted('ROLE_TELLER,ROLE_SUPERVISOR')}">
+			<label style="color: green" value="You can update the account balances."/>
+		</zk>
+		<separator/>
+		<grid id="accountGrid">
+			<template name="model">
+				<row>
+					<label value="${each.id}"/>
+					<label value="${each.holder}"/>
+					<label value="${each.balance}"/>
+					<button label="-$20">
+						<custom-attributes accountId="${each.id}" amount="-20.00"/>
+					</button>
+					<button label="-$5">
+						<custom-attributes accountId="${each.id}" amount="-5.00"/>
+					</button>
+					<button label="+$5">
+						<custom-attributes accountId="${each.id}" amount="5.00"/>
+					</button>
+					<button label="+$20">
+						<custom-attributes accountId="${each.id}" amount="20.00"/>
+					</button>
+				</row>
+			</template>
+		</grid>
+	</window>
+	<separator/>
+	<button label="Home" href="/index.zul"/>
+	<zk if="${sec:isNoneGranted('ROLE_USER')}">
+		<button label="Login" href="/login.zul?redirect-after-login=${loginRedirectUrl}"/>
+	</zk>
+	<zk if="${sec:isAllGranted('ROLE_USER')}">
+		<button label="Logout" href="/logout"/>
+	</zk>
+</zk>

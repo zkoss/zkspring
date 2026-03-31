@@ -6,7 +6,11 @@
 			<rows>
 				<row>
 					Any one can list accounts.
-					<button label="List Account" href="listAccounts.html"/>
+					<span>
+					<button label="list account (service layer check)" href="listAccounts.html"/>
+					<button label="list account, MVC (controller layer check)" href="listAccounts3.html"/>
+					<button label="list account, MVVM (controller layer check)" href="listAccounts2.html"/>
+					</span>
 				</row>
 				<row>
 					Your principal object is ...:

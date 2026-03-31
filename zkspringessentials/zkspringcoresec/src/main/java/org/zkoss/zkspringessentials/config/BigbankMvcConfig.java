@@ -18,6 +18,16 @@ public class BigbankMvcConfig implements WebMvcConfigurer {
 		return "listAccounts";
 	}
 
+	@GetMapping("/listAccounts2.html")
+	public String listAccounts2() {
+		return "listAccounts2";
+	}
+
+	@GetMapping("/listAccounts3.html")
+	public String listAccounts3() {
+		return "listAccounts3";
+	}
+
 	public void configureViewResolvers(ViewResolverRegistry viewResolverRegistry) {
 		viewResolverRegistry.viewResolver(new InternalResourceViewResolver("/WEB-INF/zul/", ".zul"));
 	}
