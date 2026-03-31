@@ -7,9 +7,8 @@
 			apply="${bigbankComposer}">
 		Everyone can see this page.
 		<separator/>
-		Authorization via @RequiresRole on the Composer event handler, enforced by Spring AOP
-		(CGLIB proxy). No @BindingParam is used — the handler receives MouseEvent, so CGLIB
-		does not strip any parameter annotations.
+		Authorization via @PreAuthorize on the Composer event handler, enforced by
+		AspectJ Compile-Time Weaving (spring-security-aspects). No CGLIB proxy is involved.
 		<separator height="30px"/>
 		Current User: ${authentication.name}
 		<separator/>

@@ -7,24 +7,21 @@ import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zkspringessentials.app.security.RequiresRole;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.zkoss.zkspringessentials.bigbank.Account;
 import org.zkoss.zkspringessentials.bigbank.BankService;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Grid;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Window;
 
 /**
- * MVC Composer demonstrating Spring AOP authorization with {@link RequiresRole}.
+ * MVC Composer demonstrating {@code @PreAuthorize} with AspectJ Compile-Time Weaving (CTW).
  *
- * <p>Unlike the MVVM ViewModel approach, the event handler receives a {@link MouseEvent}
- * parameter — not {@code @BindingParam}.  CGLIB-proxying a Composer is safe because
- * CGLIB copies method-level annotations (including {@code @Listen} and {@code @RequiresRole})
- * to proxy overrides, and there are no parameter annotations to lose.
- *
- * <p>{@link org.zkoss.zkspringessentials.app.security.ZkAuthorizationAspect} therefore
- * handles authorization at runtime via a CGLIB proxy — no AspectJ CTW required.
+ * <p>{@code @PreAuthorize} is woven into the bytecode at build time by
+ * {@code spring-security-aspects}, so no CGLIB proxy is involved.
  */
 @Component
 @Scope("prototype")
@@ -46,7 +43,7 @@ public class BigbankComposer extends SelectorComposer<Window> {
     }
 
     @Listen("onClick = #accountGrid row button")
-    @RequiresRole({"ROLE_SUPERVISOR", "ROLE_TELLER"})
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'TELLER')")
     public void onAdjustBalance(MouseEvent event) {
         Button btn = (Button) event.getTarget();
         long accountId = ((Number) btn.getAttribute("accountId")).longValue();
@@ -55,11 +52,9 @@ public class BigbankComposer extends SelectorComposer<Window> {
         Account account = bankService.readAccount(accountId);
         account.setBalance(bankService.post(account, amount).getBalance());
 
-        for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i).getId() == accountId) {
-                accounts.set(i, account);
-                break;
-            }
-        }
+        // Update the balance label directly instead of replacing the model item,
+        // because accounts.set() re-renders the row, creating new buttons without @Listen bindings.
+        Row row = (Row) btn.getParent();
+        ((Label) row.getChildren().get(2)).setValue(String.valueOf(account.getBalance()));
     }
 }

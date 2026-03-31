@@ -129,11 +129,16 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.9.22</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-aspects</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- AspectJ Compile-Time Weaving: weaves CtwAuthorizationAspect into target bytecode.
+            <!-- AspectJ Compile-Time Weaving: weaves spring-security-aspects (PreAuthorizeAspect) into target bytecode.
                  No CGLIB proxy is generated, so ZK @BindingParam parameter annotations survive. -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -154,6 +159,12 @@
                     <showWeaveInfo>true</showWeaveInfo>
                     <encoding>UTF-8</encoding>
                     <Xlint>ignore</Xlint>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>org.springframework.security</groupId>
+                            <artifactId>spring-security-aspects</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
                 </configuration>
                 <executions>
                     <execution>

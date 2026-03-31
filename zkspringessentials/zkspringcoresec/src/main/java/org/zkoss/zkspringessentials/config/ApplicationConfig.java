@@ -9,7 +9,6 @@ import org.zkoss.zkspringessentials.app.beans.SimpleBean;
 @ComponentScan({"org.zkoss.zkspringessentials.config", "org.zkoss.zkspringessentials.app", "org.zkoss.zkspringessentials.bigbank.web", "org.zkoss.zkspringessentials.bigbank"})
 @Import(ZkScopesConfigurer.class) //enable zk's custom scopes
 @PropertySource("classpath:values.properties")
-@EnableAspectJAutoProxy
 public class ApplicationConfig {
 
 	@Bean

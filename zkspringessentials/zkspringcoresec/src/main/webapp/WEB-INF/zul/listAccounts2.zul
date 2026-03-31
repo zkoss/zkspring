@@ -7,8 +7,8 @@
 			viewModel="@id('vm') @init(bigbankViewModel2)">
 		Everyone can see this page.
 		<separator/>
-		Authorization via @RequiresRole directly on the ViewModel command method, enforced by
-		AspectJ Compile-Time Weaving (CtwAuthorizationAspect). No CGLIB proxy — @BindingParam works.
+		Authorization via @PreAuthorize directly on the ViewModel command method, enforced by
+		AspectJ Compile-Time Weaving (spring-security-aspects). No CGLIB proxy — @BindingParam works.
 		<separator height="30px"/>
 		Current User: ${authentication.name}
 		<separator/>
