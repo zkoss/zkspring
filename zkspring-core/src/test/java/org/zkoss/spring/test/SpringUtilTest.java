@@ -1,14 +1,13 @@
 package org.zkoss.spring.test;
 
 import jakarta.servlet.ServletContext;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.spring.test.config.TestAppConfig;
@@ -21,7 +20,7 @@ import org.zkoss.zk.ui.sys.WebAppsCtrl;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestAppConfig.class})
 @WebAppConfiguration("src/test/webapp")
 public class SpringUtilTest {
@@ -54,8 +53,8 @@ public class SpringUtilTest {
 
 	private void testScopedBean(String scopeName) {
 		TestBean scopedBean = (TestBean) SpringUtil.getBean(scopeName + "ScopedBean");
-		Assert.assertEquals(scopeName, scopedBean.getScopeName());
+		Assertions.assertEquals(scopeName, scopedBean.getScopeName());
 		final TestBean resolvedBean = (TestBean) vr.resolveVariable(scopeName + "ScopedBean");
-		Assert.assertEquals(scopeName, resolvedBean.getScopeName());
+		Assertions.assertEquals(scopeName, resolvedBean.getScopeName());
 	}
 }

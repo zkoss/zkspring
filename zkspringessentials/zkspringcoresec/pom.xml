@@ -4,20 +4,20 @@
     <groupId>zkspringcoresec</groupId>
     <artifactId>zkspringcoresec</artifactId>
     <name>ZK Spring Essentials Core/Security</name>
-    <version>6.0.0</version>
+    <version>7.0.0</version>
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <zk.version>10.3.0.1-jakarta</zk.version>
-        <zkspring.version>6.2.1</zkspring.version>
-        <spring.version>6.2.1</spring.version>
-        <springsecurity.version>6.4.2</springsecurity.version>
-        <servlet-api.version>3.1.0</servlet-api.version>
+        <zkspring.version>7.0.4</zkspring.version>
+        <spring.version>7.0.4</spring.version>
+        <springsecurity.version>7.0.4</springsecurity.version>
+        <servlet-api.version>6.1.0</servlet-api.version>
         <zats.version>4.0.0</zats.version>
-        <junit.version>4.13.1</junit.version>
+        <junit.version>6.0.0</junit.version>
     </properties>
     <description>
         Project version corresponds to zkspring core version that the project uses.
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
+            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -102,8 +102,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -175,9 +181,9 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.15</version>
+                <groupId>org.eclipse.jetty.ee11</groupId>
+                <artifactId>jetty-ee11-maven-plugin</artifactId>
+                <version>12.0.16</version>
                 <configuration>
                 </configuration>
             </plugin>

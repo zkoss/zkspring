@@ -3,15 +3,18 @@ package org.zkoss.zkspringessentials.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.AdviceMode;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.*;
 import org.springframework.security.web.savedrequest.NullRequestCache;
-import org.springframework.security.web.util.matcher.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.zkoss.zkspringessentials.app.acl.InMemoryAclService;
 
 import java.util.Arrays;
@@ -21,7 +24,7 @@ import java.util.Arrays;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, mode = AdviceMode.ASPECTJ)
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, mode = AdviceMode.ASPECTJ)
 public class SecurityConfig {
 
     @Bean
@@ -30,18 +33,20 @@ public class SecurityConfig {
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
             ).authorizeHttpRequests(authorize -> authorize //if you build a login page in zul, you need the following ZK-specific settings
-                .requestMatchers(new AntPathRequestMatcher("/zkres/**")).permitAll() //permit ZK getting resources from DHtmlResourceServlet, since 9.5.0
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/zkres/**")).permitAll() //permit ZK getting resources from DHtmlResourceServlet, since 9.5.0
                 .requestMatchers(new ZkDesktopRemoveRequestMatcher()).permitAll() //permit ZK desktop removal request
                 .requestMatchers(new LoginZkauMatcher()).permitAll() //permit AU on for login page
+                .requestMatchers(new CorePageZkauMatcher()).permitAll() //permit AU on for /core/** pages
                 //permit application-specific public pages
-                .requestMatchers(new AntPathRequestMatcher("/login.zul"),
-                        new AntPathRequestMatcher("/index.zul"),
-                        new AntPathRequestMatcher("/")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/**/*.html")).permitAll()
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/login.zul"),
+                        PathPatternRequestMatcher.pathPattern("/index.zul"),
+                        PathPatternRequestMatcher.pathPattern("/")).permitAll()
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/core/**")).permitAll()
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/**/*.html")).permitAll()
                 //secure specific paths with specific roles
-                .requestMatchers(new AntPathRequestMatcher("/secure/extreme/**")).hasRole("SUPERVISOR")
-                .requestMatchers(new AntPathRequestMatcher( "/secure/**")).hasRole("USER")
-                .requestMatchers(new AntPathRequestMatcher( "/zkau/**")).hasRole("USER")
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/secure/extreme/**")).hasRole("SUPERVISOR")
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/secure/**")).hasRole("USER")
+                .requestMatchers(PathPatternRequestMatcher.pathPattern("/zkau/**")).hasRole("USER")
                 //all other unspecified paths are secured, even if they are not explicitly listed, when using authorizeHttpRequests()
             )
             .formLogin(form -> form
@@ -60,7 +65,7 @@ public class SecurityConfig {
             .exceptionHandling(exception -> exception
                 .defaultAuthenticationEntryPointFor(
                         new Http403ForbiddenEntryPoint(),
-                        new AntPathRequestMatcher("/zkau", "POST"))
+                        PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/zkau"))
             );
         return http.build();
     }
@@ -81,12 +86,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder encoder) {
         //for demo purposes only
-        UserDetails user1 = User.withDefaultPasswordEncoder().username("rod").password("koala").roles("SUPERVISOR", "USER", "TELLER").build();
-        UserDetails user2 = User.withDefaultPasswordEncoder().username("dianne").password("emu").roles("USER", "TELLER").build();
-        UserDetails user3 = User.withDefaultPasswordEncoder().username("scott").password("wombat").roles("USER").build();
-        UserDetails user4 = User.withDefaultPasswordEncoder().username("peter").password("opal").roles("USER").build();
+        UserDetails user1 = User.withUsername("rod").password(encoder.encode("koala")).roles("SUPERVISOR", "USER", "TELLER").build();
+        UserDetails user2 = User.withUsername("dianne").password(encoder.encode("emu")).roles("USER", "TELLER").build();
+        UserDetails user3 = User.withUsername("scott").password(encoder.encode("wombat")).roles("USER").build();
+        UserDetails user4 = User.withUsername("peter").password(encoder.encode("opal")).roles("USER").build();
         return new InMemoryUserDetailsManager(Arrays.asList(user1, user2, user3, user4));
     }
 

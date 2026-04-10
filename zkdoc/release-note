@@ -1,3 +1,13 @@
+zkspring 7.0.4
+* New Feature
+[ZKSPRING-64] - Support Spring Framework 7.0 and Spring Security 7.0
+
+* Upgrade Notes:
+  + Requires Java 17+
+  + Requires Jakarta Servlet API 6.1 (EE11); upgrade Jetty to jetty-ee11-maven-plugin 12.0.x
+  + AntPathRequestMatcher is removed in Spring Security 7; use PathPatternRequestMatcher instead
+  + @EnableGlobalMethodSecurity is removed in Spring Security 7; use @EnableMethodSecurity instead
+
 zkspring 6.2.1
 maintenance release - verify the features working with spring 6.2.1 and spring security 6.4.2
 

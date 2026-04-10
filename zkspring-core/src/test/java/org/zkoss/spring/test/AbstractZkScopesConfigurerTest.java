@@ -1,14 +1,15 @@
 package org.zkoss.spring.test;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zkoss.spring.web.context.request.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import org.junit.jupiter.api.Assertions;
+
+@ExtendWith(SpringExtension.class)
 public abstract class AbstractZkScopesConfigurerTest {
 	@Autowired
 	private ConfigurableListableBeanFactory beanFactory;
@@ -16,11 +17,11 @@ public abstract class AbstractZkScopesConfigurerTest {
 	@Test
 	public void testScopesInitialized() {
 		final String[] registeredScopeNames = beanFactory.getRegisteredScopeNames();
-		Assert.assertArrayEquals(registeredScopeNames, new String[]{"webapp", "desktop", "page", "idspace", "execution"});
-		Assert.assertTrue(beanFactory.getRegisteredScope("webapp") instanceof ApplicationScope);
-		Assert.assertTrue(beanFactory.getRegisteredScope("desktop") instanceof DesktopScope);
-		Assert.assertTrue(beanFactory.getRegisteredScope("page") instanceof PageScope);
-		Assert.assertTrue(beanFactory.getRegisteredScope("idspace") instanceof IdSpaceScope);
-		Assert.assertTrue(beanFactory.getRegisteredScope("execution") instanceof ExecutionScope);
+		Assertions.assertArrayEquals(new String[]{"webapp", "desktop", "page", "idspace", "execution"}, registeredScopeNames);
+		Assertions.assertTrue(beanFactory.getRegisteredScope("webapp") instanceof ApplicationScope);
+		Assertions.assertTrue(beanFactory.getRegisteredScope("desktop") instanceof DesktopScope);
+		Assertions.assertTrue(beanFactory.getRegisteredScope("page") instanceof PageScope);
+		Assertions.assertTrue(beanFactory.getRegisteredScope("idspace") instanceof IdSpaceScope);
+		Assertions.assertTrue(beanFactory.getRegisteredScope("execution") instanceof ExecutionScope);
 	}
 }

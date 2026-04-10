@@ -21,20 +21,20 @@ public class PublicPageTest {
     public void home(){
         DesktopAgent desktop = client.connect("/");
         List<ComponentAgent> buttonList = desktop.queryAll("button");
-        Assert.assertEquals(4, buttonList.size());
+        Assert.assertEquals(6, buttonList.size());
     }
 
     @Test
     public void index(){
         DesktopAgent desktop = client.connect("/");
         List<ComponentAgent> buttonList = desktop.queryAll("button");
-        Assert.assertEquals(4, buttonList.size());
+        Assert.assertEquals(6, buttonList.size());
     }
 
     @Test
     public void login(){
         DesktopAgent desktop = client.connect("/login.zul");
-        ComponentAgent submitButton = desktop.query("button");
+        ComponentAgent submitButton = desktop.query("button#submit");
         Assert.assertEquals("Submit Query", submitButton.as(Button.class).getLabel());
     }
 
