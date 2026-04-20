@@ -51,6 +51,28 @@ AspectJ CTW injects advice directly into bytecode at build time. No proxy class 
 
 The `spring-security-aspects` library provides `PreAuthorizeAspect` — a standard AspectJ aspect that intercepts `@PreAuthorize` at compile time. This replaces any need for custom aspect classes.
 
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant ZK as ZK AU Servlet
+    participant VM as ViewModel / Composer
+    participant SA as PreAuthorizeAspect (CTW)
+    participant SVC as BankService
+
+    B->>+ZK: POST /zkau (button click)
+    ZK->>+VM: adjustBalance() / onAdjustBalance()
+    Note over VM,SA: Woven at compile time — no proxy
+    VM->>+SA: @PreAuthorize check
+    alt access denied
+        SA-->>VM: AccessDeniedException
+        VM-->>B: 403 error page
+    else access granted
+        SA-->>-VM: proceed
+        VM->>SVC: post(account, amount)
+        VM-->>-B: balance updated
+    end
+```
+
 ### Key Configuration
 
 #### pom.xml — Dependencies
@@ -189,6 +211,28 @@ public class BigbankComposer extends SelectorComposer<Window> {
 
 If you don't want the AspectJ Maven plugin, delegate to a separate `@Service` that carries `@PreAuthorize`. Spring proxies the service safely (no ZK annotations involved).
 
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant ZK as ZK AU Servlet
+    participant VM as ViewModel / Composer
+    participant SEC as BigbankSecurityService (Spring proxy)
+    participant SVC as BankService
+
+    B->>+ZK: POST /zkau (button click)
+    ZK->>+VM: adjustBalance()
+    VM->>+SEC: assertCanAdjustBalance()
+    Note over SEC: Spring AOP proxy intercepts<br/>@PreAuthorize on the service
+    alt access denied
+        SEC-->>VM: AccessDeniedException
+        VM-->>B: 403 error page
+    else access granted
+        SEC-->>-VM: proceed
+        VM->>SVC: post(account, amount)
+        VM-->>-B: balance updated
+    end
+```
+
 ```java
 @Service
 public class BigbankSecurityService {
@@ -213,11 +257,177 @@ public class BigbankViewModel {
 
 ---
 
+---
+
+## Authorization at Scale: Centralized Rules
+
+The solutions above annotate each handler individually. When a ViewModel or Composer grows to dozens of commands, or when the same role constraint applies across an entire class or package, a centralized rule approach is more maintainable.
+
+---
+
+### Solution 3: PhaseListener — Centralized MVVM Command Authorization
+
+ZK MVVM's binder fires a lifecycle event before every `@Command` executes. Registering a `PhaseListener` at `Phase.COMMAND` lets you intercept all commands in one place, check a centralized rule table, and throw `AccessDeniedException` before the ViewModel method is ever called.
+
+This is the MVVM equivalent of Spring Security's `requestMatchers`: rules live in one class, the ViewModel stays annotation-free.
+
+**Example ZUL page:** [`WEB-INF/zul/listAccounts4.zul`](src/main/webapp/WEB-INF/zul/listAccounts4.zul)
+
+#### How it works
+
+```mermaid
+sequenceDiagram
+    participant ZK as ZK Framework
+    participant PL as AuthPhaseListener
+    participant CR as CommandAuthorizationRules
+    participant VM as BigbankViewModel3
+
+    ZK->>+PL: prePhase(COMMAND, "adjustBalance")
+    PL->>+CR: getRequiredRoles(VM, "adjustBalance")
+    CR-->>-PL: "ROLE_SUPERVISOR,ROLE_TELLER"
+    PL->>PL: SecurityUtil.isAnyGranted(roles)
+    alt access denied
+        PL-->>ZK: AccessDeniedException
+    else access granted
+        PL-->>-ZK: proceed
+        ZK->>+VM: adjustBalance(id, amount)
+        VM-->>-ZK: balance updated
+    end
+```
+
+#### CommandAuthorizationRules — the rule table
+
+```java
+@Service
+public class CommandAuthorizationRules {
+
+    // Map<ViewModel class, Map<command name, comma-separated required roles>>
+    // "*" acts as a wildcard fallback for any unmatched command.
+    private final Map<Class<?>, Map<String, String>> rules = new HashMap<>();
+
+    public CommandAuthorizationRules() {
+        Map<String, String> vm3Rules = Map.of(
+                "adjustBalance", "ROLE_SUPERVISOR,ROLE_TELLER",
+                "*",             "ROLE_USER");
+        rules.put(BigbankViewModel3.class, vm3Rules);
+    }
+
+    public Optional<String> getRequiredRoles(Class<?> viewModelClass, String commandName) {
+        Map<String, String> classRules = rules.get(viewModelClass);
+        if (classRules == null) return Optional.empty();
+        String specific = classRules.get(commandName);
+        if (specific != null) return Optional.of(specific);
+        return Optional.ofNullable(classRules.get("*"));
+    }
+}
+```
+
+#### AuthPhaseListener — the interceptor
+
+```java
+public class AuthPhaseListener implements PhaseListener {
+
+    @Override
+    public void prePhase(Phase phase, BindContext ctx) {
+        if (phase != Phase.COMMAND && phase != Phase.GLOBAL_COMMAND) return;
+
+        Object vm = ctx.getBinder().getViewModel();
+        String commandName = ctx.getCommandName();
+
+        CommandAuthorizationRules rules =
+                SpringUtil.getApplicationContext().getBean(CommandAuthorizationRules.class);
+        Optional<String> requiredRoles = rules.getRequiredRoles(vm.getClass(), commandName);
+
+        if (requiredRoles.isEmpty()) return;
+
+        if (!SecurityUtil.isAnyGranted(requiredRoles.get())) {
+            throw new AccessDeniedException(
+                    "Access denied for command '" + commandName + "' on " + vm.getClass().getSimpleName());
+        }
+    }
+
+    @Override
+    public void postPhase(Phase phase, BindContext ctx) { }
+}
+```
+
+Register the listener in `zk.xml`:
+
+```xml
+<library-property>
+    <name>org.zkoss.bind.PhaseListener.class</name>
+    <value>com.example.security.AuthPhaseListener</value>
+</library-property>
+```
+
+#### ViewModel — no security annotations needed
+
+**Key advantage:** `@BindingParam` parameters are never at risk — the PhaseListener intercepts inside the binder, before ZK performs parameter binding and method reflection. No CGLIB proxy is involved.
+
+---
+
+### Solution 4: AspectJ Pointcut — Centralized MVC Composer Authorization
+
+For MVC `SelectorComposer`, AspectJ pointcut expressions provide the same centralized rule style. A single `@Aspect` class declares which classes or packages require which roles — no `@PreAuthorize` on any Composer method.
+
+This is the direct ZK equivalent of Spring Security's `requestMatchers("/admin/**")`: the pointcut type pattern maps naturally to class and package boundaries.
+
+**Example ZUL page:** [`WEB-INF/zul/listAccounts5.zul`](src/main/webapp/WEB-INF/zul/listAccounts5.zul)
+
+```mermaid
+sequenceDiagram
+    participant AS as ComposerAuthorizationAspect
+    participant CM as BigbankComposer2
+
+    CM->>+AS: requireTellerOrSupervisor() [woven before onAdjustBalance]
+    alt access denied
+        AS-->>CM: AccessDeniedException
+    else access granted
+        AS-->>-CM: proceed
+        CM->>CM: onAdjustBalance()
+    end
+```
+
+#### ComposerAuthorizationAspect — the rule class
+
+```java
+@Aspect
+public class ComposerAuthorizationAspect {
+
+    // All @Listen methods on BigbankComposer2 require SUPERVISOR or TELLER.
+    @Before("execution(@org.zkoss.zk.ui.select.annotation.Listen * " +
+            "org.zkoss.zkspringessentials.bigbank.web.BigbankComposer2.*(..))")
+    public void requireTellerOrSupervisor(JoinPoint jp) {
+        if (!SecurityUtil.isAnyGranted("ROLE_SUPERVISOR,ROLE_TELLER")) {
+            throw new AccessDeniedException(
+                    "Access denied for: " + jp.getSignature().toShortString());
+        }
+    }
+
+    // To cover an entire package, use a wildcard type pattern:
+    // @Before("execution(@Listen * com.example.admin..*.*(..))")
+    // public void requireAdmin(JoinPoint jp) { ... }
+}
+```
+
+The aspect is woven at compile time by `aspectj-maven-plugin` — no Spring bean wiring is needed. `SecurityUtil` reads directly from `SecurityContextHolder`.
+
+#### Composer — no security annotations needed
+
+**Key advantage:** Rules scale from a single method to an entire package by changing one pointcut expression. Adding a new Composer to a protected package automatically inherits the rule — no per-class annotation required.
+
+---
+
 ## Comparison
 
-| Approach | Pattern | `@BindingParam` safe | Build plugin required | Boilerplate |
-|---|---|---|---|---|
-| `@PreAuthorize` + AspectJ CTW | MVC & MVVM | Yes | Yes (`aspectj-maven-plugin`) | None — annotation only |
-| Explicit delegate call | MVC & MVVM | Yes | No | One line per handler |
+| Approach | Pattern | `@BindingParam` safe | Build plugin required | Boilerplate | Centralized rules |
+|---|---|---|---|---|---|
+| `@PreAuthorize` + AspectJ CTW | MVC & MVVM | Yes | Yes (`aspectj-maven-plugin`) | None — annotation only | No — per method |
+| Explicit delegate call | MVC & MVVM | Yes | No | One line per handler | No — per method |
+| PhaseListener + rule table | MVVM only | Yes | No | Rule table entry | **Yes** — one class |
+| AspectJ pointcut aspect | MVC (& MVVM) | Yes | Yes (`aspectj-maven-plugin`) | Pointcut expression | **Yes** — one class |
 
-**Recommendation:** Use AspectJ CTW with `spring-security-aspects` for projects that already use the AspectJ Maven plugin. Use the explicit delegate approach for simpler projects that want to avoid the build plugin dependency.
+**Recommendations:**
+- Per-handler annotation: use `@PreAuthorize` + AspectJ CTW (Solution 1) or the explicit delegate (Solution 2).
+- Centralized MVVM rules: use the PhaseListener approach (Solution 3) — no build plugin needed.
+- Centralized MVC rules by class or package: use the AspectJ pointcut aspect (Solution 4) — natural fit for "all handlers in this package require ROLE_ADMIN".
