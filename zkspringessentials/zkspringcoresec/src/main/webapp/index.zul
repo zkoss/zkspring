@@ -10,6 +10,7 @@
 					<button label="list account (service layer check)" href="listAccounts.html"/>
 					<button label="list account, MVC (controller layer check)" href="listAccounts3.html"/>
 					<button label="list account, MVVM (controller layer check)" href="listAccounts2.html"/>
+					<button label="list account, MVVM PhaseListener (command interceptor)" href="listAccounts4.html"/>
 					</span>
 				</row>
 				<row>

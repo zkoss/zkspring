@@ -20,4 +20,8 @@
 			<reload-uri>/login.zul</reload-uri>
 		</error-reload>
 	</client-config>
+	<library-property>
+		<name>org.zkoss.bind.PhaseListener.class</name>
+		<value>org.zkoss.zkspringessentials.bigbank.web.AuthPhaseListener</value>
+	</library-property>
 </zk>
