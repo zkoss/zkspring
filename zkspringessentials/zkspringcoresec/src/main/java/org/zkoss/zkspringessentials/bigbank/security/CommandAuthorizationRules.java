@@ -1,6 +1,7 @@
-package org.zkoss.zkspringessentials.bigbank.web;
+package org.zkoss.zkspringessentials.bigbank.security;
 
 import org.springframework.stereotype.Service;
+import org.zkoss.zkspringessentials.bigbank.web.BigbankViewModel3;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class CommandAuthorizationRules {
         Map<String, String> vm4Rules = Map.of(
                 "adjustBalance", "ROLE_SUPERVISOR,ROLE_TELLER",
                 "*", "ROLE_USER");
-        rules.put(BigbankViewModel4.class, vm4Rules);
+        rules.put(BigbankViewModel3.class, vm4Rules);
     }
 
     /**

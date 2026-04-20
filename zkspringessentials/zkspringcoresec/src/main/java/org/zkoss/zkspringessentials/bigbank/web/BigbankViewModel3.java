@@ -9,6 +9,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.zkspringessentials.bigbank.Account;
 import org.zkoss.zkspringessentials.bigbank.BankService;
+import org.zkoss.zkspringessentials.bigbank.security.*;
 import org.zkoss.zul.ListModelList;
 
 /**
@@ -20,7 +21,7 @@ import org.zkoss.zul.ListModelList;
  */
 @Component
 @Scope("prototype")
-public class BigbankViewModel4 {
+public class BigbankViewModel3 {
 
     @Autowired
     private BankService bankService;

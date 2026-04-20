@@ -22,6 +22,6 @@
 	</client-config>
 	<library-property>
 		<name>org.zkoss.bind.PhaseListener.class</name>
-		<value>org.zkoss.zkspringessentials.bigbank.web.AuthPhaseListener</value>
+		<value>org.zkoss.zkspringessentials.bigbank.security.AuthPhaseListener</value>
 	</library-property>
 </zk>

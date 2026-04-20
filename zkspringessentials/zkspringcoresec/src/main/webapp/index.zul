@@ -1,17 +1,18 @@
 <?page id="main" title="ZK + Spring Security (Tutorial)"?>
 <?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
 <zk>
-	<window id="win" title="Home Page" border="normal" width="750px">
+	<window id="win" title="Home Page" border="normal" >
 		<grid>
 			<rows>
 				<row>
 					Any one can list accounts.
-					<span>
+					<vlayout>
 					<button label="list account (service layer check)" href="listAccounts.html"/>
 					<button label="list account, MVC (controller layer check)" href="listAccounts3.html"/>
 					<button label="list account, MVVM (controller layer check)" href="listAccounts2.html"/>
 					<button label="list account, MVVM PhaseListener (command interceptor)" href="listAccounts4.html"/>
-					</span>
+					<button label="list account, MVC AspectJ pointcut (centralized aspect rules)" href="listAccounts5.html"/>
+					</vlayout>
 				</row>
 				<row>
 					Your principal object is ...:

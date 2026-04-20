@@ -1,15 +1,15 @@
-<?page id="testZul4" title="Accounts (PhaseListener Authorization)" ?>
+<?page id="testZul5" title="Accounts (AspectJ Pointcut Authorization)" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 <zk>
-	<custom-attributes scope="desktop" loginRedirectUrl="/listAccounts4.html"/>
-	<window title="Accounts — PhaseListener Authorization" border="normal" width="750px"
-			viewModel="@id('vm') @init(bigbankViewModel3)">
+	<custom-attributes scope="desktop" loginRedirectUrl="/listAccounts5.html"/>
+	<window id="mainWin" title="Accounts — AspectJ Pointcut Authorization" border="normal" width="750px"
+			apply="${bigbankComposer2}">
 		Everyone can see this page.
 		<separator/>
-		Authorization via a global PhaseListener ({@code AuthPhaseListener}) that intercepts
-		every {@code @Command} before execution. Rules are declared centrally in
-		{@code CommandAuthorizationRules} — no {@code @PreAuthorize} on the ViewModel.
+		Authorization via {@code ComposerAuthorizationAspect}: a single {@code @Aspect} class
+		declares pointcut rules at the Composer class level. No {@code @PreAuthorize} on the Composer.
+		This is the ZK equivalent of Spring Security's {@code requestMatchers("/admin/**")}.
 		<separator height="30px"/>
 		Current User: ${authentication.name}
 		<separator/>
@@ -22,16 +22,24 @@
 			<label style="color: green" value="You can update the account balances."/>
 		</zk>
 		<separator/>
-		<grid model="@init(vm.accounts)">
+		<grid id="accountGrid">
 			<template name="model">
 				<row>
 					<label value="${each.id}"/>
 					<label value="${each.holder}"/>
-					<label value="@load(each.balance)"/>
-					<button label="-$20" onClick="@command('adjustBalance', accountId=each.id, amount=-20.00)"/>
-					<button label="-$5" onClick="@command('adjustBalance', accountId=each.id, amount=-5.00)"/>
-					<button label="+$5" onClick="@command('adjustBalance', accountId=each.id, amount=5.00)"/>
-					<button label="+$20" onClick="@command('adjustBalance', accountId=each.id, amount=20.00)"/>
+					<label value="${each.balance}"/>
+					<button label="-$20">
+						<custom-attributes accountId="${each.id}" amount="-20.00"/>
+					</button>
+					<button label="-$5">
+						<custom-attributes accountId="${each.id}" amount="-5.00"/>
+					</button>
+					<button label="+$5">
+						<custom-attributes accountId="${each.id}" amount="5.00"/>
+					</button>
+					<button label="+$20">
+						<custom-attributes accountId="${each.id}" amount="20.00"/>
+					</button>
 				</row>
 			</template>
 		</grid>

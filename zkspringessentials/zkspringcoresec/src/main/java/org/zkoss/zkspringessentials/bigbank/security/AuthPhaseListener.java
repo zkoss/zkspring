@@ -1,4 +1,4 @@
-package org.zkoss.zkspringessentials.bigbank.web;
+package org.zkoss.zkspringessentials.bigbank.security;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
