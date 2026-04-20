@@ -34,11 +34,31 @@ public class ComposerAuthorizationAspect {
      * ROLE_SUPERVISOR or ROLE_TELLER.
      */
     @Before("execution(@org.zkoss.zk.ui.select.annotation.Listen * " +
-            "org.zkoss.zkspringessentials.bigbank.web.BigbankComposer5.*(..))")
+            "org.zkoss.zkspringessentials.bigbank.web.BigbankComposer2.*(..))")
     public void requireTellerOrSupervisor(JoinPoint jp) {
         if (!SecurityUtil.isAnyGranted("ROLE_SUPERVISOR,ROLE_TELLER")) {
             throw new AccessDeniedException(
                     "Access denied for: " + jp.getSignature().toShortString());
         }
     }
+
+    // -------------------------------------------------------------------------
+    // MVVM ViewModel example (reference — not active)
+    //
+    // The same pattern works for MVVM ViewModels: swap @Listen for @Command.
+    // A single aspect class can enforce rules for both MVC and MVVM in one place.
+    //
+    // @Before("execution(@org.zkoss.bind.annotation.Command * " +
+    //         "org.zkoss.zkspringessentials.bigbank.web.BigbankViewModel3.*(..))")
+    // public void requireTellerOrSupervisorForVM(JoinPoint jp) {
+    //     if (!SecurityUtil.isAnyGranted("ROLE_SUPERVISOR,ROLE_TELLER")) {
+    //         throw new AccessDeniedException(
+    //                 "Access denied for: " + jp.getSignature().toShortString());
+    //     }
+    // }
+    //
+    // Package-level rule (covers all ViewModels under an admin package):
+    // @Before("execution(@org.zkoss.bind.annotation.Command * com.example.admin..*.*(..))")
+    // public void requireAdminForAdminPackageVMs(JoinPoint jp) { ... }
+    // -------------------------------------------------------------------------
 }
