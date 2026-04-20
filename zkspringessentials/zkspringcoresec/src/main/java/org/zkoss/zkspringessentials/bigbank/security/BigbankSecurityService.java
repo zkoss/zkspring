@@ -1,4 +1,4 @@
-package org.zkoss.zkspringessentials.bigbank.web;
+package org.zkoss.zkspringessentials.bigbank.security;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
