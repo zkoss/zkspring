@@ -9,6 +9,9 @@ import org.zkoss.bind.annotation.*;
 import org.zkoss.zkspringessentials.bigbank.*;
 import org.zkoss.zul.ListModelList;
 
+/**
+ * MVVM ViewModel demonstrating programmatic security checks with Spring Security.
+ */
 @Component
 @Scope("prototype")
 public class BigbankViewModel {
@@ -28,7 +31,7 @@ public class BigbankViewModel {
 
 	@Command
 	public void adjustBalance(@BindingParam("accountId") Long id, @BindingParam("amount") Double amount) {
-		securityService.assertCanAdjustBalance();
+		securityService.assertCanAdjustBalance(); //security check is performed programmatically
 		final Account account = bankService.readAccount(id);
 		account.setBalance(bankService.post(account, amount).getBalance());
 		BindUtils.postNotifyChange(null, null, account, "balance");
