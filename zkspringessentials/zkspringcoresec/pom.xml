@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <zk.version>10.3.0.1-jakarta</zk.version>
         <zkspring.version>7.0.4</zkspring.version>
-        <spring.version>7.0.4</spring.version>
+        <spring.version>7.0.6</spring.version>
         <springsecurity.version>7.0.4</springsecurity.version>
         <servlet-api.version>6.1.0</servlet-api.version>
         <zats.version>4.0.0</zats.version>
